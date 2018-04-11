@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cita.findByCitId", query = "SELECT c FROM Cita c WHERE c.citId = :citId")
     , @NamedQuery(name = "Cita.findByCitFecha", query = "SELECT c FROM Cita c WHERE c.citFecha = :citFecha")
     , @NamedQuery(name = "Cita.findByCitHora", query = "SELECT c FROM Cita c WHERE c.citHora = :citHora")
-    , @NamedQuery(name = "Cita.findByTotal", query = "SELECT c FROM Cita c WHERE c.total = :total")})
+    , @NamedQuery(name = "Cita.findByTotal", query = "SELECT c FROM Cita c WHERE c.total = :total")
+    , @NamedQuery(name = "Cita.findByStatus", query = "SELECT c FROM Cita c WHERE c.status = :status")})
 public class Cita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +57,8 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "TOTAL")
     private double total;
+    @Column(name = "STATUS")
+    private String status;
     @JoinTable(name = "CITA_EXAMEN", joinColumns = {
         @JoinColumn(name = "CIT_ID", referencedColumnName = "CIT_ID")}, inverseJoinColumns = {
         @JoinColumn(name = "EXA_ID", referencedColumnName = "EXA_ID")})
@@ -110,6 +113,14 @@ public class Cita implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @XmlTransient

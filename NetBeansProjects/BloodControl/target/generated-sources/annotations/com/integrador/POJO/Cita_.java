@@ -17,6 +17,7 @@ public abstract class Cita_ {
 	public static volatile SingularAttribute<Cita, Paciente> pacId;
 	public static volatile SingularAttribute<Cita, Integer> citId;
 	public static volatile SingularAttribute<Cita, Date> citHora;
+	public static volatile SingularAttribute<Cita, String> status;
 
 }
 

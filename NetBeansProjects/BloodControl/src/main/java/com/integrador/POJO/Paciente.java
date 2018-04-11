@@ -60,16 +60,15 @@ public class Paciente implements Serializable {
     private String pacAm;
     @Column(name = "PAC_FN")
     private String pacFn;
-    @Basic(optional = false)
     @Column(name = "PAC_CE")
     private String pacCe;
     @Basic(optional = false)
     @Column(name = "PAC_CONTRA")
     private String pacContra;
     @Column(name = "PAC_TEL")
-    private Integer pacTel;
+    private String pacTel;
     @Column(name = "PAC_CEL")
-    private Integer pacCel;
+    private String pacCel;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacId")
     private Collection<Cita> citaCollection;
     @JoinColumn(name = "DIR_ID", referencedColumnName = "DIR_ID")
@@ -83,12 +82,11 @@ public class Paciente implements Serializable {
         this.pacId = pacId;
     }
 
-    public Paciente(Integer pacId, String pacNombre, String pacAp, String pacAm, String pacCe, String pacContra) {
+    public Paciente(Integer pacId, String pacNombre, String pacAp, String pacAm, String pacContra) {
         this.pacId = pacId;
         this.pacNombre = pacNombre;
         this.pacAp = pacAp;
         this.pacAm = pacAm;
-        this.pacCe = pacCe;
         this.pacContra = pacContra;
     }
 
@@ -148,19 +146,19 @@ public class Paciente implements Serializable {
         this.pacContra = pacContra;
     }
 
-    public Integer getPacTel() {
+    public String getPacTel() {
         return pacTel;
     }
 
-    public void setPacTel(Integer pacTel) {
+    public void setPacTel(String pacTel) {
         this.pacTel = pacTel;
     }
 
-    public Integer getPacCel() {
+    public String getPacCel() {
         return pacCel;
     }
 
-    public void setPacCel(Integer pacCel) {
+    public void setPacCel(String pacCel) {
         this.pacCel = pacCel;
     }
 

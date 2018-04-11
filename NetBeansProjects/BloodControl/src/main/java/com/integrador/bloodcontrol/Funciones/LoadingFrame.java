@@ -52,9 +52,9 @@ Task QueryLogIn;
                     ex.printStackTrace();
                 }
             }); 
-         
+                
+                Thread.sleep(100);
              //Se ejecuta el hilo de la consulta
-                Thread.sleep(500);
                 new Thread(QueryLogIn).start();
          
             Platform.runLater(()->{

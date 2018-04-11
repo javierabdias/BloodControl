@@ -15,9 +15,9 @@ public abstract class Paciente_ {
 	public static volatile SingularAttribute<Paciente, String> pacAp;
 	public static volatile SingularAttribute<Paciente, String> pacAm;
 	public static volatile SingularAttribute<Paciente, Integer> pacId;
-	public static volatile SingularAttribute<Paciente, Integer> pacTel;
+	public static volatile SingularAttribute<Paciente, String> pacTel;
 	public static volatile SingularAttribute<Paciente, Direccion> dirId;
-	public static volatile SingularAttribute<Paciente, Integer> pacCel;
+	public static volatile SingularAttribute<Paciente, String> pacCel;
 	public static volatile SingularAttribute<Paciente, String> pacFn;
 	public static volatile SingularAttribute<Paciente, String> pacNombre;
 

@@ -13,11 +13,13 @@ com/integrador/POJO/Cita.class
 com/integrador/POJO/Paciente.class
 com/integrador/bloodcontrol/MainSceneController$1.class
 com/integrador/POJO/Estudios.class
+com/integrador/bloodcontrol/MainSceneController$tabla.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/persistence/Conexion.class
 com/integrador/bloodcontrol/MainSceneController$QueryUsuario.class
 com/integrador/bloodcontrol/LoadingController.class
 com/integrador/bloodcontrol/Funciones/Funciones.class
+com/integrador/POJOLista/Pacientes.class
 com/integrador/POJO/Direccion.class
 com/integrador/persistence/LogIn.class
 com/integrador/bloodcontrol/Funciones/Reloj.class
