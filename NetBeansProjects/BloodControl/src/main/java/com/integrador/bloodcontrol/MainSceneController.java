@@ -150,19 +150,23 @@ public class MainSceneController implements Initializable {
     private class citaInformacion extends Task<Void>{
         
         ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
+        ObservableList<Pacientes> tabla2 = FXCollections.observableArrayList();
         @Override
         protected Void call() throws Exception {
             
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citId,A.pacNombre,A.pacAp,A.pacAm,B.status) "
+            Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citHora,A.pacNombre,A.pacAp,A.pacAm,B.status) "
                     + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citId=:id");
             query.setParameter("id",id_Cita);
+            Query query2 = em.createQuery("SELECT e FROM Examen e WHERE e.exaId = :exaId");
+            query2.setParameter("exaId",id_Cita);
             tabla = FXCollections.observableArrayList(query.getResultList());
+            tabla2 = FXCollections.observableArrayList(query2.getResultList());
             em.getTransaction().commit();
             em.close();
             
-            
+           
             return null;
         }
     

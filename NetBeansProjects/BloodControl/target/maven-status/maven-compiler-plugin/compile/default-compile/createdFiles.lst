@@ -16,6 +16,7 @@ com/integrador/POJO/Estudios.class
 com/integrador/bloodcontrol/MainSceneController$tabla.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/persistence/Conexion.class
+com/integrador/bloodcontrol/MainSceneController$citaInformacion.class
 com/integrador/bloodcontrol/MainSceneController$QueryUsuario.class
 com/integrador/bloodcontrol/LoadingController.class
 com/integrador/bloodcontrol/Funciones/Funciones.class

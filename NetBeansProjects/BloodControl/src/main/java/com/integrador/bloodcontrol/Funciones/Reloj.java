@@ -73,6 +73,7 @@ public class Reloj extends Task <Void>{
             
              segundos++;
              Thread.sleep(1000);
+             System.gc();
         }
     }
     
