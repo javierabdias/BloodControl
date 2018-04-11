@@ -47,7 +47,7 @@ public class MainSceneController implements Initializable {
     private Label correo;
     
     // ID's INICIO
-    int id_Paciente;
+    int id_Cita;
     @FXML
     private TableColumn<Pacientes, String> nom_pac;
     @FXML
@@ -142,7 +142,7 @@ public class MainSceneController implements Initializable {
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
-            id_Paciente=tabla_pac.getSelectionModel().getSelectedItem().getId();
+            id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
             new Thread(new citaInformacion()).start();
         });
     }
@@ -155,11 +155,9 @@ public class MainSceneController implements Initializable {
             
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
-            Calendar calendar = Calendar.getInstance(); 
-            Date date = calendar.getTime();
             Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citId,A.pacNombre,A.pacAp,A.pacAm,B.status) "
-                    + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citFecha=:fecha");
-            query.setParameter("fecha", date);
+                    + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citId=:id");
+            query.setParameter("id",id_Cita);
             tabla = FXCollections.observableArrayList(query.getResultList());
             em.getTransaction().commit();
             em.close();
