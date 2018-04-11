@@ -47,7 +47,8 @@ public class MainSceneController implements Initializable {
     private Label correo;
     
     // ID's INICIO
-    int id_Cita;
+    ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
+    static int id_Cita;
     @FXML
     private TableColumn<Pacientes, String> nom_pac;
     @FXML
@@ -72,6 +73,8 @@ public class MainSceneController implements Initializable {
     private JFXButton ace_cita_ini;
     @FXML
     private JFXComboBox<String> combo_cita_ini;
+    @FXML
+    private Label cita_nom_ini;
 
     
     
@@ -108,11 +111,12 @@ public class MainSceneController implements Initializable {
     
     private class tabla extends Task<ObservableList<Pacientes>>{
 
-        ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
+        
         
         @Override  
         protected ObservableList<Pacientes> call() throws Exception {
             
+            tabla.clear();
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
             Calendar calendar = Calendar.getInstance(); 
@@ -142,8 +146,9 @@ public class MainSceneController implements Initializable {
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
+            if (!tabla_pac.getSelectionModel().isEmpty()){ 
             id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
-            new Thread(new citaInformacion()).start();
+            new Thread (new citaInformacion ()).start();}
         });
     }
     
@@ -166,7 +171,12 @@ public class MainSceneController implements Initializable {
             em.getTransaction().commit();
             em.close();
             
-           
+            Platform.runLater(()->{
+                hora_cita_ini.setText(tabla.get(0).getHora().toString());
+                cita_nom_ini.setText(tabla.get(0).getNombre()+" "+tabla.get(0).getApePat()+" "+tabla.get(0).getApeMat());
+                
+            });
+                      
             return null;
         }
     
