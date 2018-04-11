@@ -1,9 +1,8 @@
 package com.integrador.bloodcontrol;
 
-import com.integrador.POJO.Paciente;
+
 import com.integrador.POJO.Usuarios;
 import com.integrador.POJOLista.Pacientes;
-import com.integrador.bloodcontrol.Funciones.LoadingFrame;
 import com.integrador.bloodcontrol.Funciones.Reloj;
 import com.integrador.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
@@ -48,7 +47,9 @@ public class MainSceneController implements Initializable {
     
     // ID's INICIO
     ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
-    static int id_Cita;
+    
+    int id_Cita;
+    
     @FXML
     private TableColumn<Pacientes, String> nom_pac;
     @FXML
@@ -110,9 +111,6 @@ public class MainSceneController implements Initializable {
     }
     
     private class tabla extends Task<ObservableList<Pacientes>>{
-
-        
-        
         @Override  
         protected ObservableList<Pacientes> call() throws Exception {
             

@@ -13,6 +13,7 @@ public abstract class Examen_ {
 	public static volatile SingularAttribute<Examen, Double> precio;
 	public static volatile SingularAttribute<Examen, Integer> exaId;
 	public static volatile CollectionAttribute<Examen, Estudios> estudiosCollection;
+	public static volatile SingularAttribute<Examen, String> exaNom;
 
 }
 

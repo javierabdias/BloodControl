@@ -18,7 +18,6 @@ com/integrador/bloodcontrol/MainApp.class
 com/integrador/persistence/Conexion.class
 com/integrador/bloodcontrol/MainSceneController$citaInformacion.class
 com/integrador/bloodcontrol/MainSceneController$QueryUsuario.class
-com/integrador/bloodcontrol/LoadingController.class
 com/integrador/bloodcontrol/Funciones/Funciones.class
 com/integrador/POJOLista/Pacientes.class
 com/integrador/POJO/Direccion.class
@@ -27,5 +26,4 @@ com/integrador/bloodcontrol/Funciones/Reloj.class
 com/integrador/bloodcontrol/LogInController$1.class
 com/integrador/POJO/Estudios_.class
 com/integrador/POJO/Examen.class
-com/integrador/bloodcontrol/Funciones/LoadingFrame.class
 com/integrador/POJO/Usuarios_.class

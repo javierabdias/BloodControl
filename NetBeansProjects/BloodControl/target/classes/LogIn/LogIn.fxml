@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,6 +32,7 @@
                   <Image url="@contrasena.png" />
                </image>
             </ImageView>
+            <ProgressIndicator fx:id="progress" layoutX="111.0" layoutY="64.0" prefHeight="67.0" prefWidth="66.0" stylesheets="@../styles/ProgressIndicator.css" visible="false" />
          </children>
       </Pane>
       <Pane layoutX="317.0" layoutY="51.0" prefHeight="19.0" prefWidth="19.0" style="-fx-background-radius: 50;">

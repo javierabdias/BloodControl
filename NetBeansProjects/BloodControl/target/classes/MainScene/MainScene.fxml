@@ -83,14 +83,14 @@
                         </JFXButton>
                         <Pane layoutX="717.0" layoutY="58.0" prefHeight="365.0" prefWidth="321.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
                            <children>
-                              <Label layoutX="14.0" layoutY="101.0" text="Nombre paciente.">
+                              <Label fx:id="cita_nom_ini" layoutX="14.0" layoutY="101.0" text="Nombre paciente.">
                                  <font>
                                     <Font name="System Bold" size="21.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="hora_cita_ini" layoutX="123.0" layoutY="11.0" prefHeight="80.0" prefWidth="197.0" text="00:00" textFill="#28aed7">
+                              <Label fx:id="hora_cita_ini" layoutX="94.0" layoutY="11.0" prefHeight="80.0" prefWidth="240.0" text="00:00:00" textFill="#28aed7">
                                  <font>
-                                    <Font size="66.0" />
+                                    <Font size="49.0" />
                                  </font>
                               </Label>
                               <Label layoutX="15.0" layoutY="139.0" text="Examenes:" textFill="#303436">

@@ -2,7 +2,6 @@ package com.integrador.bloodcontrol;
 
 import com.integrador.POJO.Usuarios;
 import com.integrador.bloodcontrol.Funciones.Funciones;
-import com.integrador.bloodcontrol.Funciones.LoadingFrame;
 import com.integrador.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -16,6 +15,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -39,6 +39,8 @@ public class LogInController extends Funciones implements Initializable {
     private ImageView btn_minimizar;
     @FXML
     private ImageView btn_cerrar;
+    @FXML
+    private ProgressIndicator progress;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -53,7 +55,7 @@ public class LogInController extends Funciones implements Initializable {
 
         //Hilos para consultas
         btn_aceptar.setOnAction((e) -> {
-            new Thread(new LoadingFrame(new QueryLogIn())).start();
+            new Thread(new QueryLogIn()).start();
         });
 
         //Acción botón minimizar        
@@ -85,6 +87,7 @@ public class LogInController extends Funciones implements Initializable {
                     //Verificación de tipo de usuario
                     switch (u.getUsuTipo()) {
                         case "LABORATORISTA":
+                            progress.setVisible(true);
                             mainFrame();
                             break;
                         case "RECEPCIONISTA":
@@ -108,6 +111,7 @@ public class LogInController extends Funciones implements Initializable {
         //Método para abrir main frame
         public void mainFrame() {
             try {
+               
                 id_usuario=Integer.valueOf(txt_Usuario.getText());
                 anchor.getScene().getWindow().hide();
                 crearVentanas("/MainScene/MainScene.fxml", "BloodControl");

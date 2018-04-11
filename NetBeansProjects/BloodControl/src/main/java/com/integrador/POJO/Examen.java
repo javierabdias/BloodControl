@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")
     , @NamedQuery(name = "Examen.findByExaId", query = "SELECT e FROM Examen e WHERE e.exaId = :exaId")
+    , @NamedQuery(name = "Examen.findByExaNom", query = "SELECT e FROM Examen e WHERE e.exaNom = :exaNom")
     , @NamedQuery(name = "Examen.findByPrecio", query = "SELECT e FROM Examen e WHERE e.precio = :precio")})
 public class Examen implements Serializable {
 
@@ -41,6 +42,8 @@ public class Examen implements Serializable {
     @Basic(optional = false)
     @Column(name = "EXA_ID")
     private Integer exaId;
+    @Column(name = "EXA_NOM")
+    private String exaNom;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "PRECIO")
     private Double precio;
@@ -62,6 +65,14 @@ public class Examen implements Serializable {
 
     public void setExaId(Integer exaId) {
         this.exaId = exaId;
+    }
+
+    public String getExaNom() {
+        return exaNom;
+    }
+
+    public void setExaNom(String exaNom) {
+        this.exaNom = exaNom;
     }
 
     public Double getPrecio() {
