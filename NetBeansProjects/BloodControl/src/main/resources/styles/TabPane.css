@@ -1,0 +1,33 @@
+
+/*Cambia el color de tabs*/
+.jfx-tab-pane .headers-region {
+    -fx-background-color: #9b9b9b;
+}
+
+/*Cambia color de fondo*/
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: #9b9b9b;
+}
+/*Cambia de color línea de selección*/
+.jfx-tab-pane .tab-selected-line {
+    -fx-background-color: #ffffff;
+}
+
+.jfx-tab-pane .tab .tab-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15;
+}
+
+/*Configurar tamaño*/
+.jfx-tab-pane {
+    -fx-tab-min-width:130px;
+    -fx-tab-max-width:130px;
+    -fx-tab-min-height:38px;
+    -fx-tab-max-height:38px;
+}
+
+/*Color al hacer clic*/
+.jfx-tab-pane .tab-header-area .jfx-rippler {
+    -jfx-rippler-fill: #ffffff;
+}
