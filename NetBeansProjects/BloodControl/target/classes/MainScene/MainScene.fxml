@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
+   <children>
+      <Pane layoutX="-4.0" layoutY="-1.0" prefHeight="139.0" prefWidth="1100.0" style="-fx-background-color: #c0c0c0;">
+         <children>
+            <ImageView fitHeight="193.0" fitWidth="1098.0" layoutX="4.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@banner_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="89.0" fitWidth="85.0" layoutX="60.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@LogoBloodControl.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="181.0" layoutX="29.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@BloodControl-letras.png" />
+               </image>
+            </ImageView>
+            <Pane layoutX="794.0" layoutY="20.0" prefHeight="71.0" prefWidth="263.0" style="-fx-background-color: rgb(80,83,84,0.3); -fx-background-radius: 10;">
+               <children>
+                  <ImageView fitHeight="48.0" fitWidth="55.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@usuario.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="id" layoutX="58.0" layoutY="12.0" prefHeight="16.0" prefWidth="198.0" text="Nombre de usuario." />
+                  <Label fx:id="correo" layoutX="59.0" layoutY="38.0" prefHeight="16.0" prefWidth="198.0" text="Correo electronico." />
+               </children>
+            </Pane>
+            <Label fx:id="reloj" layoutX="945.0" layoutY="100.0" text="00:00:00" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="137.0" prefHeight="8.0" prefWidth="1096.0" style="-fx-background-color: #505354;" />
+      <JFXTabPane layoutX="-2.0" layoutY="144.0" prefHeight="546.0" prefWidth="1100.0" stylesheets="@../styles/TabPane.css">
+         <tabs>
+            <Tab text="Inicio">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0">
+                     <children>
+                        <Pane layoutX="56.0" layoutY="37.0" prefHeight="410.0" prefWidth="552.0" style="-fx-background-color: #505354;">
+                           <children>
+                              <TableView layoutX="5.0" layoutY="4.0" prefHeight="402.0" prefWidth="541.0" stylesheets="@../styles/tabla.css">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Horario" />
+                                  <TableColumn prefWidth="152.33334350585938" text="Nombre paciente" />
+                                    <TableColumn prefWidth="75.0" text="Status" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
+              </content>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab text="Citas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@calendario.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab text="Pacientes">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@corazon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>
