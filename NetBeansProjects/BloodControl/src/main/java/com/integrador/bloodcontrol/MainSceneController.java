@@ -1,6 +1,7 @@
 package com.integrador.bloodcontrol;
 
 
+import com.integrador.POJO.Examen;
 import com.integrador.POJO.Usuarios;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Reloj;
@@ -153,7 +154,7 @@ public class MainSceneController implements Initializable {
     private class citaInformacion extends Task<Void>{
         
         ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
-        ObservableList<Pacientes> tabla2 = FXCollections.observableArrayList();
+        ObservableList<Examen> tabla2 = FXCollections.observableArrayList();
         @Override
         protected Void call() throws Exception {
             
@@ -173,6 +174,10 @@ public class MainSceneController implements Initializable {
                 hora_cita_ini.setText(tabla.get(0).getHora().toString());
                 cita_nom_ini.setText(tabla.get(0).getNombre()+" "+tabla.get(0).getApePat()+" "+tabla.get(0).getApeMat());
                 
+                for (Examen tabla21 : tabla2) {
+                    System.out.println(tabla2.size());
+                    area_cita_ini.setText(tabla21.getExaNom()+"\n");
+                }
             });
                       
             return null;

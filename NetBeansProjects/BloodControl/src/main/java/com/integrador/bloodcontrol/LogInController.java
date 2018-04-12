@@ -16,6 +16,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -44,6 +45,9 @@ public class LogInController extends Funciones implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        TextFieldNumeros(txt_Usuario);
+        setTextFieldLimit(txt_Usuario, 6);
 
         //Volver transparente AnchorPane
         anchor.setBackground(Background.EMPTY);
@@ -55,6 +59,7 @@ public class LogInController extends Funciones implements Initializable {
 
         //Hilos para consultas
         btn_aceptar.setOnAction((e) -> {
+            progress.setVisible(true);
             new Thread(new QueryLogIn()).start();
         });
 
@@ -70,6 +75,7 @@ public class LogInController extends Funciones implements Initializable {
 
         @Override
         protected Void call() throws Exception {
+            
             //Se realiza la consulta
             EntityManager manager = EManagerFactory.getEntityManagerFactory().createEntityManager();
             manager.getTransaction().begin();
@@ -80,6 +86,7 @@ public class LogInController extends Funciones implements Initializable {
             Platform.runLater(() -> {
                 //Comprobación de usuario
                 if (u == null) {
+                    progress.setVisible(false);
                     Alertas.error("Usuario inexistente", "No se encontró usuario.", "Verifique que el ID esté escrito correctamente.");
                 }
                 //Verificación de contraseña
@@ -87,10 +94,10 @@ public class LogInController extends Funciones implements Initializable {
                     //Verificación de tipo de usuario
                     switch (u.getUsuTipo()) {
                         case "LABORATORISTA":
-                            progress.setVisible(true);
                             mainFrame();
                             break;
                         case "RECEPCIONISTA":
+                            progress.setVisible(false);
                             Alertas.error("Error de privilegios", "Usuario sin privilegios.", "El usuario ingresado no tiene derechos \npara utilizar el sistema.");
                             break;
                         case "ADMINISTRADOR":
@@ -99,6 +106,7 @@ public class LogInController extends Funciones implements Initializable {
                             break;
                     }
                 } else {
+                    progress.setVisible(false);
                     Alertas.error("Contraseña incorrecta", "Contraseña errónea.", "Verifique que la contraseña esté escrita \ncorrectamente.");
                 }
                 //Se libera memoria
@@ -111,7 +119,7 @@ public class LogInController extends Funciones implements Initializable {
         //Método para abrir main frame
         public void mainFrame() {
             try {
-               
+                
                 id_usuario=Integer.valueOf(txt_Usuario.getText());
                 anchor.getScene().getWindow().hide();
                 crearVentanas("/MainScene/MainScene.fxml", "BloodControl");

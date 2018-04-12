@@ -2,10 +2,13 @@ package com.integrador.bloodcontrol.Funciones;
 
 import com.integrador.bloodcontrol.MainApp;
 import com.integrador.persistence.EManagerFactory;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,5 +44,45 @@ public abstract class Funciones {
             EManagerFactory.getEntityManagerFactory().close();
         });
      }
+         
+      //Validar solo numeros
+      public void TextFieldNumeros(TextField tf){
+       tf.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+           if (!newValue.matches("[\\d*]")) {
+               tf.setText(newValue.replaceAll("[^\\d]", ""));
+           }
+       });
+    }
+      
+      public void TextFieldDouble(TextField tf){
+       tf.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+           if (!newValue.matches("[\\d*.]")) {
+                tf.setText(newValue.replaceAll("[^\\d.]", ""));
+            }
+       });
+    }
+       
+          
+      //Validar solo letras
+      public void TextFieldLetras(JFXTextField tf){
+        tf.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if(!newValue.matches("[A-Za-z´ ]")){
+                tf.setText(newValue.replaceAll("[^A-Za-z áéíóú]", ""));
+            }
+        });
+      }
+      
+        //Limitar la cantidad de caracteres de un TextField
+  public void setTextFieldLimit(TextField tf, int Limit){
+     tf.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+         if (newValue.intValue() > oldValue.intValue()) {
+             // Check if the new character is greater than LIMIT
+             if (tf.getText().length() >= Limit) {
+                 // if it's 11th character then just setText to previous one
+                 tf.setText(tf.getText().substring(0,Limit));
+             }
+         }
+     });   
+  }
 
 }

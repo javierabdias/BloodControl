@@ -32,7 +32,6 @@
                   <Image url="@contrasena.png" />
                </image>
             </ImageView>
-            <ProgressIndicator fx:id="progress" layoutX="111.0" layoutY="64.0" prefHeight="67.0" prefWidth="66.0" stylesheets="@../styles/ProgressIndicator.css" visible="false" />
          </children>
       </Pane>
       <Pane layoutX="317.0" layoutY="51.0" prefHeight="19.0" prefWidth="19.0" style="-fx-background-radius: 50;">
@@ -53,5 +52,6 @@
             </ImageView>
          </children>
       </Pane>
+      <ProgressIndicator fx:id="progress" layoutX="166.0" layoutY="392.0" prefHeight="46.0" prefWidth="40.0" stylesheets="@../styles/ProgressIndicator_1.css" visible="false" />
    </children>
 </AnchorPane>
