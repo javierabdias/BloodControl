@@ -59,6 +59,7 @@ public class LogInController extends Funciones implements Initializable {
 
         //Hilos para consultas
         btn_aceptar.setOnAction((e) -> {
+            btn_aceptar.setDisable(true);
             progress.setVisible(true);
             new Thread(new QueryLogIn()).start();
         });

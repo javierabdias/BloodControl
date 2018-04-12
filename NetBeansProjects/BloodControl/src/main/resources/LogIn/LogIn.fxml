@@ -52,6 +52,6 @@
             </ImageView>
          </children>
       </Pane>
-      <ProgressIndicator fx:id="progress" layoutX="166.0" layoutY="392.0" prefHeight="46.0" prefWidth="40.0" stylesheets="@../styles/ProgressIndicator_1.css" visible="false" />
+      <ProgressIndicator fx:id="progress" layoutX="163.0" layoutY="392.0" prefHeight="42.0" prefWidth="49.0" stylesheets="@../styles/ProgressIndicator_1.css" visible="false" />
    </children>
 </AnchorPane>
