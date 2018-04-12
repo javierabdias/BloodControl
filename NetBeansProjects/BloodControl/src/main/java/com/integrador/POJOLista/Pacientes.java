@@ -5,7 +5,7 @@
  */
 package com.integrador.POJOLista;
 
-import java.sql.Time;
+
 import java.util.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -101,6 +101,11 @@ public class Pacientes {
     public Pacientes(Integer id, String examen){
         this.id= new SimpleIntegerProperty(id);
         this.examen= new SimpleStringProperty(examen);
-    }    
+    }  
+    
+     public Pacientes(String examen){
+        this.examen= new SimpleStringProperty(examen);
+    }  
+    
     
 }

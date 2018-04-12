@@ -86,6 +86,8 @@ public class MainSceneController implements Initializable {
     }    
     
     public void Inicio(){
+        ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","SIN REALIZAR");
+        combo_cita_ini.setItems(status);
         new Thread (new QueryUsuario()).start();
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
@@ -139,7 +141,7 @@ public class MainSceneController implements Initializable {
         }
     }
     
-    private void accionBotonesIni(){
+    private void accionBotonesIni(){        
         ini_actualizar.setOnAction(e->{
             new Thread(new tabla()).start();
         });
@@ -149,12 +151,22 @@ public class MainSceneController implements Initializable {
             id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
             new Thread (new citaInformacion ()).start();}
         });
+        
+        cita_check_ini.setOnAction(e->{
+            if(cita_check_ini.isSelected()){
+                ace_cita_ini.setDisable(false);
+                combo_cita_ini.setDisable(false);
+            } else {
+                ace_cita_ini.setDisable(true);
+                combo_cita_ini.setDisable(true);
+            }
+        });
     }
     
     private class citaInformacion extends Task<Void>{
         
         ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
-        ObservableList<Examen> tabla2 = FXCollections.observableArrayList();
+        ObservableList<String> tabla2 = FXCollections.observableArrayList();
         @Override
         protected Void call() throws Exception {
             
@@ -163,8 +175,8 @@ public class MainSceneController implements Initializable {
             Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citHora,A.pacNombre,A.pacAp,A.pacAm,B.status) "
                     + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citId=:id");
             query.setParameter("id",id_Cita);
-            Query query2 = em.createQuery("SELECT e FROM Examen e WHERE e.exaId = :exaId");
-            query2.setParameter("exaId",id_Cita);
+            Query query2 = em.createQuery("SELECT A.exaNom FROM Examen A WHERE :id in elements(A.citaCollection)");
+            query2.setParameter("id",id_Cita);
             tabla = FXCollections.observableArrayList(query.getResultList());
             tabla2 = FXCollections.observableArrayList(query2.getResultList());
             em.getTransaction().commit();
@@ -173,10 +185,8 @@ public class MainSceneController implements Initializable {
             Platform.runLater(()->{
                 hora_cita_ini.setText(tabla.get(0).getHora().toString());
                 cita_nom_ini.setText(tabla.get(0).getNombre()+" "+tabla.get(0).getApePat()+" "+tabla.get(0).getApeMat());
-                
-                for (Examen tabla21 : tabla2) {
-                    System.out.println(tabla2.size());
-                    area_cita_ini.setText(tabla21.getExaNom()+"\n");
+                for (String tabla21 : tabla2) {
+                    area_cita_ini.appendText("* "+tabla21+"\n");
                 }
             });
                       

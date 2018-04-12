@@ -55,8 +55,12 @@ public class Examen implements Serializable {
     public Examen() {
     }
 
+    public Examen(String exaNom) {
+        this.exaNom = exaNom;
+    }
+        
     public Examen(Integer exaId) {
-        this.exaId = exaId;
+        this.exaId = exaId; 
     }
 
     public Integer getExaId() {

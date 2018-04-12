@@ -2,13 +2,13 @@ com/integrador/POJO/Direccion_.class
 com/integrador/POJO/Usuarios.class
 com/integrador/bloodcontrol/MainSceneController.class
 com/integrador/bloodcontrol/SplashController.class
+com/integrador/Consultas/LogIn.class
 com/integrador/POJO/Paciente_.class
 com/integrador/bloodcontrol/Alertas.class
 com/integrador/persistence/EManagerFactory.class
 com/integrador/bloodcontrol/LogInController.class
 com/integrador/POJO/Examen_.class
 com/integrador/POJO/Cita_.class
-com/integrador/bloodcontrol/LogInController$QueryLogIn.class
 com/integrador/POJO/Cita.class
 com/integrador/POJO/Paciente.class
 com/integrador/bloodcontrol/MainSceneController$1.class
@@ -23,7 +23,6 @@ com/integrador/POJOLista/Pacientes.class
 com/integrador/POJO/Direccion.class
 com/integrador/persistence/LogIn.class
 com/integrador/bloodcontrol/Funciones/Reloj.class
-com/integrador/bloodcontrol/LogInController$1.class
 com/integrador/POJO/Estudios_.class
 com/integrador/POJO/Examen.class
 com/integrador/POJO/Usuarios_.class

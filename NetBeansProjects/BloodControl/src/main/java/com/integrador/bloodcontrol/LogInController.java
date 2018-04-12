@@ -1,5 +1,6 @@
 package com.integrador.bloodcontrol;
 
+import com.integrador.Consultas.LogIn;
 import com.integrador.POJO.Usuarios;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.persistence.EManagerFactory;
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
@@ -46,6 +48,7 @@ public class LogInController extends Funciones implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        
         TextFieldNumeros(txt_Usuario);
         setTextFieldLimit(txt_Usuario, 6);
 
@@ -61,7 +64,18 @@ public class LogInController extends Funciones implements Initializable {
         btn_aceptar.setOnAction((e) -> {
             btn_aceptar.setDisable(true);
             progress.setVisible(true);
-            new Thread(new QueryLogIn()).start();
+            
+            LogIn l= new LogIn(txt_Usuario.getText(),txt_Contra.getText());
+            l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event)->{
+                boolean resultado = l.getValue();
+                if(resultado){
+                    mainFrame();
+                } else {
+                    progress.setVisible(false);
+                    Alertas.error("Error", "Usuario o contraseña incorrectos..", "Verifique la información de usuario y privilegios.");
+                }
+            });
+            new Thread(l).start();
         });
 
         //Acción botón minimizar        
@@ -71,53 +85,7 @@ public class LogInController extends Funciones implements Initializable {
         });
     }
 
-//  **HILO DE CONSULTA Y ACCESO A PROGRAMA**
-    private class QueryLogIn extends Task<Void> {
-
-        @Override
-        protected Void call() throws Exception {
-            
-            //Se realiza la consulta
-            EntityManager manager = EManagerFactory.getEntityManagerFactory().createEntityManager();
-            manager.getTransaction().begin();
-            Usuarios u = manager.find(Usuarios.class, Integer.valueOf(txt_Usuario.getText()));
-            manager.getTransaction().commit();
-            manager.close();
-            
-            Platform.runLater(() -> {
-                //Comprobación de usuario
-                if (u == null) {
-                    progress.setVisible(false);
-                    Alertas.error("Usuario inexistente", "No se encontró usuario.", "Verifique que el ID esté escrito correctamente.");
-                }
-                //Verificación de contraseña
-                else if (u.getUsuContra().equals(txt_Contra.getText())) {
-                    //Verificación de tipo de usuario
-                    switch (u.getUsuTipo()) {
-                        case "LABORATORISTA":
-                            mainFrame();
-                            break;
-                        case "RECEPCIONISTA":
-                            progress.setVisible(false);
-                            Alertas.error("Error de privilegios", "Usuario sin privilegios.", "El usuario ingresado no tiene derechos \npara utilizar el sistema.");
-                            break;
-                        case "ADMINISTRADOR":
-
-                            mainFrame();
-                            break;
-                    }
-                } else {
-                    progress.setVisible(false);
-                    Alertas.error("Contraseña incorrecta", "Contraseña errónea.", "Verifique que la contraseña esté escrita \ncorrectamente.");
-                }
-                //Se libera memoria
-                System.gc();
-            });
-
-            return null;
-        }
-        
-        //Método para abrir main frame
+    //Método para abrir main frame
         public void mainFrame() {
             try {
                 
@@ -129,7 +97,5 @@ public class LogInController extends Funciones implements Initializable {
                 System.gc();
             }
         }
-
-    }
-
 }
+
