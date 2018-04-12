@@ -1,6 +1,7 @@
 package com.integrador.bloodcontrol;
 
 
+import com.integrador.Consultas.ActualizarEstado;
 import com.integrador.Consultas.Inicio_Tabla_Citas;
 import com.integrador.Consultas.QueryUsuario;
 import com.integrador.Consultas.citaInformacion;
@@ -73,7 +74,6 @@ public class MainSceneController implements Initializable {
     private Label cita_nom_ini;
 
     
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         usuario();
@@ -139,7 +139,8 @@ public class MainSceneController implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e->{
-            
+            ActualizarEstado ae = new ActualizarEstado(id_Cita,combo_cita_ini.getValue());
+            new Thread (ae).start();
         });
     }
        
@@ -160,8 +161,6 @@ public class MainSceneController implements Initializable {
             
             new Thread(ci).start();
         }
-    
-        
     
     }
         

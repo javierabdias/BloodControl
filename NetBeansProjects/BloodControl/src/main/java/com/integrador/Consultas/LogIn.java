@@ -5,6 +5,7 @@
  */
 package com.integrador.Consultas;
 
+import com.integrador.POJO.Usuarios;
 import com.integrador.persistence.EManagerFactory;
 import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
@@ -27,23 +28,21 @@ public class LogIn extends Task <Boolean>{
     protected Boolean call() throws Exception {
          EntityManager manager = EManagerFactory.getEntityManagerFactory().createEntityManager();
          manager.getTransaction().begin();
-         Query query= manager.createQuery("SELECT A.usuContra FROM Usuarios A WHERE A.usuId=:id").setParameter("id", Integer.valueOf(usuario));
-         Query query2= manager.createQuery("SELECT A.usuTipo FROM Usuarios A WHERE A.usuId=:id").setParameter("id", Integer.valueOf(usuario));
-         Object contras = query.getSingleResult();
-         Object tipo= query2.getSingleResult();
+         Usuarios u = manager.find(Usuarios.class, Integer.valueOf(usuario));
          manager.close();
          
-         String c= (String) contras;
-         String t= (String) tipo;
-         
-         if(c.equals(contra)){
-             if(t.equals("ADMINISTRADOR")||t.equals("LABORATORISTA")){
-                 System.gc();
+         if(u==null){
+             return false;
+         } else if(u.getUsuContra().equals(contra)){
+             if(u.getUsuTipo().equals("ADMINISTRADOR")||u.getUsuTipo().equals("LABORATORISTA")){
                  return true;
+             }  else{
+                 return false;
              }
+         } else {
+             return false;
          }
-                  
-         return false;
+              
     }
     
 }

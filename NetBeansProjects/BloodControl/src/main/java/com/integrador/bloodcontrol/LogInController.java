@@ -67,7 +67,6 @@ public class LogInController extends Funciones implements Initializable {
                 l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
                     
                     boolean resultado = l.getValue();
-                    
                     if (resultado) {
                         mainFrame(); } 
                

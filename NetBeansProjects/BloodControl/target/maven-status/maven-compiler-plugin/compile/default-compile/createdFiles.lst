@@ -4,6 +4,7 @@ com/integrador/bloodcontrol/MainSceneController.class
 com/integrador/bloodcontrol/SplashController.class
 com/integrador/Consultas/LogIn.class
 com/integrador/POJO/Paciente_.class
+com/integrador/Consultas/ActualizarEstado.class
 com/integrador/Consultas/Inicio_Tabla_Citas.class
 com/integrador/bloodcontrol/Alertas.class
 com/integrador/persistence/EManagerFactory.class
