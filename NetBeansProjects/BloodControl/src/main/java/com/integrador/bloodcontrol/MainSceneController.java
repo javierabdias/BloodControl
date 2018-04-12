@@ -19,9 +19,11 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -72,6 +74,8 @@ public class MainSceneController implements Initializable {
     private JFXComboBox<String> combo_cita_ini;
     @FXML
     private Label cita_nom_ini;
+    @FXML
+    private ProgressIndicator progress;
 
     
     @Override
@@ -81,6 +85,7 @@ public class MainSceneController implements Initializable {
     }    
     
     private void Inicio(){
+        progress.setVisible(true);
         ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","SIN REALIZAR");
         combo_cita_ini.setItems(status);
         Thread thread= new Thread(new Reloj(reloj));
@@ -88,6 +93,7 @@ public class MainSceneController implements Initializable {
         thread.start();
         iniTablaCitas();
         accionBotonesIni();
+         progress.setVisible(false);
     }
     
     private void usuario(){
@@ -119,12 +125,14 @@ public class MainSceneController implements Initializable {
     
     private void accionBotonesIni(){        
         ini_actualizar.setOnAction(e->{
-           iniTablaCitas();
+           backtoBeginning();
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
             if (!tabla_pac.getSelectionModel().isEmpty()){ 
+            area_cita_ini.setText("");
             id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
+            combo_cita_ini.setValue(tabla_pac.getSelectionModel().getSelectedItem().getStatus());
             citaInformacion();}
         });
         
@@ -139,8 +147,11 @@ public class MainSceneController implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e->{
+            progress.setVisible(true);
             ActualizarEstado ae = new ActualizarEstado(id_Cita,combo_cita_ini.getValue());
             new Thread (ae).start();
+            backtoBeginning();
+            progress.setVisible(false);
         });
     }
        
@@ -161,6 +172,19 @@ public class MainSceneController implements Initializable {
             
             new Thread(ci).start();
         }
+    
+    private void backtoBeginning(){
+       
+        ace_cita_ini.setDisable(true);
+        combo_cita_ini.setDisable(true);
+        cita_check_ini.setSelected(false);
+        iniTablaCitas();
+        hora_cita_ini.setText("00:00:00");
+        cita_nom_ini.setText("Nombre del paciente");
+        area_cita_ini.setText("");
+       
+        
+    }
     
     }
         
