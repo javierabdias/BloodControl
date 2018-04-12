@@ -1,9 +1,7 @@
 package com.integrador.bloodcontrol;
 
 import com.integrador.Consultas.LogIn;
-import com.integrador.POJO.Usuarios;
 import com.integrador.bloodcontrol.Funciones.Funciones;
-import com.integrador.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -12,24 +10,20 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
-import javax.persistence.EntityManager;
 
 //  ** CLASE CONTROLLER DE LON-IN**
 public class LogInController extends Funciones implements Initializable {
 
     static int id_usuario;
-    
+
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -47,8 +41,7 @@ public class LogInController extends Funciones implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
+
         TextFieldNumeros(txt_Usuario);
         setTextFieldLimit(txt_Usuario, 6);
 
@@ -62,20 +55,32 @@ public class LogInController extends Funciones implements Initializable {
 
         //Hilos para consultas
         btn_aceptar.setOnAction((e) -> {
-            btn_aceptar.setDisable(true);
-            progress.setVisible(true);
-            
-            LogIn l= new LogIn(txt_Usuario.getText(),txt_Contra.getText());
-            l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event)->{
-                boolean resultado = l.getValue();
-                if(resultado){
-                    mainFrame();
-                } else {
-                    progress.setVisible(false);
-                    Alertas.error("Error", "Usuario o contraseña incorrectos..", "Verifique la información de usuario y privilegios.");
-                }
-            });
-            new Thread(l).start();
+
+            if (txt_Usuario.getText().length() == 0 || txt_Contra.getText().length() == 0) {
+                Alertas.error("Error", "Casillas vacías", "Existen casillas vacías en el formulario, verifique");
+            } else {
+
+                btn_aceptar.setDisable(true);
+                progress.setVisible(true);
+
+                LogIn l = new LogIn(txt_Usuario.getText(), txt_Contra.getText());
+                l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    
+                    boolean resultado = l.getValue();
+                    
+                    if (resultado) {
+                        mainFrame(); } 
+               
+                    else {
+                        progress.setVisible(false);
+                        Alertas.error("Error", "Usuario o contraseña incorrectos.", "Verifique los datos de usuario y privilegios.");
+                        System.gc();
+                    }
+                });
+                
+                new Thread(l).start();
+            }
+
         });
 
         //Acción botón minimizar        
@@ -86,16 +91,14 @@ public class LogInController extends Funciones implements Initializable {
     }
 
     //Método para abrir main frame
-        public void mainFrame() {
-            try {
-                
-                id_usuario=Integer.valueOf(txt_Usuario.getText());
-                anchor.getScene().getWindow().hide();
-                crearVentanas("/MainScene/MainScene.fxml", "BloodControl");
-            } catch (IOException ex) {
-                Logger.getLogger(LogInController.class.getName()).log(Level.SEVERE, null, ex);
-                System.gc();
-            }
+    public void mainFrame() {
+        try {
+            id_usuario = Integer.valueOf(txt_Usuario.getText());
+            anchor.getScene().getWindow().hide();
+            crearVentanas("/MainScene/MainScene.fxml", "BloodControl");
+        } catch (IOException ex) {
+            Logger.getLogger(LogInController.class.getName()).log(Level.SEVERE, null, ex);
+            System.gc();
         }
+    }
 }
-
