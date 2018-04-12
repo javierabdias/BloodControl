@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 //  ** CLASE CONTROLLER DE LON-IN**
 public class LogInController extends Funciones implements Initializable {
 
-    static int id_usuario;
+    public static int id_usuario;
 
     @FXML
     private AnchorPane anchor;

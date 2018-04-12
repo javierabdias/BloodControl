@@ -1,31 +1,26 @@
 package com.integrador.bloodcontrol;
 
 
-import com.integrador.POJO.Examen;
-import com.integrador.POJO.Usuarios;
+import com.integrador.Consultas.Inicio_Tabla_Citas;
+import com.integrador.Consultas.QueryUsuario;
+import com.integrador.Consultas.citaInformacion;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Reloj;
-import com.integrador.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -47,7 +42,6 @@ public class MainSceneController implements Initializable {
     private Label correo;
     
     // ID's INICIO
-    ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
     
     int id_Cita;
     
@@ -82,74 +76,56 @@ public class MainSceneController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        usuario();
         Inicio();
     }    
     
-    public void Inicio(){
+    private void Inicio(){
         ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","SIN REALIZAR");
         combo_cita_ini.setItems(status);
-        new Thread (new QueryUsuario()).start();
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
         thread.start();
-        new Thread(new tabla()).start();
+        iniTablaCitas();
         accionBotonesIni();
     }
     
-    private class QueryUsuario extends Task<Void>{
-        @Override
-        protected Void call() throws Exception {
-            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
-            em.getTransaction().begin();
-            Usuarios u = em.find(Usuarios.class, LogInController.id_usuario);
-            em.getTransaction().commit();
-            em.close();
-            Platform.runLater(()-> {
-                id.setText(u.getUsuNombre()+" "+u.getUsuAp()+" "+u.getUsuAm());
-                correo.setText(u.getUsuCe());
-                System.gc();
-            });
-            return null;
-        }
+    private void usuario(){
+        QueryUsuario qu= new QueryUsuario();
+        qu.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            id.setText(qu.getValue().get(0).toString());
+            correo.setText(qu.getValue().get(1).toString());
+        });
+        new Thread(qu).start();
     }
     
-    private class tabla extends Task<ObservableList<Pacientes>>{
-        @Override  
-        protected ObservableList<Pacientes> call() throws Exception {
-            
-            tabla.clear();
-            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
-            em.getTransaction().begin();
-            Calendar calendar = Calendar.getInstance(); 
-            Date date = calendar.getTime();
-            Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citId,A.pacNombre,A.pacAp,A.pacAm,B.status) "
-                    + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citFecha=:fecha");
-            query.setParameter("fecha", date);
-            tabla = FXCollections.observableArrayList(query.getResultList());
-            em.getTransaction().commit();
-            em.close();
-            
-            Platform.runLater(()->{
-                tabla_pac.setItems(tabla);
-                id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
-                nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-                ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-                ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-                status.setCellValueFactory(new PropertyValueFactory<>("status"));
-            });
-            return tabla;   
-        }
+    private void iniTablaCitas(){
+        
+        Inicio_Tabla_Citas itc= new  Inicio_Tabla_Citas();
+        
+        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
+        
+        tabla_pac.setItems(tabla);
+        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        });
+        
+        new Thread(itc).start();
     }
     
     private void accionBotonesIni(){        
         ini_actualizar.setOnAction(e->{
-            new Thread(new tabla()).start();
+           iniTablaCitas();
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
             if (!tabla_pac.getSelectionModel().isEmpty()){ 
             id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
-            new Thread (new citaInformacion ()).start();}
+            citaInformacion();}
         });
         
         cita_check_ini.setOnAction(e->{
@@ -161,39 +137,32 @@ public class MainSceneController implements Initializable {
                 combo_cita_ini.setDisable(true);
             }
         });
-    }
-    
-    private class citaInformacion extends Task<Void>{
         
-        ObservableList<Pacientes> tabla = FXCollections.observableArrayList();
-        ObservableList<String> tabla2 = FXCollections.observableArrayList();
-        @Override
-        protected Void call() throws Exception {
+        ace_cita_ini.setOnAction(e->{
             
-            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
-            em.getTransaction().begin();
-            Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes(B.citHora,A.pacNombre,A.pacAp,A.pacAm,B.status) "
-                    + "FROM Paciente A, Cita B WHERE A.pacId=B.pacId AND B.citId=:id");
-            query.setParameter("id",id_Cita);
-            Query query2 = em.createQuery("SELECT A.exaNom FROM Examen A WHERE :id in elements(A.citaCollection)");
-            query2.setParameter("id",id_Cita);
-            tabla = FXCollections.observableArrayList(query.getResultList());
-            tabla2 = FXCollections.observableArrayList(query2.getResultList());
-            em.getTransaction().commit();
-            em.close();
-            
-            Platform.runLater(()->{
+        });
+    }
+       
+    private void citaInformacion(){
+            citaInformacion ci= new citaInformacion(id_Cita);
+            ci.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                
+                ObservableList<Pacientes> tabla = FXCollections.observableArrayList(ci.getValue().get(0));
+                ObservableList<String> tabla2 = FXCollections.observableArrayList(ci.getValue().get(1));
+                
                 hora_cita_ini.setText(tabla.get(0).getHora().toString());
                 cita_nom_ini.setText(tabla.get(0).getNombre()+" "+tabla.get(0).getApePat()+" "+tabla.get(0).getApeMat());
-                for (String tabla21 : tabla2) {
-                    area_cita_ini.appendText("* "+tabla21+"\n");
+                
+                for (String t: tabla2){
+                    area_cita_ini.appendText(t+"\n");
                 }
-            });
-                      
-            return null;
+            });       
+            
+            new Thread(ci).start();
         }
     
+        
     
     }
         
-}
+

@@ -4,6 +4,7 @@ com/integrador/bloodcontrol/MainSceneController.class
 com/integrador/bloodcontrol/SplashController.class
 com/integrador/Consultas/LogIn.class
 com/integrador/POJO/Paciente_.class
+com/integrador/Consultas/Inicio_Tabla_Citas.class
 com/integrador/bloodcontrol/Alertas.class
 com/integrador/persistence/EManagerFactory.class
 com/integrador/bloodcontrol/LogInController.class
@@ -11,13 +12,11 @@ com/integrador/POJO/Examen_.class
 com/integrador/POJO/Cita_.class
 com/integrador/POJO/Cita.class
 com/integrador/POJO/Paciente.class
-com/integrador/bloodcontrol/MainSceneController$1.class
+com/integrador/Consultas/QueryUsuario.class
+com/integrador/Consultas/citaInformacion.class
 com/integrador/POJO/Estudios.class
-com/integrador/bloodcontrol/MainSceneController$tabla.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/persistence/Conexion.class
-com/integrador/bloodcontrol/MainSceneController$citaInformacion.class
-com/integrador/bloodcontrol/MainSceneController$QueryUsuario.class
 com/integrador/bloodcontrol/Funciones/Funciones.class
 com/integrador/POJOLista/Pacientes.class
 com/integrador/POJO/Direccion.class
