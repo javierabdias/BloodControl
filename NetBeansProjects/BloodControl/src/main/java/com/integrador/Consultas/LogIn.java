@@ -5,10 +5,7 @@
  */
 package com.integrador.Consultas;
 
-import com.integrador.POJOLista.Pacientes;
 import com.integrador.persistence.EManagerFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -41,6 +38,7 @@ public class LogIn extends Task <Boolean>{
          
          if(c.equals(contra)){
              if(t.equals("ADMINISTRADOR")||t.equals("LABORATORISTA")){
+                 System.gc();
                  return true;
              }
          }
