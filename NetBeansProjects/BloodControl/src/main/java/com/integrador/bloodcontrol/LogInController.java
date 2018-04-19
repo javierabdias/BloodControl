@@ -72,6 +72,7 @@ public class LogInController extends Funciones implements Initializable {
                
                     else {
                         progress.setVisible(false);
+                        btn_aceptar.setDisable(false);
                         Alertas.error("Error", "Usuario o contraseña incorrectos.", "Verifique los datos de usuario y privilegios.");
                         System.gc();
                     }

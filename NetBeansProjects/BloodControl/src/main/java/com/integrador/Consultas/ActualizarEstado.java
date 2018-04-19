@@ -6,7 +6,9 @@
 package com.integrador.Consultas;
 
 import com.integrador.POJO.Cita;
+import com.integrador.POJOLista.Pacientes;
 import com.integrador.persistence.EManagerFactory;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
 
@@ -14,10 +16,11 @@ import javax.persistence.EntityManager;
  *
  * @author abdias
  */
-public class ActualizarEstado extends Task<Void>{
+public class ActualizarEstado extends Task<ObservableList<Pacientes>>{
     
     int id;
     String estado;
+    Task segundo;
 
     public ActualizarEstado(int id, String estado) {
         this.id = id;
@@ -25,7 +28,7 @@ public class ActualizarEstado extends Task<Void>{
     }
     
     @Override
-    protected Void call() throws Exception {
+    protected ObservableList<Pacientes> call() throws Exception {
         
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();

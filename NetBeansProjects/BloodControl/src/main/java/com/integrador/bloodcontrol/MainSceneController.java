@@ -12,6 +12,8 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +25,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -76,6 +77,8 @@ public class MainSceneController implements Initializable {
     private Label cita_nom_ini;
     @FXML
     private ProgressIndicator progress;
+    @FXML
+    private Label fecha;
 
     
     @Override
@@ -85,7 +88,6 @@ public class MainSceneController implements Initializable {
     }    
     
     private void Inicio(){
-        progress.setVisible(true);
         ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","SIN REALIZAR");
         combo_cita_ini.setItems(status);
         Thread thread= new Thread(new Reloj(reloj));
@@ -93,7 +95,8 @@ public class MainSceneController implements Initializable {
         thread.start();
         iniTablaCitas();
         accionBotonesIni();
-         progress.setVisible(false);
+        progress.setVisible(false);
+        fecha(fecha);
     }
     
     private void usuario(){
@@ -125,7 +128,9 @@ public class MainSceneController implements Initializable {
     
     private void accionBotonesIni(){        
         ini_actualizar.setOnAction(e->{
-           backtoBeginning();
+           progress.setVisible(true);
+           iniTablaCitas();
+           progress.setVisible(false);
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
@@ -178,12 +183,14 @@ public class MainSceneController implements Initializable {
         ace_cita_ini.setDisable(true);
         combo_cita_ini.setDisable(true);
         cita_check_ini.setSelected(false);
-        iniTablaCitas();
         hora_cita_ini.setText("00:00:00");
         cita_nom_ini.setText("Nombre del paciente");
-        area_cita_ini.setText("");
-       
-        
+        area_cita_ini.setText(""); 
+    }
+    
+    private void fecha(Label l1){
+        Date myDate = new Date();
+        l1.setText(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
     }
     
     }

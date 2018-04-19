@@ -35,18 +35,23 @@
                   <Image url="@BloodControl-letras.png" />
                </image>
             </ImageView>
-            <Pane layoutX="794.0" layoutY="20.0" prefHeight="71.0" prefWidth="263.0" style="-fx-background-color: rgb(80,83,84,0.3); -fx-background-radius: 10;">
+            <Pane layoutX="810.0" layoutY="12.0" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: rgb(80,83,84,0.3); -fx-background-radius: 10;">
                <children>
-                  <ImageView fitHeight="48.0" fitWidth="55.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="55.0" layoutX="8.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@usuario.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="id" layoutX="58.0" layoutY="12.0" prefHeight="16.0" prefWidth="198.0" text="Nombre de usuario." />
-                  <Label fx:id="correo" layoutX="59.0" layoutY="38.0" prefHeight="16.0" prefWidth="198.0" text="Correo electronico." />
+                  <Label fx:id="id" layoutX="58.0" layoutY="9.0" prefHeight="16.0" prefWidth="198.0" text="Nombre de usuario." />
+                  <Label fx:id="correo" layoutX="59.0" layoutY="31.0" prefHeight="16.0" prefWidth="198.0" text="Correo electronico." />
                </children>
             </Pane>
-            <Label fx:id="reloj" layoutX="945.0" layoutY="100.0" text="00:00:00" textFill="WHITE">
+            <Label fx:id="reloj" layoutX="961.0" layoutY="108.0" text="00:00:00" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="fecha" layoutX="928.0" layoutY="76.0" prefHeight="26.0" prefWidth="142.0" text="dd/mm/aa" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
@@ -84,30 +89,30 @@
                         </JFXButton>
                         <Pane layoutX="717.0" layoutY="58.0" prefHeight="365.0" prefWidth="321.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
                            <children>
-                              <Label fx:id="cita_nom_ini" layoutX="14.0" layoutY="101.0" text="Nombre paciente.">
+                              <Label fx:id="cita_nom_ini" layoutX="23.0" layoutY="101.0" text="Nombre paciente.">
                                  <font>
                                     <Font name="System Bold" size="21.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="hora_cita_ini" layoutX="94.0" layoutY="11.0" prefHeight="80.0" prefWidth="240.0" text="00:00:00" textFill="#28aed7">
+                              <Label fx:id="hora_cita_ini" layoutX="75.0" layoutY="15.0" prefHeight="80.0" prefWidth="222.0" text="00:00:00" textAlignment="CENTER" textFill="#28aed7">
                                  <font>
                                     <Font size="49.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="15.0" layoutY="139.0" text="Examenes:" textFill="#303436">
+                              <Label layoutX="24.0" layoutY="139.0" text="Examenes:" textFill="#303436">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Pane layoutX="37.0" layoutY="87.0" opacity="0.28" prefHeight="5.0" prefWidth="279.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
-                              <JFXTextArea fx:id="area_cita_ini" editable="false" focusColor="#63bfde" layoutX="17.0" layoutY="167.0" prefHeight="70.0" prefWidth="284.0" unFocusColor="#505354" />
+                              <Pane layoutX="20.0" layoutY="87.0" opacity="0.28" prefHeight="5.0" prefWidth="279.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
+                              <JFXTextArea fx:id="area_cita_ini" editable="false" focusColor="#63bfde" layoutX="19.0" layoutY="167.0" prefHeight="70.0" prefWidth="284.0" unFocusColor="#505354" />
                               <JFXCheckBox fx:id="cita_check_ini" checkedColor="#28aed7" layoutX="84.0" layoutY="268.0" text="Modificar status." unCheckedColor="#505354">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </JFXCheckBox>
                               <JFXComboBox fx:id="combo_cita_ini" disable="true" focusColor="#28aed7" layoutX="16.0" layoutY="301.0" prefHeight="36.0" prefWidth="197.0" unFocusColor="#505354" />
-                              <JFXButton fx:id="ace_cita_ini" buttonType="RAISED" disable="true" layoutX="251.0" layoutY="302.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                              <JFXButton fx:id="ace_cita_ini" buttonType="RAISED" disable="true" layoutX="248.0" layoutY="302.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
                                  <graphic>
                                     <ImageView fitHeight="27.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -118,7 +123,7 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <ProgressIndicator fx:id="progress" layoutX="1036.0" layoutY="445.0" prefHeight="48.0" prefWidth="38.0" visible="false" />
+                        <ProgressIndicator fx:id="progress" layoutX="1036.0" layoutY="445.0" prefHeight="48.0" prefWidth="38.0" />
                      </children></AnchorPane>
               </content>
                <graphic>
