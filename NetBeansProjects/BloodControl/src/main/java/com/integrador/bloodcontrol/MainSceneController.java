@@ -21,7 +21,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,11 +43,11 @@ public class MainSceneController implements Initializable {
     private Label id;
     @FXML
     private Label correo;
+    @FXML
+    private Label fecha;
     
-    // ID's INICIO
-    
+    //  ID's INICIO
     int id_Cita;
-    
     @FXML
     private TableColumn<Pacientes, String> nom_pac;
     @FXML
@@ -75,11 +74,19 @@ public class MainSceneController implements Initializable {
     private JFXComboBox<String> combo_cita_ini;
     @FXML
     private Label cita_nom_ini;
+   
+    //  CITAS
     @FXML
-    private ProgressIndicator progress;
+    private JFXButton cit_agregar;
     @FXML
-    private Label fecha;
-
+    private JFXButton cit_actualizar;
+    @FXML
+    private JFXButton cit_modificar;
+    @FXML
+    private JFXButton cit_eliminar;
+    
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -95,7 +102,6 @@ public class MainSceneController implements Initializable {
         thread.start();
         iniTablaCitas();
         accionBotonesIni();
-        progress.setVisible(false);
         fecha(fecha);
     }
     
@@ -128,9 +134,8 @@ public class MainSceneController implements Initializable {
     
     private void accionBotonesIni(){        
         ini_actualizar.setOnAction(e->{
-           progress.setVisible(true);
            iniTablaCitas();
-           progress.setVisible(false);
+           backtoBeginning();
         });
         
         tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
@@ -152,11 +157,9 @@ public class MainSceneController implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e->{
-            progress.setVisible(true);
             ActualizarEstado ae = new ActualizarEstado(id_Cita,combo_cita_ini.getValue());
             new Thread (ae).start();
             backtoBeginning();
-            progress.setVisible(false);
         });
     }
        
