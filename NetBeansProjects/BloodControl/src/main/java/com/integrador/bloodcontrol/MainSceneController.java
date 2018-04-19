@@ -85,6 +85,15 @@ public class MainSceneController implements Initializable {
     @FXML
     private JFXButton cit_eliminar;
     
+    //  PACIENTES
+    @FXML
+    private JFXButton pac_anadir;
+    @FXML
+    private JFXButton pac_editar;
+    @FXML
+    private JFXButton pac_eliminar;
+    @FXML
+    private JFXButton pac_actualizar;
     
     
     
@@ -156,7 +165,7 @@ public class MainSceneController implements Initializable {
             }
         });
         
-        ace_cita_ini.setOnAction(e->{
+        ace_cita_ini.setOnAction(e-> {
             ActualizarEstado ae = new ActualizarEstado(id_Cita,combo_cita_ini.getValue());
             new Thread (ae).start();
             backtoBeginning();
