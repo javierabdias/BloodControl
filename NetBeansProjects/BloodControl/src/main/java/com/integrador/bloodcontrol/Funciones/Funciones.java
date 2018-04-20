@@ -37,6 +37,18 @@ public abstract class Funciones {
         System.gc();
     }
     
+    public void crearVentanas2(String ruta, String nomVentana) throws IOException {
+        Parent root = (Parent) FXMLLoader.load(MainApp.class.getResource(ruta));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle(nomVentana);
+        stage.initModality(Modality.APPLICATION_MODAL);   
+        stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
+        stage.showAndWait();  
+        stage=null;
+        System.gc();
+    }
+    
     //Método para cerrar la coneción con la base de datos
      public void valCerrar(Stage sta){
         sta.setOnCloseRequest((WindowEvent event) -> {

@@ -1,4 +1,5 @@
 com/integrador/POJO/Direccion_.class
+com/integrador/Paciente/AgregarPacienteController.class
 com/integrador/POJO/Usuarios.class
 com/integrador/bloodcontrol/MainSceneController.class
 com/integrador/bloodcontrol/SplashController.class
@@ -15,6 +16,7 @@ com/integrador/POJO/Cita.class
 com/integrador/POJO/Paciente.class
 com/integrador/Consultas/QueryUsuario.class
 com/integrador/Consultas/citaInformacion.class
+com/integrador/bloodcontrol/AbrirVentana.class
 com/integrador/POJO/Estudios.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/persistence/Conexion.class

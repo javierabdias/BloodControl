@@ -6,15 +6,19 @@ import com.integrador.Consultas.Inicio_Tabla_Citas;
 import com.integrador.Consultas.QueryUsuario;
 import com.integrador.Consultas.citaInformacion;
 import com.integrador.POJOLista.Pacientes;
+import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
@@ -33,7 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 //  **CLASE DE MAIN CONTROLLER**
 
-public class MainSceneController implements Initializable {
+public class MainSceneController extends Funciones implements Initializable {
 
     
     // ID'S MAIN CONTROLLER 
@@ -115,6 +119,7 @@ public class MainSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         usuario();
         Inicio();
+        accionBotonesPac();
     }    
     
     private void Inicio(){
@@ -217,6 +222,12 @@ public class MainSceneController implements Initializable {
     private void fecha(Label l1){
         Date myDate = new Date();
         l1.setText(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
+    }
+    
+    private void accionBotonesPac(){
+        pac_anadir.setOnAction(e->{
+            new Thread (new AbrirVentana("/Pacientes/AgregarPaciente.fxml","Añadir Paciente")).start();
+        });
     }
        
     }
