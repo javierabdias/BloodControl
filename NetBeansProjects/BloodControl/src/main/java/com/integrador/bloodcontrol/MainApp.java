@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import com.integrador.persistence.Conexion;
+import com.integrador.persistence.LogIn;
 import javafx.scene.image.Image;
 
 // **CLASE MAIN DE PROGRAMA, HILO DE SPLASH**

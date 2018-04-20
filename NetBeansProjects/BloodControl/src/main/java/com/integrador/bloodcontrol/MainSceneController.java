@@ -46,6 +46,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private Label fecha;
     
+    
     //  ID's INICIO
     int id_Cita;
     @FXML
@@ -74,6 +75,7 @@ public class MainSceneController implements Initializable {
     private JFXComboBox<String> combo_cita_ini;
     @FXML
     private Label cita_nom_ini;
+    
    
     //  CITAS
     @FXML
@@ -85,6 +87,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private JFXButton cit_eliminar;
     
+    
     //  PACIENTES
     @FXML
     private JFXButton pac_anadir;
@@ -94,7 +97,18 @@ public class MainSceneController implements Initializable {
     private JFXButton pac_eliminar;
     @FXML
     private JFXButton pac_actualizar;
-    
+    @FXML
+    private Label hora_cita_ini1;
+    @FXML
+    private Label cita_nom_ini1;
+    @FXML
+    private JFXButton exa_agregar;
+    @FXML
+    private JFXButton exa_eliminar;
+    @FXML
+    private JFXButton exa_modificar;
+    @FXML
+    private JFXButton exa_actualizar;
     
     
     @Override
@@ -204,7 +218,7 @@ public class MainSceneController implements Initializable {
         Date myDate = new Date();
         l1.setText(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
     }
-    
+       
     }
         
 

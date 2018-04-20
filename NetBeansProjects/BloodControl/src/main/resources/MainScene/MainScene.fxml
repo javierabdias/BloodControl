@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -242,7 +243,7 @@
                         </Pane>
                         <Pane layoutX="22.0" layoutY="16.0" prefHeight="60.0" prefWidth="1056.0" style="-fx-background-color: rgb(155,155,155,0.2);">
                            <children>
-                              <JFXButton fx:id="pac_anadir" alignment="CENTER" buttonType="RAISED" layoutX="18.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505554; -fx-background-radius: 50;">
+                              <JFXButton fx:id="pac_anadir" alignment="CENTER" buttonType="RAISED" layoutX="674.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#a5c3cd" style="-fx-background-color: #505554; -fx-background-radius: 50;">
                                  <graphic>
                                     <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -251,7 +252,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="pac_editar" alignment="CENTER" buttonType="RAISED" layoutX="95.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                              <JFXButton fx:id="pac_editar" alignment="CENTER" buttonType="RAISED" layoutX="751.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
                                  <graphic>
                                     <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -260,7 +261,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="pac_eliminar" alignment="CENTER" buttonType="RAISED" layoutX="173.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505554; -fx-background-radius: 50;">
+                              <JFXButton fx:id="pac_eliminar" alignment="CENTER" buttonType="RAISED" layoutX="829.0" layoutY="4.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#a4c3cc" style="-fx-background-color: #505554; -fx-background-radius: 50;">
                                  <graphic>
                                     <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -281,6 +282,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </JFXButton>
+                              <JFXTextField focusColor="#63bfde" layoutX="101.0" layoutY="13.0" prefHeight="26.0" prefWidth="188.0" unFocusColor="#505354" />
                            </children>
                         </Pane>
                         <JFXButton fx:id="pac_actualizar" alignment="CENTER" buttonType="RAISED" layoutX="1004.0" layoutY="436.0" prefHeight="65.0" prefWidth="64.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
@@ -292,6 +294,11 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
+                        <Label layoutX="53.0" layoutY="37.0" text="Buscar:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
                <graphic>
@@ -304,7 +311,98 @@
             </Tab>
             <Tab text="Examenes">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="55.0" layoutY="65.0" prefHeight="363.0" prefWidth="419.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 20;">
+                           <children>
+                              <Label fx:id="hora_cita_ini1" layoutX="36.0" layoutY="18.0" prefHeight="48.0" prefWidth="349.0" text="Nombre de Examen" textAlignment="CENTER" textFill="#28aed7">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                              </Label>
+                              <Pane layoutX="16.0" layoutY="72.0" opacity="0.28" prefHeight="8.0" prefWidth="386.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
+                              <Label fx:id="cita_nom_ini1" layoutX="17.0" layoutY="88.0" text="Estudios:">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextArea focusColor="#63bfde" layoutX="24.0" layoutY="127.0" prefHeight="139.0" prefWidth="371.0" unFocusColor="#505354" />
+                              <JFXButton layoutX="260.0" layoutY="301.0" prefHeight="48.0" prefWidth="142.0" style="-fx-background-color: #9b9b9b; -fx-background-radius: 10;" text="Estudios" textFill="WHITE">
+                                 <graphic>
+                                    <ImageView fitHeight="37.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Examenes/sangre.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="exa_modificar1" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="298.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Examenes/ajustes.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="511.0" layoutY="27.0" prefHeight="456.0" prefWidth="432.0" style="-fx-background-color: #505354;">
+                           <children>
+                              <TableView layoutX="5.0" layoutY="5.0" prefHeight="443.0" prefWidth="422.0">
+                                 <columns>
+                                    <TableColumn prefWidth="140.0" text="Nombre" />
+                                    <TableColumn prefWidth="140.0" text="Precio" />
+                                    <TableColumn prefWidth="140.0" text="No. Estudios" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="981.0" layoutY="27.0" prefHeight="263.0" prefWidth="82.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                           <children>
+                              <JFXButton fx:id="exa_agregar" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="8.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505554; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Cita/anadir.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="exa_eliminar" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="137.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505354; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Cita/menos.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="exa_modificar" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="72.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Cita/modificar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="exa_actualizar" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="202.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@actualizar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
                </content>
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

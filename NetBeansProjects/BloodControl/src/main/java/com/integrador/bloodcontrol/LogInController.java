@@ -80,7 +80,7 @@ public class LogInController extends Funciones implements Initializable {
                 
                 new Thread(l).start();
             }
-
+            
         });
 
         //Acción botón minimizar        
