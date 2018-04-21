@@ -31,8 +31,9 @@ public class MainApp extends Application {
         //Agregar ícono
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
         //Hilo para realizar la conexión con la Base de Datos
-        Conexion con = new Conexion(stage);
-        new Thread(con).start();
+//        Conexion con = new Conexion(stage);
+//        new Thread(con).start();
+        new Thread(new LogIn(stage)).start();
         stage=null;
         System.gc();
     }
