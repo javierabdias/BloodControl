@@ -1,0 +1,18 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28/04/2018, 09:33:13 PM
+    Author     : abdias
+*/
+
+.jfx-radio-button{
+    -jfx-selected-color: #52747a;
+    -jfx-unselected-color: #505354;
+}
+
+.jfx-radio-button .radio-container:hover{
+    -fx-cursor: hand;
+}

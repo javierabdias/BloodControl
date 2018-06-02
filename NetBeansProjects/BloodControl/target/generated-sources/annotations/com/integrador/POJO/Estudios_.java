@@ -8,11 +8,12 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Estudios.class)
 public abstract class Estudios_ {
 
-	public static volatile SingularAttribute<Estudios, Double> valorMax;
 	public static volatile SingularAttribute<Estudios, Integer> estId;
-	public static volatile SingularAttribute<Estudios, String> estNom;
-	public static volatile SingularAttribute<Estudios, Double> valorMin;
+	public static volatile SingularAttribute<Estudios, EstadoRegistro> erId;
+	public static volatile SingularAttribute<Estudios, String> estNombre;
+	public static volatile SingularAttribute<Estudios, Double> estMax;
 	public static volatile SingularAttribute<Estudios, Examen> exaId;
+	public static volatile SingularAttribute<Estudios, Double> estMin;
 
 }
 

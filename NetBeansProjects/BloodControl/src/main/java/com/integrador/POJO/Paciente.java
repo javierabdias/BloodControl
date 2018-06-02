@@ -8,7 +8,6 @@ package com.integrador.POJO;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,10 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Paciente.findAll", query = "SELECT p FROM Paciente p")
     , @NamedQuery(name = "Paciente.findByPacId", query = "SELECT p FROM Paciente p WHERE p.pacId = :pacId")
-    , @NamedQuery(name = "Paciente.findByPacNombre", query = "SELECT p FROM Paciente p WHERE p.pacNombre = :pacNombre")
-    , @NamedQuery(name = "Paciente.findByPacAp", query = "SELECT p FROM Paciente p WHERE p.pacAp = :pacAp")
-    , @NamedQuery(name = "Paciente.findByPacAm", query = "SELECT p FROM Paciente p WHERE p.pacAm = :pacAm")
-    , @NamedQuery(name = "Paciente.findByPacFn", query = "SELECT p FROM Paciente p WHERE p.pacFn = :pacFn")
     , @NamedQuery(name = "Paciente.findByPacCe", query = "SELECT p FROM Paciente p WHERE p.pacCe = :pacCe")
     , @NamedQuery(name = "Paciente.findByPacContra", query = "SELECT p FROM Paciente p WHERE p.pacContra = :pacContra")
     , @NamedQuery(name = "Paciente.findByPacTel", query = "SELECT p FROM Paciente p WHERE p.pacTel = :pacTel")
@@ -49,31 +44,22 @@ public class Paciente implements Serializable {
     @Basic(optional = false)
     @Column(name = "PAC_ID")
     private Integer pacId;
-    @Basic(optional = false)
-    @Column(name = "PAC_NOMBRE")
-    private String pacNombre;
-    @Basic(optional = false)
-    @Column(name = "PAC_AP")
-    private String pacAp;
-    @Basic(optional = false)
-    @Column(name = "PAC_AM")
-    private String pacAm;
-    @Column(name = "PAC_FN")
-    private String pacFn;
     @Column(name = "PAC_CE")
     private String pacCe;
-    @Basic(optional = false)
     @Column(name = "PAC_CONTRA")
     private String pacContra;
     @Column(name = "PAC_TEL")
     private String pacTel;
     @Column(name = "PAC_CEL")
     private String pacCel;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacId")
-    private Collection<Cita> citaCollection;
-    @JoinColumn(name = "DIR_ID", referencedColumnName = "DIR_ID")
-    @ManyToOne(optional = false)
-    private Direccion dirId;
+    @OneToMany(mappedBy = "pacId")
+    private Collection<Citas> citasCollection;
+    @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
+    @ManyToOne
+    private EstadoRegistro erId;
+    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID")
+    @ManyToOne
+    private Persona perId;
 
     public Paciente() {
     }
@@ -82,52 +68,12 @@ public class Paciente implements Serializable {
         this.pacId = pacId;
     }
 
-    public Paciente(Integer pacId, String pacNombre, String pacAp, String pacAm, String pacContra) {
-        this.pacId = pacId;
-        this.pacNombre = pacNombre;
-        this.pacAp = pacAp;
-        this.pacAm = pacAm;
-        this.pacContra = pacContra;
-    }
-
     public Integer getPacId() {
         return pacId;
     }
 
     public void setPacId(Integer pacId) {
         this.pacId = pacId;
-    }
-
-    public String getPacNombre() {
-        return pacNombre;
-    }
-
-    public void setPacNombre(String pacNombre) {
-        this.pacNombre = pacNombre;
-    }
-
-    public String getPacAp() {
-        return pacAp;
-    }
-
-    public void setPacAp(String pacAp) {
-        this.pacAp = pacAp;
-    }
-
-    public String getPacAm() {
-        return pacAm;
-    }
-
-    public void setPacAm(String pacAm) {
-        this.pacAm = pacAm;
-    }
-
-    public String getPacFn() {
-        return pacFn;
-    }
-
-    public void setPacFn(String pacFn) {
-        this.pacFn = pacFn;
     }
 
     public String getPacCe() {
@@ -163,20 +109,28 @@ public class Paciente implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Cita> getCitaCollection() {
-        return citaCollection;
+    public Collection<Citas> getCitasCollection() {
+        return citasCollection;
     }
 
-    public void setCitaCollection(Collection<Cita> citaCollection) {
-        this.citaCollection = citaCollection;
+    public void setCitasCollection(Collection<Citas> citasCollection) {
+        this.citasCollection = citasCollection;
     }
 
-    public Direccion getDirId() {
-        return dirId;
+    public EstadoRegistro getErId() {
+        return erId;
     }
 
-    public void setDirId(Direccion dirId) {
-        this.dirId = dirId;
+    public void setErId(EstadoRegistro erId) {
+        this.erId = erId;
+    }
+
+    public Persona getPerId() {
+        return perId;
+    }
+
+    public void setPerId(Persona perId) {
+        this.perId = perId;
     }
 
     @Override

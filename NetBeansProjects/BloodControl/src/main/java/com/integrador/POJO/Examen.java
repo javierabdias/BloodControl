@@ -8,13 +8,14 @@ package com.integrador.POJO;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")
     , @NamedQuery(name = "Examen.findByExaId", query = "SELECT e FROM Examen e WHERE e.exaId = :exaId")
-    , @NamedQuery(name = "Examen.findByExaNom", query = "SELECT e FROM Examen e WHERE e.exaNom = :exaNom")
-    , @NamedQuery(name = "Examen.findByPrecio", query = "SELECT e FROM Examen e WHERE e.precio = :precio")})
+    , @NamedQuery(name = "Examen.findByExaPrecio", query = "SELECT e FROM Examen e WHERE e.exaPrecio = :exaPrecio")})
 public class Examen implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,15 +42,16 @@ public class Examen implements Serializable {
     @Basic(optional = false)
     @Column(name = "EXA_ID")
     private Integer exaId;
-    @Column(name = "EXA_NOM")
-    private String exaNom;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "PRECIO")
-    private Double precio;
+    @Column(name = "EXA_PRECIO")
+    private Double exaPrecio;
     @ManyToMany(mappedBy = "examenCollection")
-    private Collection<Cita> citaCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exaId")
+    private Collection<Citas> citasCollection;
+    @OneToMany(mappedBy = "exaId")
     private Collection<Estudios> estudiosCollection;
+    @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
+    @ManyToOne
+    private EstadoRegistro erId;
 
     public Examen() {
     }
@@ -67,29 +68,21 @@ public class Examen implements Serializable {
         this.exaId = exaId;
     }
 
-    public String getExaNom() {
-        return exaNom;
+    public Double getExaPrecio() {
+        return exaPrecio;
     }
 
-    public void setExaNom(String exaNom) {
-        this.exaNom = exaNom;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setExaPrecio(Double exaPrecio) {
+        this.exaPrecio = exaPrecio;
     }
 
     @XmlTransient
-    public Collection<Cita> getCitaCollection() {
-        return citaCollection;
+    public Collection<Citas> getCitasCollection() {
+        return citasCollection;
     }
 
-    public void setCitaCollection(Collection<Cita> citaCollection) {
-        this.citaCollection = citaCollection;
+    public void setCitasCollection(Collection<Citas> citasCollection) {
+        this.citasCollection = citasCollection;
     }
 
     @XmlTransient
@@ -99,6 +92,14 @@ public class Examen implements Serializable {
 
     public void setEstudiosCollection(Collection<Estudios> estudiosCollection) {
         this.estudiosCollection = estudiosCollection;
+    }
+
+    public EstadoRegistro getErId() {
+        return erId;
+    }
+
+    public void setErId(EstadoRegistro erId) {
+        this.erId = erId;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.integrador.bloodcontrol;
 
-import com.integrador.Consultas.LogIn;
+
+import Consultas.LogIn;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
-//  ** CLASE CONTROLLER DE LON-IN**
+//  ** CLASE CONTROLLER DE LOG-IN**
 public class LogInController extends Funciones implements Initializable {
 
     public static int id_usuario;
@@ -80,7 +82,6 @@ public class LogInController extends Funciones implements Initializable {
                 
                 new Thread(l).start();
             }
-            
         });
 
         //Acción botón minimizar        

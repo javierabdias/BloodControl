@@ -9,11 +9,11 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Examen.class)
 public abstract class Examen_ {
 
-	public static volatile CollectionAttribute<Examen, Cita> citaCollection;
-	public static volatile SingularAttribute<Examen, Double> precio;
+	public static volatile SingularAttribute<Examen, Double> exaPrecio;
+	public static volatile SingularAttribute<Examen, EstadoRegistro> erId;
+	public static volatile CollectionAttribute<Examen, Citas> citasCollection;
 	public static volatile SingularAttribute<Examen, Integer> exaId;
 	public static volatile CollectionAttribute<Examen, Estudios> estudiosCollection;
-	public static volatile SingularAttribute<Examen, String> exaNom;
 
 }
 

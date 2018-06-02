@@ -9,17 +9,14 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Paciente.class)
 public abstract class Paciente_ {
 
-	public static volatile CollectionAttribute<Paciente, Cita> citaCollection;
+	public static volatile SingularAttribute<Paciente, Persona> perId;
 	public static volatile SingularAttribute<Paciente, String> pacCe;
 	public static volatile SingularAttribute<Paciente, String> pacContra;
-	public static volatile SingularAttribute<Paciente, String> pacAp;
-	public static volatile SingularAttribute<Paciente, String> pacAm;
+	public static volatile SingularAttribute<Paciente, EstadoRegistro> erId;
 	public static volatile SingularAttribute<Paciente, Integer> pacId;
 	public static volatile SingularAttribute<Paciente, String> pacTel;
-	public static volatile SingularAttribute<Paciente, Direccion> dirId;
+	public static volatile CollectionAttribute<Paciente, Citas> citasCollection;
 	public static volatile SingularAttribute<Paciente, String> pacCel;
-	public static volatile SingularAttribute<Paciente, String> pacFn;
-	public static volatile SingularAttribute<Paciente, String> pacNombre;
 
 }
 

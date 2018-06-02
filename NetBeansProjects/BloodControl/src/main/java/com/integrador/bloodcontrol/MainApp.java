@@ -1,5 +1,6 @@
 package com.integrador.bloodcontrol;
 
+import com.integrador.persistence.Conexion;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -8,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import com.integrador.persistence.Conexion;
-import com.integrador.persistence.LogIn;
 import javafx.scene.image.Image;
 
 // **CLASE MAIN DE PROGRAMA, HILO DE SPLASH**
@@ -31,9 +30,8 @@ public class MainApp extends Application {
         //Agregar ícono
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
         //Hilo para realizar la conexión con la Base de Datos
-//        Conexion con = new Conexion(stage);
-//        new Thread(con).start();
-        new Thread(new LogIn(stage)).start();
+        Conexion con = new Conexion(stage);
+        new Thread(con).start();
         stage=null;
         System.gc();
     }

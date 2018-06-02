@@ -29,9 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Estudios.findAll", query = "SELECT e FROM Estudios e")
     , @NamedQuery(name = "Estudios.findByEstId", query = "SELECT e FROM Estudios e WHERE e.estId = :estId")
-    , @NamedQuery(name = "Estudios.findByEstNom", query = "SELECT e FROM Estudios e WHERE e.estNom = :estNom")
-    , @NamedQuery(name = "Estudios.findByValorMin", query = "SELECT e FROM Estudios e WHERE e.valorMin = :valorMin")
-    , @NamedQuery(name = "Estudios.findByValorMax", query = "SELECT e FROM Estudios e WHERE e.valorMax = :valorMax")})
+    , @NamedQuery(name = "Estudios.findByEstNombre", query = "SELECT e FROM Estudios e WHERE e.estNombre = :estNombre")
+    , @NamedQuery(name = "Estudios.findByEstMin", query = "SELECT e FROM Estudios e WHERE e.estMin = :estMin")
+    , @NamedQuery(name = "Estudios.findByEstMax", query = "SELECT e FROM Estudios e WHERE e.estMax = :estMax")})
 public class Estudios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,16 +40,18 @@ public class Estudios implements Serializable {
     @Basic(optional = false)
     @Column(name = "EST_ID")
     private Integer estId;
-    @Basic(optional = false)
-    @Column(name = "EST_NOM")
-    private String estNom;
+    @Column(name = "EST_NOMBRE")
+    private String estNombre;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "VALOR_MIN")
-    private Double valorMin;
-    @Column(name = "VALOR_MAX")
-    private Double valorMax;
+    @Column(name = "EST_MIN")
+    private Double estMin;
+    @Column(name = "EST_MAX")
+    private Double estMax;
+    @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
+    @ManyToOne
+    private EstadoRegistro erId;
     @JoinColumn(name = "EXA_ID", referencedColumnName = "EXA_ID")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Examen exaId;
 
     public Estudios() {
@@ -57,11 +59,6 @@ public class Estudios implements Serializable {
 
     public Estudios(Integer estId) {
         this.estId = estId;
-    }
-
-    public Estudios(Integer estId, String estNom) {
-        this.estId = estId;
-        this.estNom = estNom;
     }
 
     public Integer getEstId() {
@@ -72,28 +69,36 @@ public class Estudios implements Serializable {
         this.estId = estId;
     }
 
-    public String getEstNom() {
-        return estNom;
+    public String getEstNombre() {
+        return estNombre;
     }
 
-    public void setEstNom(String estNom) {
-        this.estNom = estNom;
+    public void setEstNombre(String estNombre) {
+        this.estNombre = estNombre;
     }
 
-    public Double getValorMin() {
-        return valorMin;
+    public Double getEstMin() {
+        return estMin;
     }
 
-    public void setValorMin(Double valorMin) {
-        this.valorMin = valorMin;
+    public void setEstMin(Double estMin) {
+        this.estMin = estMin;
     }
 
-    public Double getValorMax() {
-        return valorMax;
+    public Double getEstMax() {
+        return estMax;
     }
 
-    public void setValorMax(Double valorMax) {
-        this.valorMax = valorMax;
+    public void setEstMax(Double estMax) {
+        this.estMax = estMax;
+    }
+
+    public EstadoRegistro getErId() {
+        return erId;
+    }
+
+    public void setErId(EstadoRegistro erId) {
+        this.erId = erId;
     }
 
     public Examen getExaId() {

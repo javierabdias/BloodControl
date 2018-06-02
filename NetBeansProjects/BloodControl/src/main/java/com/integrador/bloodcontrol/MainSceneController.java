@@ -1,10 +1,8 @@
 package com.integrador.bloodcontrol;
 
 
-import com.integrador.Consultas.ActualizarEstado;
-import com.integrador.Consultas.Inicio_Tabla_Citas;
-import com.integrador.Consultas.QueryUsuario;
-import com.integrador.Consultas.citaInformacion;
+import Consultas.Usuario;
+import com.integrador.POJOLista.Laboratorista;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
@@ -12,16 +10,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -128,36 +124,33 @@ public class MainSceneController extends Funciones implements Initializable {
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
         thread.start();
-        iniTablaCitas();
-        accionBotonesIni();
+        //iniTablaCitas();
+        //accionBotonesIni();
         fecha(fecha);
     }
     
     private void usuario(){
-        QueryUsuario qu= new QueryUsuario();
-        qu.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-            id.setText(qu.getValue().get(0).toString());
-            correo.setText(qu.getValue().get(1).toString());
+        Usuario usuario = new Usuario();
+        usuario.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            id.setText(usuario.getValue().get(0).getNombre());
         });
-        new Thread(qu).start();
+        new Thread(usuario).start();
     }
     
     private void iniTablaCitas(){
         
-        Inicio_Tabla_Citas itc= new  Inicio_Tabla_Citas();
-        
-        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
-        
-        tabla_pac.setItems(tabla);
-        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        });
-        
-        new Thread(itc).start();
+//        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+//        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
+//        
+//        tabla_pac.setItems(tabla);
+//        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+//        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+//        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+//        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+//        });
+//        
+//        new Thread(itc).start();
     }
     
     private void accionBotonesIni(){        
@@ -185,28 +178,11 @@ public class MainSceneController extends Funciones implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e-> {
-            ActualizarEstado ae = new ActualizarEstado(id_Cita,combo_cita_ini.getValue());
-            new Thread (ae).start();
             backtoBeginning();
         });
     }
        
     private void citaInformacion(){
-            citaInformacion ci= new citaInformacion(id_Cita);
-            ci.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                
-                ObservableList<Pacientes> tabla = FXCollections.observableArrayList(ci.getValue().get(0));
-                ObservableList<String> tabla2 = FXCollections.observableArrayList(ci.getValue().get(1));
-                
-                hora_cita_ini.setText(tabla.get(0).getHora().toString());
-                cita_nom_ini.setText(tabla.get(0).getNombre()+" "+tabla.get(0).getApePat()+" "+tabla.get(0).getApeMat());
-                
-                for (String t: tabla2){
-                    area_cita_ini.appendText(t+"\n");
-                }
-            });       
-            
-            new Thread(ci).start();
         }
     
     private void backtoBeginning(){
