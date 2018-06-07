@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="371.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.LogInController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="371.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.LogInController">
    <children>
       <Pane layoutY="48.0" prefHeight="26.0" prefWidth="371.0" style="-fx-background-color: #505354;" />
       <ImageView fitHeight="510.0" fitWidth="385.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
@@ -19,7 +19,7 @@
       </ImageView>
       <Pane layoutX="42.0" layoutY="160.0" prefHeight="218.0" prefWidth="287.0" style="-fx-background-color: rgb(255,255,255,0.3); -fx-background-radius: 30;">
          <children>
-            <JFXTextField fx:id="txt_Usuario" focusColor="#52747a" labelFloat="true" layoutX="84.0" layoutY="32.0" prefHeight="26.0" prefWidth="160.0" promptText="ID Usuario" unFocusColor="#505354" />
+            <JFXTextField fx:id="txt_Usuario" focusColor="#52747a" labelFloat="true" layoutX="84.0" layoutY="32.0" prefHeight="26.0" prefWidth="160.0" promptText="Matrícula" unFocusColor="#505354" />
             <JFXPasswordField fx:id="txt_Contra" focusColor="#52747a" labelFloat="true" layoutX="83.0" layoutY="84.0" prefHeight="26.0" prefWidth="160.0" promptText="Contraseña" unFocusColor="#505354" />
             <JFXButton fx:id="btn_aceptar" layoutX="95.0" layoutY="148.0" prefHeight="34.0" prefWidth="98.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
             <ImageView fitHeight="26.0" fitWidth="28.0" layoutX="50.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
