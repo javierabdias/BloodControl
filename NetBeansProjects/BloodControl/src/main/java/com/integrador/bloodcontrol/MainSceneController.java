@@ -1,7 +1,8 @@
 package com.integrador.bloodcontrol;
 
 
-import Consultas.Usuario;
+import com.integrador.Consultas.Extraccion;
+import com.integrador.Consultas.Usuario;
 import com.integrador.POJOLista.Laboratorista;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Funciones;
@@ -124,7 +125,7 @@ public class MainSceneController extends Funciones implements Initializable {
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
         thread.start();
-        //iniTablaCitas();
+        iniTablaCitas();
         //accionBotonesIni();
         fecha(fecha);
     }
@@ -132,25 +133,28 @@ public class MainSceneController extends Funciones implements Initializable {
     private void usuario(){
         Usuario usuario = new Usuario();
         usuario.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-            id.setText(usuario.getValue().get(0).getNombre());
+            id.setText(usuario.getValue().get(0).getNombre()+" "+usuario.getValue().get(0).getApePat()+" "+usuario.getValue().get(0).getApeMat());
+            correo.setText(usuario.getValue().get(0).getCorreo());
         });
         new Thread(usuario).start();
     }
     
     private void iniTablaCitas(){
         
-//        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-//        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
-//        
-//        tabla_pac.setItems(tabla);
-//        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-//        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-//        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-//        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        });
-//        
-//        new Thread(itc).start();
+        Extraccion itc= new Extraccion ();
+        System.out.println("holis");
+        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+        System.out.println("holis2");
+        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
+        tabla_pac.setItems(tabla);
+        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        });
+        
+        new Thread(itc).start();
     }
     
     private void accionBotonesIni(){        
