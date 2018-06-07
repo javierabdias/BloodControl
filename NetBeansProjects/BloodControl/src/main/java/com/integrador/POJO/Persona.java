@@ -55,6 +55,8 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date perFn;
     @OneToMany(mappedBy = "perId")
+    private Collection<Administrador> administradorCollection;
+    @OneToMany(mappedBy = "perId")
     private Collection<Recepcionista> recepcionistaCollection;
     @OneToMany(mappedBy = "perId")
     private Collection<Laboratorista> laboratoristaCollection;
@@ -106,6 +108,15 @@ public class Persona implements Serializable {
 
     public void setPerFn(Date perFn) {
         this.perFn = perFn;
+    }
+
+    @XmlTransient
+    public Collection<Administrador> getAdministradorCollection() {
+        return administradorCollection;
+    }
+
+    public void setAdministradorCollection(Collection<Administrador> administradorCollection) {
+        this.administradorCollection = administradorCollection;
     }
 
     @XmlTransient

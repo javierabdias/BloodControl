@@ -51,6 +51,8 @@ public class DirUsu implements Serializable {
     @Column(name = "DIR_COLONIA")
     private String dirColonia;
     @OneToMany(mappedBy = "dirId")
+    private Collection<Administrador> administradorCollection;
+    @OneToMany(mappedBy = "dirId")
     private Collection<Recepcionista> recepcionistaCollection;
     @OneToMany(mappedBy = "dirId")
     private Collection<Laboratorista> laboratoristaCollection;
@@ -100,6 +102,15 @@ public class DirUsu implements Serializable {
 
     public void setDirColonia(String dirColonia) {
         this.dirColonia = dirColonia;
+    }
+
+    @XmlTransient
+    public Collection<Administrador> getAdministradorCollection() {
+        return administradorCollection;
+    }
+
+    public void setAdministradorCollection(Collection<Administrador> administradorCollection) {
+        this.administradorCollection = administradorCollection;
     }
 
     @XmlTransient

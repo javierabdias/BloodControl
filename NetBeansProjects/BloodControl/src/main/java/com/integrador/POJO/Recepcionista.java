@@ -52,8 +52,6 @@ public class Recepcionista implements Serializable {
     private String pacTel;
     @Column(name = "PAC_CEL")
     private String pacCel;
-    @OneToMany(mappedBy = "recId")
-    private Collection<Citas> citasCollection;
     @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
     @ManyToOne
     private EstadoRegistro erId;
@@ -63,6 +61,8 @@ public class Recepcionista implements Serializable {
     @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID")
     @ManyToOne
     private Persona perId;
+    @OneToMany(mappedBy = "recId")
+    private Collection<Citas> citasCollection;
     @OneToMany(mappedBy = "recId")
     private Collection<Pagos> pagosCollection;
 
@@ -113,15 +113,6 @@ public class Recepcionista implements Serializable {
         this.pacCel = pacCel;
     }
 
-    @XmlTransient
-    public Collection<Citas> getCitasCollection() {
-        return citasCollection;
-    }
-
-    public void setCitasCollection(Collection<Citas> citasCollection) {
-        this.citasCollection = citasCollection;
-    }
-
     public EstadoRegistro getErId() {
         return erId;
     }
@@ -144,6 +135,15 @@ public class Recepcionista implements Serializable {
 
     public void setPerId(Persona perId) {
         this.perId = perId;
+    }
+
+    @XmlTransient
+    public Collection<Citas> getCitasCollection() {
+        return citasCollection;
+    }
+
+    public void setCitasCollection(Collection<Citas> citasCollection) {
+        this.citasCollection = citasCollection;
     }
 
     @XmlTransient

@@ -39,13 +39,15 @@ public class EstadoRegistro implements Serializable {
     @Column(name = "ESTADO")
     private String estado;
     @OneToMany(mappedBy = "erId")
-    private Collection<Citas> citasCollection;
+    private Collection<Administrador> administradorCollection;
     @OneToMany(mappedBy = "erId")
     private Collection<Estudios> estudiosCollection;
     @OneToMany(mappedBy = "erId")
     private Collection<Recepcionista> recepcionistaCollection;
     @OneToMany(mappedBy = "erId")
     private Collection<Laboratorista> laboratoristaCollection;
+    @OneToMany(mappedBy = "erId")
+    private Collection<Citas> citasCollection;
     @OneToMany(mappedBy = "erId")
     private Collection<Paciente> pacienteCollection;
     @OneToMany(mappedBy = "erId")
@@ -75,12 +77,12 @@ public class EstadoRegistro implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Citas> getCitasCollection() {
-        return citasCollection;
+    public Collection<Administrador> getAdministradorCollection() {
+        return administradorCollection;
     }
 
-    public void setCitasCollection(Collection<Citas> citasCollection) {
-        this.citasCollection = citasCollection;
+    public void setAdministradorCollection(Collection<Administrador> administradorCollection) {
+        this.administradorCollection = administradorCollection;
     }
 
     @XmlTransient
@@ -108,6 +110,15 @@ public class EstadoRegistro implements Serializable {
 
     public void setLaboratoristaCollection(Collection<Laboratorista> laboratoristaCollection) {
         this.laboratoristaCollection = laboratoristaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Citas> getCitasCollection() {
+        return citasCollection;
+    }
+
+    public void setCitasCollection(Collection<Citas> citasCollection) {
+        this.citasCollection = citasCollection;
     }
 
     @XmlTransient
