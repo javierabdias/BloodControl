@@ -2,6 +2,7 @@ package com.integrador.bloodcontrol;
 
 
 import com.integrador.Consultas.Extraccion;
+import com.integrador.Consultas.Informacion_Cita;
 import com.integrador.Consultas.Usuario;
 import com.integrador.POJOLista.Laboratorista;
 import com.integrador.POJOLista.Pacientes;
@@ -18,7 +19,6 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -126,7 +126,7 @@ public class MainSceneController extends Funciones implements Initializable {
         thread.setDaemon(true);
         thread.start();
         iniTablaCitas();
-        //accionBotonesIni();
+        accionBotonesIni();
         fecha(fecha);
     }
     
@@ -140,21 +140,16 @@ public class MainSceneController extends Funciones implements Initializable {
     }
     
     private void iniTablaCitas(){
-        
-        Extraccion itc= new Extraccion ();
-        System.out.println("holis");
-        itc.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-        System.out.println("holis2");
-        ObservableList<Pacientes> tabla = FXCollections.observableArrayList(itc.getValue());
-        tabla_pac.setItems(tabla);
-        id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-        ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        Extraccion e= new Extraccion();
+        e.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent  event)->{
+            tabla_pac.setItems(e.getValue());
+            id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            status.setCellValueFactory(new PropertyValueFactory<>("status"));
         });
-        
-        new Thread(itc).start();
+        new Thread(e).start();
     }
     
     private void accionBotonesIni(){        
@@ -187,6 +182,16 @@ public class MainSceneController extends Funciones implements Initializable {
     }
        
     private void citaInformacion(){
+        Informacion_Cita ic= new Informacion_Cita(id_Cita);
+        
+        ic.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) ->{ 
+            
+            for (int i=0; i<ic.getValue().size();i++){
+                area_cita_ini.appendText(ic.getValue().get(i)+"\n");
+            }
+        
+        });
+        new Thread(ic).start();
         }
     
     private void backtoBeginning(){

@@ -19,6 +19,7 @@ com/integrador/POJO/Citas.class
 com/integrador/bloodcontrol/LogInController.class
 com/integrador/POJO/DirUsu.class
 com/integrador/POJO/Examen_.class
+com/integrador/Consultas/Informacion_Cita.class
 com/integrador/POJO/Paciente.class
 com/integrador/POJO/EstadoRegistro.class
 com/integrador/bloodcontrol/Funciones/Correos$1.class
