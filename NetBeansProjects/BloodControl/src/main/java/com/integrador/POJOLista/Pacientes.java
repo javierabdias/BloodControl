@@ -78,6 +78,8 @@ public class Pacientes {
         return status.get();
     }
 
+    
+    
     public void setStatus(String nombre) {
         this.status= new SimpleStringProperty(nombre);
     }
@@ -96,6 +98,11 @@ public class Pacientes {
         this.apeMat= new SimpleStringProperty(apeMat);
         this.hora= hora;
         this.status = new SimpleStringProperty(status);
+    }
+    
+     public Pacientes(String status, Date hora) {
+        this.status = new SimpleStringProperty(status);
+        this.hora = hora;
     }
     
     public Pacientes(Integer id, String examen){

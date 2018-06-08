@@ -105,7 +105,7 @@
                                  </font>
                               </Label>
                               <Pane layoutX="20.0" layoutY="87.0" opacity="0.28" prefHeight="5.0" prefWidth="279.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
-                              <JFXTextArea fx:id="area_cita_ini" editable="false" focusColor="#63bfde" layoutX="19.0" layoutY="167.0" prefHeight="70.0" prefWidth="284.0" unFocusColor="#505354" />
+                              <JFXTextArea fx:id="area_cita_ini" editable="false" focusColor="#63bfde" layoutX="25.0" layoutY="167.0" prefHeight="70.0" prefWidth="278.0" unFocusColor="#505354" />
                               <JFXCheckBox fx:id="cita_check_ini" checkedColor="#28aed7" layoutX="84.0" layoutY="268.0" text="Modificar status." unCheckedColor="#505354">
                                  <font>
                                     <Font size="15.0" />

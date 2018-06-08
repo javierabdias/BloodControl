@@ -4,6 +4,7 @@ package com.integrador.bloodcontrol;
 import com.integrador.Consultas.Extraccion;
 import com.integrador.Consultas.Informacion_Cita;
 import com.integrador.Consultas.Usuario;
+import com.integrador.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Laboratorista;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Funciones;
@@ -14,7 +15,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -120,7 +123,7 @@ public class MainSceneController extends Funciones implements Initializable {
     }    
     
     private void Inicio(){
-        ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","SIN REALIZAR");
+        ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","NO REALIZADO");
         combo_cita_ini.setItems(status);
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
@@ -162,7 +165,6 @@ public class MainSceneController extends Funciones implements Initializable {
             if (!tabla_pac.getSelectionModel().isEmpty()){ 
             area_cita_ini.setText("");
             id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
-            combo_cita_ini.setValue(tabla_pac.getSelectionModel().getSelectedItem().getStatus());
             citaInformacion();}
         });
         
@@ -177,6 +179,9 @@ public class MainSceneController extends Funciones implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e-> {
+            System.out.println(Status(combo_cita_ini.getValue()));
+            ExtraccionStatus ES= new ExtraccionStatus(id_Cita,Status(combo_cita_ini.getValue()));
+            new Thread(ES).start();
             backtoBeginning();
         });
     }
@@ -185,11 +190,16 @@ public class MainSceneController extends Funciones implements Initializable {
         Informacion_Cita ic= new Informacion_Cita(id_Cita);
         
         ic.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) ->{ 
-            
-            for (int i=0; i<ic.getValue().size();i++){
-                area_cita_ini.appendText(ic.getValue().get(i)+"\n");
+            List <Object> lista= (List) ic.getValue().get(0);
+            Pacientes pac = (Pacientes) ic.getValue().get(1);
+  
+            for (int i=0; i<lista.size();i++){
+                area_cita_ini.appendText("*     "+lista.get(i)+"\n");
             }
         
+            hora_cita_ini.setText(pac.getHora().toString());
+            cita_nom_ini.setText(pac.getNombre()+" "+pac.getApePat()+" "+pac.getApeMat());
+            combo_cita_ini.setValue(pac.getStatus());            
         });
         new Thread(ic).start();
         }
@@ -214,7 +224,14 @@ public class MainSceneController extends Funciones implements Initializable {
             new Thread (new AbrirVentana("/Pacientes/AgregarPaciente.fxml","Añadir Paciente")).start();
         });
     }
-       
+     
+    private String Status(String status){
+        if(status.equals("REALIZADO")){
+            return "R";
+        }
+        return "N";
+    }
+    
     }
         
 

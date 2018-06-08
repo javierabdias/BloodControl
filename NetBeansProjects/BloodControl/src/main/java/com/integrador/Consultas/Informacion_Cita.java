@@ -5,6 +5,7 @@
  */
 package com.integrador.Consultas;
 
+import com.integrador.POJOLista.Pacientes;
 import com.integrador.persistence.EManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import javax.persistence.Query;
  *
  * @author abdias
  */
-public class Informacion_Cita extends Task <List<String>>{
+public class Informacion_Cita extends Task <List<Object>>{
 
     int iden;
 
@@ -24,19 +25,31 @@ public class Informacion_Cita extends Task <List<String>>{
         this.iden = iden;
     }
     
-    List <String> lista = new ArrayList <>();
+    List <Object> lista = new ArrayList <>();
+    List <Object> general = new ArrayList <>();
     
     @Override
-    protected List<String> call() throws Exception {
+    protected List<Object> call() throws Exception {
     
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
+        
         Query query = em.createQuery("SELECT e.exaNom FROM Examen e join e.citasCollection r WHERE r.citId=:id");
         query.setParameter("id", iden);
         lista=query.getResultList();
+        
+        Query query2= em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes (A.citHora, B.perNombre, B.perAp, B.perAm,C.status) FROM Citas A, Persona B, StatusExa C, Paciente D "
+                + "WHERE C.staeId=A.staeId AND A.citId=:id AND D.perId=B.perId AND A.pacId=D.pacId");
+        query2.setParameter("id", iden);
+        Pacientes pac= (Pacientes) query2.getSingleResult();
+        
         em.getTransaction().commit();
         em.close();
-        return lista;
+        
+        general.add(lista);
+        general.add(pac);
+        
+        return general;
     }
     
 }
