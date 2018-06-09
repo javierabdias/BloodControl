@@ -5,12 +5,11 @@
  */
 package com.integrador.Modificaciones;
 
-import com.integrador.POJO.Citas;
+
 import com.integrador.POJO.StatusExa;
 import com.integrador.persistence.EManagerFactory;
 import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 /**
  *
@@ -34,8 +33,7 @@ public class ExtraccionStatus extends Task <Void>{
         em.getTransaction().begin();
         
         StatusExa se= em.find(StatusExa.class, status);
-        
-        Query query = em.createQuery("");
+        //Citas cita         
         
         em.getTransaction().commit();
         em.close();

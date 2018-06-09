@@ -27,7 +27,7 @@ public class Extraccion extends Task <ObservableList<Pacientes>>{
         EntityManager em= EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes (D.citId,B.perNombre,B.perAp,B.perAm,C.status) FROM Paciente A, Persona B, StatusExa C, Citas D"
-                + " WHERE A.perId=B.perId AND A.pacId=D.pacId AND C.staeId=D.staeId");
+                + " WHERE A.perId=B.perId AND A.pacId=D.pacId AND C.staeId=D.staeId AND A.erId='A'");
         tabla= FXCollections.observableArrayList(query.getResultList());
         em.getTransaction().commit();
         em.close();
