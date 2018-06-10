@@ -73,7 +73,10 @@ public class LogInController extends Funciones implements Initializable {
 
             if (txt_Usuario.getText().length() == 0 || txt_Contra.getText().length() == 0) {
                 Alertas.error("Error", "Casillas vacías", "Existen casillas vacías en el formulario, verifique");
-            } else {
+            } else if (!Admin.isSelected()&&!Recep.isSelected()&&!Lab.isSelected()){
+                 Alertas.error("Error", "Sin selección de usurio", "Elija un tipo de usuario para continuar.");
+            } 
+            else{
 
                 btn_aceptar.setDisable(true);
                 progress.setVisible(true);  

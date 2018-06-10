@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Recepcionista.findByRecId", query = "SELECT r FROM Recepcionista r WHERE r.recId = :recId")
     , @NamedQuery(name = "Recepcionista.findByRecCe", query = "SELECT r FROM Recepcionista r WHERE r.recCe = :recCe")
     , @NamedQuery(name = "Recepcionista.findByRecContra", query = "SELECT r FROM Recepcionista r WHERE r.recContra = :recContra")
-    , @NamedQuery(name = "Recepcionista.findByPacTel", query = "SELECT r FROM Recepcionista r WHERE r.pacTel = :pacTel")
-    , @NamedQuery(name = "Recepcionista.findByPacCel", query = "SELECT r FROM Recepcionista r WHERE r.pacCel = :pacCel")})
+    , @NamedQuery(name = "Recepcionista.findByRecTel", query = "SELECT r FROM Recepcionista r WHERE r.recTel = :recTel")
+    , @NamedQuery(name = "Recepcionista.findByRecCel", query = "SELECT r FROM Recepcionista r WHERE r.recCel = :recCel")})
 public class Recepcionista implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,10 +48,10 @@ public class Recepcionista implements Serializable {
     private String recCe;
     @Column(name = "REC_CONTRA")
     private String recContra;
-    @Column(name = "PAC_TEL")
-    private String pacTel;
-    @Column(name = "PAC_CEL")
-    private String pacCel;
+    @Column(name = "REC_TEL")
+    private String recTel;
+    @Column(name = "REC_CEL")
+    private String recCel;
     @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
     @ManyToOne
     private EstadoRegistro erId;
@@ -97,20 +97,20 @@ public class Recepcionista implements Serializable {
         this.recContra = recContra;
     }
 
-    public String getPacTel() {
-        return pacTel;
+    public String getRecTel() {
+        return recTel;
     }
 
-    public void setPacTel(String pacTel) {
-        this.pacTel = pacTel;
+    public void setRecTel(String recTel) {
+        this.recTel = recTel;
     }
 
-    public String getPacCel() {
-        return pacCel;
+    public String getRecCel() {
+        return recCel;
     }
 
-    public void setPacCel(String pacCel) {
-        this.pacCel = pacCel;
+    public void setRecCel(String recCel) {
+        this.recCel = recCel;
     }
 
     public EstadoRegistro getErId() {

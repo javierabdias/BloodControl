@@ -5,17 +5,17 @@ import com.integrador.Consultas.Extraccion;
 import com.integrador.Consultas.Informacion_Cita;
 import com.integrador.Consultas.Usuario;
 import com.integrador.Modificaciones.ExtraccionStatus;
-import com.integrador.POJOLista.Laboratorista;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
+import com.integrador.bloodcontrol.Funciones.Usuarios;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,9 +25,11 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -49,7 +51,27 @@ public class MainSceneController extends Funciones implements Initializable {
     private Label correo;
     @FXML
     private Label fecha;
+    @FXML
+    private JFXButton logout;
+    @FXML
+    private AnchorPane anchor;
+
     
+    //TABS PERMISOS
+    @FXML
+    private JFXTabPane tabPane;
+    @FXML
+    private Tab inicio;
+    @FXML
+    private Tab pacientes;
+    @FXML
+    private Tab citas;
+    @FXML
+    private Tab estudios;
+    @FXML
+    private Tab examenes;
+    @FXML
+    private Tab usuarios;
     
     //  ID's INICIO
     int id_Cita;
@@ -114,23 +136,93 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXButton exa_actualizar;
     
+    @FXML
+    private JFXButton pac_anadir2;
+    @FXML
+    private JFXButton pac_editar1;
+    @FXML
+    private JFXButton pac_anadir21;
+    @FXML
+    private Label hora_cita_ini11;
+    
+    @FXML
+    private JFXButton pac_anadir1;
+    
+    @FXML
+    private Label hora_cita_ini12;
+    @FXML
+    private Label cita_nom_ini11;
+    @FXML
+    private JFXButton pac_anadir11;
+    @FXML
+    private JFXButton exa_agregar1;
+    @FXML
+    private JFXButton exa_eliminar1;
+    @FXML
+    private JFXButton exa_modificar1;
+    @FXML
+    private JFXButton exa_actualizar1;
+ 
+ 
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        usuario();
         Inicio();
-        accionBotonesPac();
+        
+        switch (Usuarios.getTipo()){
+            case "Administrador":
+                Administrador();
+                break;
+            
+            case "Recepcionista":
+                Recepcionista();
+                break;
+                
+            case "Laboratorista":
+                Laboratorista();
+                break;
+        }
     }    
     
-    private void Inicio(){
+    
+    private void Administrador(){
+    
+    }
+    
+    
+    private void Laboratorista(){
         ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","NO REALIZADO");
         combo_cita_ini.setItems(status);
+        tabPane.getTabs().remove(usuarios);
+        iniTablaCitas();
+        accionBotonesIni();
+    
+    }
+    
+    private void Recepcionista(){
+        tabPane.getTabs().remove(inicio);
+        tabPane.getTabs().remove(estudios);
+        tabPane.getTabs().remove(examenes);
+        tabPane.getTabs().remove(usuarios);
+    }
+    
+   
+    
+    
+    private void Inicio(){
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
         thread.start();
-        iniTablaCitas();
-        accionBotonesIni();
         fecha(fecha);
+        usuario();
+        
+        logout.setOnAction(e ->{
+            anchor.getScene().getWindow().hide();
+            AbrirVentana2 av= new AbrirVentana2("/LogIn/LogIn.fxml","LogIn");
+            new Thread(av).start();
+        });
+        
     }
     
     private void usuario(){

@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
    <children>
       <Pane layoutX="-4.0" layoutY="-1.0" prefHeight="139.0" prefWidth="1100.0" style="-fx-background-color: #c0c0c0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <ImageView fitHeight="385.0" fitWidth="2270.0" layoutX="-618.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="151.0" fitWidth="1096.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@banner.png" />
+                  <Image url="@banner_1.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="89.0" fitWidth="85.0" layoutX="60.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
@@ -35,7 +35,7 @@
                   <Image url="@BloodControl-letras.png" />
                </image>
             </ImageView>
-            <Pane layoutX="810.0" layoutY="12.0" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: rgb(80,83,84,0.3); -fx-background-radius: 10;">
+            <Pane layoutX="758.0" layoutY="11.0" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: rgb(80,83,84,0.3); -fx-background-radius: 10;">
                <children>
                   <ImageView fitHeight="48.0" fitWidth="55.0" layoutX="8.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -56,12 +56,21 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
+            <JFXButton fx:id="logout" alignment="CENTER" buttonType="RAISED" layoutX="1035.0" layoutY="14.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#a5c3cd" style="-fx-background-color: #505554; -fx-background-radius: 50;">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
          </children>
       </Pane>
       <Pane layoutY="137.0" prefHeight="8.0" prefWidth="1096.0" style="-fx-background-color: #505354;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <JFXTabPane layoutX="-2.0" layoutY="145.0" prefHeight="545.0" prefWidth="1100.0" stylesheets="@../styles/TabPane.css" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-2.0">
+      <JFXTabPane fx:id="tabPane" layoutX="-2.0" layoutY="145.0" prefHeight="545.0" prefWidth="1100.0" stylesheets="@../styles/TabPane.css" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-2.0">
          <tabs>
-            <Tab text="Inicio">
+            <Tab fx:id="inicio" text="Inicio">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0">
                      <children>
@@ -133,7 +142,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-            <Tab text="Pacientes">
+            <Tab fx:id="pacientes" text="Pacientes">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -220,7 +229,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-            <Tab text="Citas">
+            <Tab fx:id="citas" text="Citas">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -309,7 +318,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-            <Tab text="Estudios">
+            <Tab fx:id="estudios" text="Estudios">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -385,7 +394,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-            <Tab text="Examenes">
+            <Tab fx:id="examenes" text="Examenes">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -476,7 +485,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-            <Tab text="Usuarios">
+            <Tab fx:id="usuarios" text="Usuarios">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
