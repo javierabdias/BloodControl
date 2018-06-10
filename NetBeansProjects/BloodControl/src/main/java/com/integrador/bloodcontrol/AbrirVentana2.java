@@ -23,6 +23,8 @@ import javafx.stage.WindowEvent;
 public class AbrirVentana2 extends Task <Void>{
     
     String ruta, nomVentana;
+    Stage cuerpo= new Stage();
+    Parent pane = null;
 
     public AbrirVentana2(String ruta, String nomVentana) {
         this.ruta = ruta;
@@ -31,20 +33,21 @@ public class AbrirVentana2 extends Task <Void>{
 
     @Override
     protected Void call() throws Exception {
+        
+        
+        
         Platform.runLater(() -> {
-            Parent root;
             try {
-                root = (Parent) FXMLLoader.load(MainApp.class.getResource(ruta));
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                scene.setFill(Color.TRANSPARENT);
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.setTitle(nomVentana);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
-                valCerrar(stage);
-                stage = null;
+              pane = FXMLLoader.load(com.integrador.bloodcontrol.MainApp.class.getResource(ruta));
+              Scene scene = new Scene(pane);
+              cuerpo.setScene(scene);
+              cuerpo.setResizable(false);
+              scene.setFill(Color.TRANSPARENT);
+              cuerpo.initStyle(StageStyle.TRANSPARENT);
+              cuerpo.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
+              cuerpo.centerOnScreen();
+              valCerrar(cuerpo);
+              cuerpo.show();
                 System.gc();
             } catch (IOException ex) {
                 Logger.getLogger(AbrirVentana2.class.getName()).log(Level.SEVERE, null, ex);
