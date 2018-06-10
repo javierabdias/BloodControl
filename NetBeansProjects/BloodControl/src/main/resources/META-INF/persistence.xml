@@ -16,7 +16,7 @@
     <class>com.integrador.POJO.Estudios</class>
     <class>com.integrador.POJO.Recepcionista</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/BLOODCONTROL?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.1.80:3306/BLOODCONTROL?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="RECEPCIONISTA"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="BloodRec."/>

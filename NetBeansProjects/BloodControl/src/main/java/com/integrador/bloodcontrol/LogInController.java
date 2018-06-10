@@ -3,6 +3,7 @@ package com.integrador.bloodcontrol;
 
 import com.integrador.Consultas.LogIn;
 import com.integrador.bloodcontrol.Funciones.Funciones;
+import com.integrador.bloodcontrol.Funciones.Usuarios;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
@@ -16,6 +17,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -23,8 +25,6 @@ import javafx.stage.Stage;
 
 //  ** CLASE CONTROLLER DE LOG-IN**
 public class LogInController extends Funciones implements Initializable {
-
-    public static int id_usuario;
 
     @FXML
     private AnchorPane anchor;
@@ -40,12 +40,25 @@ public class LogInController extends Funciones implements Initializable {
     private ImageView btn_cerrar;
     @FXML
     private ProgressIndicator progress;
+    @FXML
+    private JFXRadioButton Admin;
+    @FXML
+    private JFXRadioButton Recep;
+    @FXML
+    private JFXRadioButton Lab;
+    
+    public String tipo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         TextFieldNumeros(txt_Usuario);
         setTextFieldLimit(txt_Usuario, 6);
+        
+        ToggleGroup group = new ToggleGroup();
+        Admin.setToggleGroup(group);
+        Recep.setToggleGroup(group);
+        Lab.setToggleGroup(group);
 
         //Volver transparente AnchorPane
         anchor.setBackground(Background.EMPTY);
@@ -63,24 +76,18 @@ public class LogInController extends Funciones implements Initializable {
             } else {
 
                 btn_aceptar.setDisable(true);
-                progress.setVisible(true);
-
-                LogIn l = new LogIn(txt_Usuario.getText(), txt_Contra.getText());
-                l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                    
-                    boolean resultado = l.getValue();
-                    if (resultado) {
-                        mainFrame(); } 
-               
-                    else {
-                        progress.setVisible(false);
-                        btn_aceptar.setDisable(false);
-                        Alertas.error("Error", "Usuario o contraseña incorrectos.", "Verifique los datos de usuario y privilegios.");
-                        System.gc();
-                    }
-                });
+                progress.setVisible(true);  
                 
-                new Thread(l).start();
+                if(Admin.isSelected()){
+                    tipo= Admin.getText();
+                    Validacion();
+                }   else if(Recep.isSelected()){
+                    tipo= Recep.getText();
+                    Validacion();
+                }   else if (Lab.isSelected()){
+                    tipo= (Lab.getText());
+                    Validacion();
+                }
             }
         });
 
@@ -94,7 +101,8 @@ public class LogInController extends Funciones implements Initializable {
     //Método para abrir main frame
     public void mainFrame() {
         try {
-            id_usuario = Integer.valueOf(txt_Usuario.getText());
+            Usuarios.setId(Integer.valueOf(txt_Usuario.getText()));
+            Usuarios.setTipo(tipo);
             anchor.getScene().getWindow().hide();
             crearVentanas("/MainScene/MainScene.fxml", "BloodControl");
         } catch (IOException ex) {
@@ -102,4 +110,26 @@ public class LogInController extends Funciones implements Initializable {
             System.gc();
         }
     }
+    
+    
+    
+    
+    public void Validacion() {
+        LogIn l = new LogIn(txt_Usuario.getText(), txt_Contra.getText(), tipo);
+        l.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+
+            boolean resultado = l.getValue();
+            if (resultado) {
+                mainFrame();
+            } else {
+                progress.setVisible(false);
+                btn_aceptar.setDisable(false);
+                Alertas.error("Error", "Usuario o contraseña incorrectos.", "Verifique los datos de usuario y privilegios.");
+                System.gc();
+            }
+        });
+
+        new Thread(l).start();
+    }
+    
 }
