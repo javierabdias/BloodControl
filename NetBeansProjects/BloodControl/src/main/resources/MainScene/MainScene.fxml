@@ -74,15 +74,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0">
                      <children>
-                        <Pane layoutX="62.0" layoutY="46.0" prefHeight="410.0" prefWidth="596.0" style="-fx-background-color: #505354;">
+                        <Pane layoutX="36.0" layoutY="46.0" prefHeight="410.0" prefWidth="622.0" style="-fx-background-color: #505354;">
                            <children>
-                              <TableView fx:id="tabla_pac" layoutX="5.0" layoutY="4.0" prefHeight="402.0" prefWidth="585.0" stylesheets="@../styles/tabla.css">
+                              <TableView fx:id="tabla_pac" layoutX="7.0" layoutY="4.0" prefHeight="402.0" prefWidth="608.0" stylesheets="@../styles/tabla.css">
                                 <columns>
-                                  <TableColumn fx:id="id_pac" prefWidth="60.0" text="ID_Cita" />
-                                  <TableColumn fx:id="nom_pac" prefWidth="117.0" text="Nombre" />
-                                    <TableColumn fx:id="ape_pat" prefWidth="140.66668701171875" text="Apellido Paterno" />
-                                    <TableColumn fx:id="ape_mat" prefWidth="146.33331298828125" text="Apellido Materno" />
-                                    <TableColumn fx:id="status" prefWidth="119.0" text="Status" />
+                                  <TableColumn fx:id="id_pac" prefWidth="81.0" text="No. Cita" />
+                                  <TableColumn fx:id="nom_pac" prefWidth="126.0" text="Nombre" />
+                                    <TableColumn fx:id="ape_pat" prefWidth="136.0" text="Apellido Paterno" />
+                                    <TableColumn fx:id="ape_mat" prefWidth="141.0" text="Apellido Materno" />
+                                    <TableColumn fx:id="status" prefWidth="123.0" text="Extracción" />
                                 </columns>
                               </TableView>
                            </children>
@@ -148,15 +148,15 @@
                      <children>
                         <Pane layoutX="55.0" layoutY="90.0" prefHeight="397.0" prefWidth="985.0" style="-fx-background-color: #505354;">
                            <children>
-                              <TableView layoutX="5.0" layoutY="5.0" prefHeight="386.0" prefWidth="975.0">
+                              <TableView fx:id="pac_tabla" layoutX="5.0" layoutY="5.0" prefHeight="386.0" prefWidth="975.0" stylesheets="@../styles/tabla.css">
                                  <columns>
-                                    <TableColumn prefWidth="140.0" text="Nombre" />
-                                    <TableColumn prefWidth="140.0" text="Ape_Paterno" />
-                                    <TableColumn prefWidth="140.0" text="Ape_Materno" />
-                                    <TableColumn prefWidth="154.0" text="Correo_Electronico" />
-                                    <TableColumn prefWidth="140.0" text="Fecha_Nacimiento" />
-                                    <TableColumn prefWidth="130.0" text="Telefono" />
-                                    <TableColumn prefWidth="130.0" text="Celular" />
+                                    <TableColumn fx:id="pac_nombre" prefWidth="140.0" text="Nombre" />
+                                    <TableColumn fx:id="pac_ap" prefWidth="140.0" text="Ape_Paterno" />
+                                    <TableColumn fx:id="pac_am" prefWidth="140.0" text="Ape_Materno" />
+                                    <TableColumn fx:id="pac_correo" prefWidth="154.0" text="Correo_Electronico" />
+                                    <TableColumn fx:id="pac_fn" prefWidth="140.0" text="Fecha_Nacimiento" />
+                                    <TableColumn fx:id="pac_tel" prefWidth="130.0" text="Telefono" />
+                                    <TableColumn fx:id="pac_cel" prefWidth="130.0" text="Celular" />
                                  </columns>
                               </TableView>
                            </children>
@@ -202,7 +202,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </JFXButton>
-                              <JFXTextField focusColor="#63bfde" layoutX="101.0" layoutY="13.0" prefHeight="26.0" prefWidth="188.0" unFocusColor="#505354" />
+                              <JFXTextField fx:id="pac_buscar" focusColor="#63bfde" layoutX="101.0" layoutY="13.0" prefHeight="26.0" prefWidth="188.0" unFocusColor="#505354" />
                            </children>
                         </Pane>
                         <JFXButton fx:id="pac_actualizar" alignment="CENTER" buttonType="RAISED" layoutX="1004.0" layoutY="436.0" prefHeight="65.0" prefWidth="64.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">

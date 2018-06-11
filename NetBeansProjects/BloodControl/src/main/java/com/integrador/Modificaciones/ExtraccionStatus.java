@@ -6,6 +6,7 @@
 package com.integrador.Modificaciones;
 
 
+import com.integrador.POJO.Citas;
 import com.integrador.POJO.StatusExa;
 import com.integrador.persistence.EManagerFactory;
 import javafx.concurrent.Task;
@@ -20,10 +21,12 @@ public class ExtraccionStatus extends Task <Void>{
 
     int id;
     String status;
+    Thread actualizacion;
 
-    public ExtraccionStatus(int id, String status) {
+    public ExtraccionStatus(int id, String status, Thread actualizacion) {
         this.id = id;
         this.status = status;
+        this.actualizacion = actualizacion;
     }
 
     @Override
@@ -33,10 +36,14 @@ public class ExtraccionStatus extends Task <Void>{
         em.getTransaction().begin();
         
         StatusExa se= em.find(StatusExa.class, status);
-        //Citas cita         
+        Citas cita = em.find(Citas.class, id);
+        cita.setStaeId(se);
         
         em.getTransaction().commit();
         em.close();
+        
+        actualizacion.start();
+        
         return null;
     }
     

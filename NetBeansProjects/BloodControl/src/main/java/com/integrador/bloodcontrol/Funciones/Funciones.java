@@ -2,8 +2,16 @@ package com.integrador.bloodcontrol.Funciones;
 
 import com.integrador.bloodcontrol.MainApp;
 import com.integrador.persistence.EManagerFactory;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -95,5 +103,51 @@ public abstract class Funciones {
          }
      });   
   }
+  
+    public Date DatePickerParser(JFXDatePicker fnac) {
+
+        LocalDate local = fnac.getValue();
+        Instant instant = Instant.from(local.atStartOfDay(ZoneId.systemDefault()));
+        Date date = Date.from(instant);
+
+        return date;
+    }
+    
+    public boolean casillasVacias (List <JFXTextField> lista){
+    
+        for(int i=0; i< lista.size(); i++){
+            if(lista.get(i).getText().isEmpty()){
+                return false;
+            }
+        }
+    return true;
+    }
+    
+    public boolean validarEmailFuerte(String email)
+    {
+
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
+    
+    public boolean validarFechas(Date date){
+        
+        LocalDate local = LocalDate.now().minusYears(150);
+        Instant instant = Instant.from(local.atStartOfDay(ZoneId.systemDefault()));
+        
+        Date antes = Date.from(instant);       
+        Date hoy = new Date();
+        
+        if(!date.before(antes)&&!date.after(hoy)){
+            return true;
+        }
+        return false;
+    }
+    
+    
 
 }

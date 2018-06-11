@@ -22,27 +22,51 @@ import javax.persistence.Query;
 public class Usuario extends Task <List <Laboratorista>>{
     
     List <Laboratorista> lista = new ArrayList<>();
+    EntityManager em= EManagerFactory.getEntityManagerFactory().createEntityManager();
+    
+    String tipo;
+    int id;
+
+    public Usuario(String tipo, int id) {
+        this.tipo = tipo;
+        this.id = id;
+    }
     
     @Override
     protected List<Laboratorista> call() throws Exception {
-        
-        EntityManager em= EManagerFactory.getEntityManagerFactory().createEntityManager();
-       
+
+        String queries = "";
+
+        switch (tipo) {
+
+            case "Administrador":
+                queries = "SELECT NEW com.integrador.POJOLista.Laboratorista (B.perNombre,B.perAp,B.perAm,A.admCe) "
+                        + "FROM Administrador A, Persona B WHERE A.perId=B.perId AND A.admId=:id";
+                break;
+
+            case "Recepcionista":
+                queries = "SELECT NEW com.integrador.POJOLista.Laboratorista (B.perNombre,B.perAp,B.perAm,A.recCe) "
+                        + "FROM Recepcionista A, Persona B WHERE A.perId=B.perId AND A.recId=:id";
+                break;
+
+            case "Laboratorista":
+                queries = "SELECT NEW com.integrador.POJOLista.Laboratorista (B.perNombre,B.perAp,B.perAm,A.labCe) "
+                        + "FROM Laboratorista A, Persona B WHERE A.perId=B.perId AND A.labId=:id";
+                break;
+        }
+
         em.getTransaction().begin();
-        Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Laboratorista (B.perNombre,B.perAp,B.perAm,A.labCe) "
-                + "FROM Laboratorista A, Persona B WHERE A.perId=B.perId AND A.labId=:id");
-        query.setParameter("id", Usuarios.getId());
-        lista= query.getResultList();
+        Query query = em.createQuery(queries);
+        query.setParameter("id", id);
+        lista = query.getResultList();
         em.getTransaction().commit();
         em.close();
-        
-        if(!lista.isEmpty()){
+
+        if (!lista.isEmpty()) {
             return lista;
-        }
-        
-        else {
+        } else {
             return null;
         }
     }
-    
+
 }

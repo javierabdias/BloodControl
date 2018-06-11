@@ -1,8 +1,10 @@
 package com.integrador.bloodcontrol;
 
 
+import Eliminaciones.EliminarPaciente;
 import com.integrador.Consultas.Extraccion;
 import com.integrador.Consultas.Informacion_Cita;
+import com.integrador.Consultas.Paciente_Tabla;
 import com.integrador.Consultas.Usuario;
 import com.integrador.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
@@ -14,13 +16,17 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,7 +80,9 @@ public class MainSceneController extends Funciones implements Initializable {
     private Tab usuarios;
     
     //  ID's INICIO
+    
     int id_Cita;
+    
     @FXML
     private TableColumn<Pacientes, String> nom_pac;
     @FXML
@@ -87,6 +95,7 @@ public class MainSceneController extends Funciones implements Initializable {
     private TableColumn<Pacientes, String> ape_pat;
     @FXML
     private TableColumn<Pacientes, String> ape_mat;
+    
     @FXML
     private JFXButton ini_actualizar;
     @FXML
@@ -115,6 +124,9 @@ public class MainSceneController extends Funciones implements Initializable {
     
     
     //  PACIENTES
+    
+    Paciente_Tabla pt = new Paciente_Tabla();
+    
     @FXML
     private JFXButton pac_anadir;
     @FXML
@@ -123,6 +135,27 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton pac_eliminar;
     @FXML
     private JFXButton pac_actualizar;
+   
+    @FXML
+    private TableView<Pacientes> pac_tabla;
+    @FXML
+    private TableColumn<Pacientes, String> pac_nombre;
+    @FXML
+    private TableColumn<Pacientes, String> pac_ap;
+    @FXML
+    private TableColumn<Pacientes, String> pac_am;
+    @FXML
+    private TableColumn<Pacientes, String> pac_correo;
+    @FXML
+    private TableColumn<Pacientes, Date> pac_fn;
+    @FXML
+    private TableColumn<Pacientes, String> pac_tel;
+    @FXML
+    private TableColumn<Pacientes, String> pac_cel;
+    @FXML
+    private JFXTextField pac_buscar;
+    
+    
     @FXML
     private Label hora_cita_ini1;
     @FXML
@@ -162,6 +195,8 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton exa_modificar1;
     @FXML
     private JFXButton exa_actualizar1;
+    
+    
  
  
     
@@ -186,30 +221,51 @@ public class MainSceneController extends Funciones implements Initializable {
     }    
     
     
+    //// -- *** Métodos de tipo de usuario 
+    
+    
     private void Administrador(){
     
     }
     
     
     private void Laboratorista(){
+        
+        /// PERMISOS
+        
+        tabPane.getTabs().remove(usuarios);
+        
+        /// INICIO
+        
         ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","NO REALIZADO");
         combo_cita_ini.setItems(status);
-        tabPane.getTabs().remove(usuarios);
         iniTablaCitas();
         accionBotonesIni();
+        
+        /// PACIENTES
+        pacienteTabla();
+        new Thread (pt).start();
+        accionBotonesPac();
     
     }
     
     private void Recepcionista(){
+        
+        /// PERMISOS
+        
         tabPane.getTabs().remove(inicio);
         tabPane.getTabs().remove(estudios);
         tabPane.getTabs().remove(examenes);
         tabPane.getTabs().remove(usuarios);
+        
+        /// PACIENTES
+        pacienteTabla();
+        accionBotonesPac();
+        new Thread (pt).start();
     }
     
-   
-    
-    
+    //// -- *** Métodos de Inicio
+  
     private void Inicio(){
         Thread thread= new Thread(new Reloj(reloj));
         thread.setDaemon(true);
@@ -226,7 +282,7 @@ public class MainSceneController extends Funciones implements Initializable {
     }
     
     private void usuario(){
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Usuario(Usuarios.getTipo(),Usuarios.getId());
         usuario.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             id.setText(usuario.getValue().get(0).getNombre()+" "+usuario.getValue().get(0).getApePat()+" "+usuario.getValue().get(0).getApeMat());
             correo.setText(usuario.getValue().get(0).getCorreo());
@@ -271,8 +327,16 @@ public class MainSceneController extends Funciones implements Initializable {
         });
         
         ace_cita_ini.setOnAction(e-> {
-            System.out.println(Status(combo_cita_ini.getValue()));
-            ExtraccionStatus ES= new ExtraccionStatus(id_Cita,Status(combo_cita_ini.getValue()));
+            Extraccion ex= new Extraccion();
+            ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent  event)->{
+            tabla_pac.setItems(ex.getValue());
+            id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        });
+            ExtraccionStatus ES= new ExtraccionStatus(id_Cita,Status(combo_cita_ini.getValue()),new Thread(ex));
             new Thread(ES).start();
             backtoBeginning();
         });
@@ -310,12 +374,6 @@ public class MainSceneController extends Funciones implements Initializable {
         Date myDate = new Date();
         l1.setText(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
     }
-    
-    private void accionBotonesPac(){
-        pac_anadir.setOnAction(e->{
-            new Thread (new AbrirVentana("/Pacientes/AgregarPaciente.fxml","Añadir Paciente")).start();
-        });
-    }
      
     private String Status(String status){
         if(status.equals("REALIZADO")){
@@ -324,6 +382,136 @@ public class MainSceneController extends Funciones implements Initializable {
         return "N";
     }
     
+   
+    
+    
+   //// -- *** Métodos de Paciente
+    
+    private void pacienteTabla() {
+        pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            pac_tabla.setItems(pt.getValue());
+            pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
+            pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+            pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
+
+            FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
+
+            pac_buscar.setOnKeyReleased(e -> {
+                pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                    datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
+
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lower = newValue.toLowerCase();
+
+                        if (paciente.getApePat().toLowerCase().contains(lower)) {
+                            return true;
+                        } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
+                            return true;
+                        }
+                        return false;
+                    });
+                });
+            });
+            SortedList<Pacientes> datosCambio = new SortedList<>(datos);
+            datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
+            pac_tabla.setItems(datosCambio);
+        });
+
+    }
+    
+    private void accionBotonesPac() {
+        pac_anadir.setOnAction(e -> {
+            new Thread(new AbrirVentana("/Pacientes/Switch.fxml", "Añadir Paciente")).start();
+        });
+        
+        pac_actualizar.setOnAction(e-> { 
+            Paciente_Tabla pt = new Paciente_Tabla();
+            pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            pac_tabla.setItems(pt.getValue());
+            pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
+            pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+            pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
+
+            FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
+
+            pac_buscar.setOnKeyReleased(d -> {
+                pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                    datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
+
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lower = newValue.toLowerCase();
+
+                        if (paciente.getApePat().toLowerCase().contains(lower)) {
+                            return true;
+                        } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
+                            return true;
+                        }
+                        return false;
+                    });
+                });
+            });
+            SortedList<Pacientes> datosCambio = new SortedList<>(datos);
+            datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
+            pac_tabla.setItems(datosCambio);
+        });
+            
+            new Thread (pt).start();
+        });
+        
+        pac_eliminar.setOnAction(e -> {
+            Paciente_Tabla pt = new Paciente_Tabla();
+            pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            pac_tabla.setItems(pt.getValue());
+            pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
+            pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+            pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
+
+            FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
+
+            pac_buscar.setOnKeyReleased(d -> {
+                pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                    datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
+
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lower = newValue.toLowerCase();
+
+                        if (paciente.getApePat().toLowerCase().contains(lower)) {
+                            return true;
+                        } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
+                            return true;
+                        }
+                        return false;
+                    });
+                });
+            });
+            SortedList<Pacientes> datosCambio = new SortedList<>(datos);
+            datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
+            pac_tabla.setItems(datosCambio);
+        });
+            String correo= pac_tabla.getSelectionModel().getSelectedItem().getCorreo();
+            System.out.println(correo);
+            new Thread (new EliminarPaciente(correo,new Thread(pt))).start();
+        });
+    }
+
     }
         
 

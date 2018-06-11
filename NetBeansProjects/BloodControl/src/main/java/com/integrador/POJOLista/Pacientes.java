@@ -19,9 +19,14 @@ public class Pacientes {
     private StringProperty nombre;
     private StringProperty apePat;
     private StringProperty apeMat;
+    private StringProperty correo;
     private StringProperty status;
+    private Date fecha;
     private Date hora;
     private StringProperty examen;
+    private StringProperty tel;
+     private StringProperty cel;
+    
 
         
     public Integer getId() {
@@ -35,6 +40,22 @@ public class Pacientes {
     public String getNombre() {
         return nombre.get();
     }
+    
+    public String getCorreo() {
+        return correo.get();
+    }
+    
+    public String getTel() {
+        return tel.get();
+    }
+    
+    public String getCel() {
+        return cel.get();
+    }
+     
+    public Date getFecha(){
+        return fecha;
+    }
 
     public Date getHora() {
         return hora;
@@ -44,10 +65,21 @@ public class Pacientes {
         this.hora = hora;
     }
     
-    
 
     public void setNombre(String nombre) {
         this.nombre= new SimpleStringProperty(nombre);
+    }
+    
+    public void setCorreo(String correo) {
+        this.correo= new SimpleStringProperty(correo);
+    }
+    
+    public void setTel(String tel) {
+        this.tel= new SimpleStringProperty(tel);
+    }
+    
+    public void setCel(String cel) {
+        this.cel= new SimpleStringProperty(cel);
     }
     
     public String getExamen() {
@@ -98,6 +130,16 @@ public class Pacientes {
         this.apeMat= new SimpleStringProperty(apeMat);
         this.hora= hora;
         this.status = new SimpleStringProperty(status);
+    }
+    
+    public Pacientes(String nombre, String apePat, String apeMat, String correo, Date fecha, String tel, String cel) {
+        this.nombre = new SimpleStringProperty(nombre);
+        this.apePat= new SimpleStringProperty(apePat);
+        this.apeMat= new SimpleStringProperty(apeMat);
+        this.correo = new SimpleStringProperty(correo);
+        this.fecha = fecha;
+        this.tel = new SimpleStringProperty(tel);
+        this.cel = new SimpleStringProperty(cel);
     }
     
      public Pacientes(String status, Date hora) {
