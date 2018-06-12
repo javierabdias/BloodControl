@@ -59,7 +59,6 @@ public class AgregarPacienteController extends Funciones implements Initializabl
 
     List <JFXTextField> textfields = new ArrayList <>();
     
-    Thread hilo;
     
     /**
      * Initializes the controller class.
@@ -90,7 +89,7 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             else{
                 progress.setVisible(true);
                 new Thread(task).start();
-               
+                anchor.getScene().getWindow().hide();
             }
         });     
         
@@ -141,7 +140,7 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             }
             
             if(!cel.getText().isEmpty()){
-                paciente.setPacTel(cel.getText());
+                paciente.setPacCel(cel.getText());
             }
             
             paciente.setPacCe(mail.getText());
@@ -164,7 +163,7 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             
             progress.setVisible(false);
             
-            anchor.getScene().getWindow().hide();
+            
             return null;
         }
 

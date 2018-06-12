@@ -15,9 +15,10 @@ import com.integrador.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -53,73 +54,88 @@ public class SwitchController extends Funciones implements Initializable {
         
         button.setDisable(true);
         
+        cambio.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+           
+            if(cambio.getValue()){
+            
+                button.setText("Reactivar");
+                button.setDisable(false);
+                status.setText("Paciente encontrado,\nreactivar cuenta.");
+                button.setOnAction(e -> {
+                    new Thread(reactivar).start();
+                    anchor.getScene().getWindow().hide();
+                });
+            
+            } else {
+            
+                button.setText("Añadir");
+                button.setDisable(false);
+                status.setText("Paciente no encontrado,\ningresarlo al sistema.");
+                button.setOnAction(e -> {
+                   anchor.getScene().getWindow().hide(); 
+                   new Thread (new AbrirVentana("/Pacientes/AgregarPaciente.fxml", "Añadir Paciente")).start();
+                });
+            }
+        });
+        
         verificar.setOnAction(e -> {
             new Thread(cambio).start();
+            verificar.setDisable(true);
         });
       
         
         
     }    
     
-    Task<Void> cambio = new Task<Void>() {
+    Task<Boolean> cambio = new Task<Boolean>() {
         @Override
-        protected Void call() throws Exception {
+        protected Boolean call() throws Exception {
 
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
-
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
             query.setParameter("pacCe", ce.getText());
-
-             if (!query.getSingleResult().equals(null)) {
-                
-                Platform.runLater(() -> {
-                    button.setText("Reactivar");
-                    button.setDisable(false);
-                    status.setText("Paciente encontrado,\nreactivar cuenta.");
-                    button.setOnAction(e -> {
-                        Paciente pac = (Paciente) query.getSingleResult();
-                        EstadoRegistro er = em.find(EstadoRegistro.class, "A");
-                        Persona persona = em.find(Persona.class, pac.getPerId().getPerId());
-                        pac.setErId(er);
-                        em.persist(pac);
-                        em.getTransaction().commit();
-                        em.close();
-
-                        CorreoTexto correo = new CorreoTexto();
-                        correo.setBienvenida("Bienvenido a BloodControl\nLa salud es siempre lo más importante.");
-                        correo.setNombre("Buen día, " + persona.getPerNombre() + " " + persona.getPerAp() + " " + persona.getPerAm());
-                        correo.setMensaje(" \n\n Se comparte con usted la información relevante sobre su cuenta.\n"
-                                + "CORREO ELECTRÓNICO: " + pac.getPacCe() + "\n CONTRASEÑA TEMPORAL: " + pac.getPacContra()
-                                + "\n\n             Muchas gracias."
-                                + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
-
-                        correo.setCorreo(pac.getPacCe());
-                        new Thread(correo).start();
-
-                        anchor.getScene().getWindow().hide();
-                    });
-
-                });
-
-
+            List <Paciente> lista= query.getResultList();
+            em.getTransaction().commit();
+            em.close();
+            
+            
+            if(lista.size()!=0){
+                return true;
             } else {
-                Platform.runLater(() -> {
-                    button.setText("Añadir");
-                    button.setDisable(false);
-                    status.setText("Paciente no encontrado,\ningresarlo al sistema.");
-                    button.setOnAction(e -> {
-                        new Thread(new AbrirVentana("/Pacientes/AgregarPacientes.fxml", "Añadir Paciente")).start();
-                    em.getTransaction().commit();
-                    em.close();
-                    });
-                });
-                
-                
+                return false;
             }
-
-            return null;
         }
     };
+    
+    Task <Void> reactivar = new Task <Void> () {
+                @Override
+                protected Void call() throws Exception {
+                    
+                    EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
+                    em.getTransaction().begin();
+                    Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
+                    query.setParameter("pacCe", ce.getText());
+                    Paciente pac = (Paciente) query.getSingleResult();
+                    EstadoRegistro er = em.find(EstadoRegistro.class, "A");
+                    Persona persona = em.find(Persona.class, pac.getPerId().getPerId());
+                    pac.setErId(er);
+                    em.persist(pac);
+                    em.getTransaction().commit();
+                    em.close();
 
+                    CorreoTexto correo = new CorreoTexto();
+                    correo.setBienvenida("Bienvenido a BloodControl\nLa salud es siempre lo más importante.");
+                    correo.setNombre("Buen día, " + persona.getPerNombre() + " " + persona.getPerAp() + " " + persona.getPerAm());
+                    correo.setMensaje(" \n\n Se comparte con usted la información relevante sobre su cuenta.\n"
+                            + "CORREO ELECTRÓNICO: " + pac.getPacCe() + "\n CONTRASEÑA TEMPORAL: " + pac.getPacContra()
+                            + "\n\n             Muchas gracias."
+                            + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
+
+                    correo.setCorreo(pac.getPacCe());
+                    new Thread(correo).start();
+
+                    return null;    
+                }
+    };       
 }

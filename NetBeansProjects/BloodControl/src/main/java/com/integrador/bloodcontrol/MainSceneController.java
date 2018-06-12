@@ -125,7 +125,7 @@ public class MainSceneController extends Funciones implements Initializable {
     
     //  PACIENTES
     
-    Paciente_Tabla pt = new Paciente_Tabla();
+   
     
     @FXML
     private JFXButton pac_anadir;
@@ -244,7 +244,6 @@ public class MainSceneController extends Funciones implements Initializable {
         
         /// PACIENTES
         pacienteTabla();
-        new Thread (pt).start();
         accionBotonesPac();
     
     }
@@ -261,7 +260,6 @@ public class MainSceneController extends Funciones implements Initializable {
         /// PACIENTES
         pacienteTabla();
         accionBotonesPac();
-        new Thread (pt).start();
     }
     
     //// -- *** Métodos de Inicio
@@ -388,6 +386,7 @@ public class MainSceneController extends Funciones implements Initializable {
    //// -- *** Métodos de Paciente
     
     private void pacienteTabla() {
+        Paciente_Tabla pt = new Paciente_Tabla();
         pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             pac_tabla.setItems(pt.getValue());
             pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -422,7 +421,7 @@ public class MainSceneController extends Funciones implements Initializable {
             datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
             pac_tabla.setItems(datosCambio);
         });
-
+        new Thread (pt).start();
     }
     
     private void accionBotonesPac() {
