@@ -1,7 +1,7 @@
 package com.integrador.bloodcontrol;
 
 
-import com.integrador.Consultas.LogIn;
+import com.integrador.bloodcontrol.Consultas.LogIn;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
 import com.jfoenix.controls.JFXButton;

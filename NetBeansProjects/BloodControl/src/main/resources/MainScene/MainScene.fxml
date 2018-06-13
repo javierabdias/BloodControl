@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
    <children>
       <Pane layoutX="-4.0" layoutY="-1.0" prefHeight="139.0" prefWidth="1100.0" style="-fx-background-color: #c0c0c0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -153,10 +153,10 @@
                                     <TableColumn fx:id="pac_nombre" prefWidth="140.0" text="Nombre" />
                                     <TableColumn fx:id="pac_ap" prefWidth="140.0" text="Ape_Paterno" />
                                     <TableColumn fx:id="pac_am" prefWidth="140.0" text="Ape_Materno" />
-                                    <TableColumn fx:id="pac_correo" prefWidth="154.0" text="Correo_Electronico" />
-                                    <TableColumn fx:id="pac_fn" prefWidth="140.0" text="Fecha_Nacimiento" />
-                                    <TableColumn fx:id="pac_tel" prefWidth="130.0" text="Telefono" />
-                                    <TableColumn fx:id="pac_cel" prefWidth="130.0" text="Celular" />
+                                    <TableColumn fx:id="pac_correo" prefWidth="202.0" text="Correo_Electronico" />
+                                    <TableColumn fx:id="pac_fn" prefWidth="142.0" text="Fecha_Nacimiento" />
+                                    <TableColumn fx:id="pac_tel" prefWidth="106.0" text="Telefono" />
+                                    <TableColumn fx:id="pac_cel" prefWidth="104.0" text="Celular" />
                                  </columns>
                               </TableView>
                            </children>

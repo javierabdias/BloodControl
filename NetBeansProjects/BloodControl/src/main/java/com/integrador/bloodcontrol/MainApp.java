@@ -1,6 +1,6 @@
 package com.integrador.bloodcontrol;
 
-import com.integrador.persistence.Conexion;
+import com.integrador.bloodcontrol.persistence.Conexion;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;

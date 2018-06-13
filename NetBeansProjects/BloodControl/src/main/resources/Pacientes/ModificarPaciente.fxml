@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="400.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.Paciente.ModificarPacienteController">
+   <children>
+      <Pane prefHeight="79.0" prefWidth="404.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="181.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@editar.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="nom" focusColor="#63bfde" labelFloat="true" layoutX="19.0" layoutY="101.0" prefHeight="32.0" prefWidth="175.0" promptText="Nombre" unFocusColor="#505453" />
+      <JFXTextField fx:id="apePat" focusColor="#63bfde" labelFloat="true" layoutX="208.0" layoutY="101.0" prefHeight="32.0" prefWidth="175.0" promptText="Apellido Paterno" unFocusColor="#505453" />
+      <JFXTextField fx:id="apeMat" focusColor="#63bfde" labelFloat="true" layoutX="19.0" layoutY="151.0" prefHeight="32.0" prefWidth="175.0" promptText="Apellido Materno" unFocusColor="#505453" />
+      <JFXTextField fx:id="mail" focusColor="#63bfde" labelFloat="true" layoutX="208.0" layoutY="151.0" prefHeight="32.0" prefWidth="175.0" promptText="Correo Electronico" unFocusColor="#505453" />
+      <JFXDatePicker fx:id="fnac" defaultColor="#63bfde" layoutX="20.0" layoutY="201.0" prefHeight="32.0" prefWidth="175.0" promptText="Fecha Nacimiento" />
+      <JFXTextField fx:id="tel" focusColor="#63bfde" labelFloat="true" layoutX="208.0" layoutY="201.0" prefHeight="32.0" prefWidth="175.0" promptText="Telefono" unFocusColor="#505453" />
+      <JFXTextField fx:id="cel" focusColor="#63bfde" labelFloat="true" layoutX="112.0" layoutY="252.0" prefHeight="32.0" prefWidth="175.0" promptText="Celular" unFocusColor="#505453" />
+      <JFXButton fx:id="btn_aceptar" layoutX="57.0" layoutY="310.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="241.0" layoutY="310.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="269.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="232.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo16x16.png" />
+         </image>
+      </ImageView>
+      <ProgressIndicator fx:id="progress" layoutX="11.0" layoutY="359.0" prefHeight="32.0" prefWidth="31.0" stylesheets="@../styles/ProgressIndicator_1.css" visible="false" />
+   </children>
+</AnchorPane>

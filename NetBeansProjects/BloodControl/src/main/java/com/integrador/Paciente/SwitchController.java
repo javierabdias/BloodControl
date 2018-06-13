@@ -5,13 +5,13 @@
  */
 package com.integrador.Paciente;
 
-import com.integrador.POJO.EstadoRegistro;
-import com.integrador.POJO.Paciente;
-import com.integrador.POJO.Persona;
+import com.integrador.bloodcontrol.POJO.EstadoRegistro;
+import com.integrador.bloodcontrol.POJO.Paciente;
+import com.integrador.bloodcontrol.POJO.Persona;
 import com.integrador.bloodcontrol.AbrirVentana;
 import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
-import com.integrador.persistence.EManagerFactory;
+import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;

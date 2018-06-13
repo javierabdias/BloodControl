@@ -5,13 +5,13 @@
  */
 package com.integrador.Paciente;
 
-import com.integrador.POJO.EstadoRegistro;
-import com.integrador.POJO.Paciente;
-import com.integrador.POJO.Persona;
+import com.integrador.bloodcontrol.POJO.EstadoRegistro;
+import com.integrador.bloodcontrol.POJO.Paciente;
+import com.integrador.bloodcontrol.POJO.Persona;
 import com.integrador.bloodcontrol.Alertas;
 import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
-import com.integrador.persistence.EManagerFactory;
+import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -137,10 +137,14 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             
             if(!tel.getText().isEmpty()){
                 paciente.setPacTel(tel.getText());
+            } else {
+                paciente.setPacTel("0000000000");
             }
             
             if(!cel.getText().isEmpty()){
                 paciente.setPacCel(cel.getText());
+            } else {
+                paciente.setPacCel("0000000000");
             }
             
             paciente.setPacCe(mail.getText());
@@ -161,7 +165,7 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             correo.setCorreo(paciente.getPacCe());
             new Thread (correo).start();
             
-            progress.setVisible(false);
+            
             
             
             return null;

@@ -1,7 +1,7 @@
 package com.integrador.bloodcontrol.Funciones;
 
 import com.integrador.bloodcontrol.MainApp;
-import com.integrador.persistence.EManagerFactory;
+import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;

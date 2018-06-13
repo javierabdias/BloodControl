@@ -1,12 +1,12 @@
 package com.integrador.bloodcontrol;
 
 
-import Eliminaciones.EliminarPaciente;
-import com.integrador.Consultas.Extraccion;
-import com.integrador.Consultas.Informacion_Cita;
-import com.integrador.Consultas.Paciente_Tabla;
-import com.integrador.Consultas.Usuario;
-import com.integrador.Modificaciones.ExtraccionStatus;
+import com.integrador.bloodcontrol.Eliminaciones.EliminarPaciente;
+import com.integrador.bloodcontrol.Consultas.Extraccion;
+import com.integrador.bloodcontrol.Consultas.Informacion_Cita;
+import com.integrador.bloodcontrol.Consultas.Paciente_Tabla;
+import com.integrador.bloodcontrol.Consultas.Usuario;
+import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
@@ -125,7 +125,7 @@ public class MainSceneController extends Funciones implements Initializable {
     
     //  PACIENTES
     
-   
+    private static Pacientes paciente;
     
     @FXML
     private JFXButton pac_anadir;
@@ -195,11 +195,11 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton exa_modificar1;
     @FXML
     private JFXButton exa_actualizar1;
-    
-    
- 
- 
-    
+
+    public static Pacientes getPaciente() {
+        return paciente;
+    }
+       
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -222,12 +222,10 @@ public class MainSceneController extends Funciones implements Initializable {
     
     
     //// -- *** Métodos de tipo de usuario 
-    
-    
+        
     private void Administrador(){
     
     }
-    
     
     private void Laboratorista(){
         
@@ -262,7 +260,7 @@ public class MainSceneController extends Funciones implements Initializable {
         accionBotonesPac();
     }
     
-    //// -- *** Métodos de Inicio
+    //// -- *** Métodos de Inicio Laboratorista
   
     private void Inicio(){
         Thread thread= new Thread(new Reloj(reloj));
@@ -382,7 +380,6 @@ public class MainSceneController extends Funciones implements Initializable {
     
    
     
-    
    //// -- *** Métodos de Paciente
     
     private void pacienteTabla() {
@@ -430,43 +427,7 @@ public class MainSceneController extends Funciones implements Initializable {
         });
         
         pac_actualizar.setOnAction(e-> { 
-            Paciente_Tabla pt = new Paciente_Tabla();
-            pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-            pac_tabla.setItems(pt.getValue());
-            pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-            pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-            pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-            pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
-            pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-            pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
-            pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
-
-            FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
-
-            pac_buscar.setOnKeyReleased(d -> {
-                pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                    datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
-
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        String lower = newValue.toLowerCase();
-
-                        if (paciente.getApePat().toLowerCase().contains(lower)) {
-                            return true;
-                        } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
-                            return true;
-                        }
-                        return false;
-                    });
-                });
-            });
-            SortedList<Pacientes> datosCambio = new SortedList<>(datos);
-            datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
-            pac_tabla.setItems(datosCambio);
-        });
-            
-            new Thread (pt).start();
+            pacienteTabla();
         });
         
         pac_eliminar.setOnAction(e -> {
@@ -505,11 +466,25 @@ public class MainSceneController extends Funciones implements Initializable {
             datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
             pac_tabla.setItems(datosCambio);
         });
+            if(!pac_tabla.getSelectionModel().isEmpty()){
             String correo= pac_tabla.getSelectionModel().getSelectedItem().getCorreo();
-            System.out.println(correo);
             new Thread (new EliminarPaciente(correo,new Thread(pt))).start();
+            } else {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            }
+        });
+        
+        pac_editar.setOnAction( e -> {
+            if(!pac_tabla.getSelectionModel().isEmpty()){
+            paciente=pac_tabla.getSelectionModel().getSelectedItem();
+            new Thread(new AbrirVentana("/Pacientes/ModificarPaciente.fxml", "Modificar Paciente")).start();
+            } else {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            }
         });
     }
+    
+    
 
     }
         

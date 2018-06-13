@@ -1,6 +1,6 @@
 package com.integrador.bloodcontrol;
 
-import com.integrador.persistence.EManagerFactory;
+import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
