@@ -1,4 +1,5 @@
 com/integrador/bloodcontrol/POJO/Citas.class
+com/integrador/bloodcontrol/Consultas/Cita_Tabla.class
 com/integrador/bloodcontrol/SplashController.class
 com/integrador/Paciente/SwitchController$1.class
 com/integrador/bloodcontrol/Consultas/Informacion_Cita.class
@@ -43,6 +44,7 @@ com/integrador/bloodcontrol/POJO/Laboratorista_.class
 com/integrador/bloodcontrol/persistence/EManagerFactory.class
 com/integrador/bloodcontrol/POJO/Administrador.class
 com/integrador/bloodcontrol/AbrirVentana.class
+com/integrador/POJOLista/Cita.class
 com/integrador/bloodcontrol/POJO/Pagos_.class
 com/integrador/Paciente/SwitchController$2.class
 com/integrador/Paciente/ModificarPacienteController.class

@@ -1,6 +1,7 @@
 package com.integrador.bloodcontrol;
 
 
+import com.integrador.POJOLista.Cita;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarPaciente;
 import com.integrador.bloodcontrol.Consultas.Extraccion;
 import com.integrador.bloodcontrol.Consultas.Informacion_Cita;
@@ -8,6 +9,7 @@ import com.integrador.bloodcontrol.Consultas.Paciente_Tabla;
 import com.integrador.bloodcontrol.Consultas.Usuario;
 import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
+import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
@@ -28,6 +30,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -67,7 +70,9 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXTabPane tabPane;
     @FXML
-    private Tab inicio;
+    private Tab inicio_lab;
+    @FXML
+    private Tab inicio_rec;
     @FXML
     private Tab pacientes;
     @FXML
@@ -78,6 +83,8 @@ public class MainSceneController extends Funciones implements Initializable {
     private Tab examenes;
     @FXML
     private Tab usuarios;
+    
+    
     
     //  ID's INICIO
     
@@ -112,6 +119,7 @@ public class MainSceneController extends Funciones implements Initializable {
     private Label cita_nom_ini;
     
    
+    
     //  CITAS
     @FXML
     private JFXButton cit_agregar;
@@ -121,6 +129,29 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton cit_modificar;
     @FXML
     private JFXButton cit_eliminar;
+
+    @FXML
+    private TableView<Cita> cit_tabla;
+    @FXML
+    private TableColumn<Cita, String> cit_Nom;
+    @FXML
+    private TableColumn<Cita, String> cit_ApePat;
+    @FXML
+    private TableColumn<Cita, String> cit_ApeMat;
+    @FXML
+    private TableColumn<Cita, Date> cit_fecha;
+    @FXML
+    private TableColumn<Cita, Date> cit_hora;
+    @FXML
+    private TableColumn<Cita, String> cit_pago;
+    @FXML
+    private TableColumn<Cita, String> cit_extraccion;
+    @FXML
+    private JFXButton btn_resultados;
+    @FXML
+    private JFXComboBox<?> tipo;
+
+    
     
     
     //  PACIENTES
@@ -154,6 +185,7 @@ public class MainSceneController extends Funciones implements Initializable {
     private TableColumn<Pacientes, String> pac_cel;
     @FXML
     private JFXTextField pac_buscar;
+    
     
     
     @FXML
@@ -199,6 +231,37 @@ public class MainSceneController extends Funciones implements Initializable {
     public static Pacientes getPaciente() {
         return paciente;
     }
+    
+    
+   
+    
+    
+    @FXML
+    private TableView<?> tabla_pac1;
+    @FXML
+    private TableColumn<?, ?> id_pac1;
+    @FXML
+    private TableColumn<?, ?> nom_pac1;
+    @FXML
+    private TableColumn<?, ?> ape_pat1;
+    @FXML
+    private TableColumn<?, ?> ape_mat1;
+    @FXML
+    private TableColumn<?, ?> status1;
+    @FXML
+    private JFXButton ini_actualizar1;
+    @FXML
+    private Label cita_nom_ini2;
+    @FXML
+    private Label hora_cita_ini2;
+    @FXML
+    private JFXTextArea area_cita_ini1;
+    @FXML
+    private JFXCheckBox cita_check_ini1;
+    @FXML
+    private JFXComboBox<?> combo_cita_ini1;
+    @FXML
+    private JFXButton ace_cita_ini1;
        
     
     @Override
@@ -232,6 +295,7 @@ public class MainSceneController extends Funciones implements Initializable {
         /// PERMISOS
         
         tabPane.getTabs().remove(usuarios);
+        tabPane.getTabs().remove(inicio_rec);
         
         /// INICIO
         
@@ -243,6 +307,10 @@ public class MainSceneController extends Funciones implements Initializable {
         /// PACIENTES
         pacienteTabla();
         accionBotonesPac();
+        
+        // CITAS
+        citaTabla();
+        accionBotonesCit();
     
     }
     
@@ -250,7 +318,7 @@ public class MainSceneController extends Funciones implements Initializable {
         
         /// PERMISOS
         
-        tabPane.getTabs().remove(inicio);
+        tabPane.getTabs().remove(inicio_lab);
         tabPane.getTabs().remove(estudios);
         tabPane.getTabs().remove(examenes);
         tabPane.getTabs().remove(usuarios);
@@ -258,7 +326,12 @@ public class MainSceneController extends Funciones implements Initializable {
         /// PACIENTES
         pacienteTabla();
         accionBotonesPac();
+        
+        // CITAS
+        citaTabla();
     }
+    
+    
     
     //// -- *** Métodos de Inicio Laboratorista
   
@@ -485,6 +558,32 @@ public class MainSceneController extends Funciones implements Initializable {
     }
     
     
+    
+   //// -- *** Métodos de Citas
+    
+    private void citaTabla(){
+        Cita_Tabla pt = new Cita_Tabla ();
+        pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            cit_tabla.setItems(pt.getValue());
+            
+            cit_Nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            cit_ApePat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+            cit_ApeMat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+            cit_fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            cit_hora.setCellValueFactory(new PropertyValueFactory<>("hora"));
+            cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
+            cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
+         
+        });
+        new Thread (pt).start();
+    }
+    
+    private void accionBotonesCit(){
+        
+        cit_actualizar.setOnAction(e -> {
+            citaTabla();
+        });
+    }
 
     }
         

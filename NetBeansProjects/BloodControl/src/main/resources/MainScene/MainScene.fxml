@@ -70,7 +70,7 @@
       <Pane layoutY="137.0" prefHeight="8.0" prefWidth="1096.0" style="-fx-background-color: #505354;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <JFXTabPane fx:id="tabPane" layoutX="-2.0" layoutY="145.0" prefHeight="545.0" prefWidth="1100.0" stylesheets="@../styles/TabPane.css" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-2.0">
          <tabs>
-            <Tab fx:id="inicio" text="Inicio">
+            <Tab fx:id="inicio_lab" text="Inicio">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0">
                      <children>
@@ -134,6 +134,18 @@
                         </Pane>
                      </children></AnchorPane>
               </content>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab fx:id="inicio_rec" text="Inicio">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0" />
+               </content>
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -235,22 +247,22 @@
                      <children>
                         <Pane layoutX="43.0" layoutY="96.0" prefHeight="372.0" prefWidth="915.0" style="-fx-background-color: #505354;">
                            <children>
-                              <TableView layoutX="5.0" layoutY="5.0" prefHeight="363.0" prefWidth="906.0">
+                              <TableView fx:id="cit_tabla" layoutX="5.0" layoutY="5.0" prefHeight="363.0" prefWidth="906.0" stylesheets="@../styles/tabla.css">
                                 <columns>
-                                  <TableColumn prefWidth="130.0" text="Nombre" />
-                                  <TableColumn prefWidth="130.0" text="Ape_Paterno" />
-                                    <TableColumn prefWidth="130.0" text="Ape_Materno" />
-                                    <TableColumn prefWidth="130.0" text="Fecha" />
-                                    <TableColumn prefWidth="130.0" text="Hora" />
-                                    <TableColumn prefWidth="130.0" text="Pago" />
-                                    <TableColumn prefWidth="130.0" text="Status" />
+                                  <TableColumn fx:id="cit_Nom" prefWidth="130.0" text="Nombre" />
+                                  <TableColumn fx:id="cit_ApePat" prefWidth="130.0" text="Ape_Paterno" />
+                                    <TableColumn fx:id="cit_ApeMat" prefWidth="130.0" text="Ape_Materno" />
+                                    <TableColumn fx:id="cit_fecha" prefWidth="130.0" text="Fecha" />
+                                    <TableColumn fx:id="cit_hora" prefWidth="130.0" text="Hora" />
+                                    <TableColumn fx:id="cit_pago" prefWidth="130.0" text="Pago" />
+                                    <TableColumn fx:id="cit_extraccion" prefWidth="130.0" text="Extraccion" />
                                 </columns>
                               </TableView>
                            </children>
                         </Pane>
                         <Pane layoutX="44.0" layoutY="22.0" prefHeight="60.0" prefWidth="1010.0" style="-fx-background-color: rgb(155,155,155,0.2);">
                            <children>
-                              <JFXButton layoutX="862.0" layoutY="6.0" prefHeight="48.0" prefWidth="142.0" style="-fx-background-color: #9b9b9b; -fx-background-radius: 10;" text="Resultados" textFill="WHITE">
+                              <JFXButton fx:id="btn_resultados" layoutX="862.0" layoutY="6.0" prefHeight="48.0" prefWidth="142.0" style="-fx-background-color: #9b9b9b; -fx-background-radius: 10;" text="Resultados" textFill="WHITE">
                                  <graphic>
                                     <ImageView fitHeight="37.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -266,7 +278,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <JFXComboBox focusColor="#63bfde" layoutX="107.0" layoutY="13.0" prefHeight="26.0" prefWidth="187.0" unFocusColor="#505354" />
+                              <JFXComboBox fx:id="tipo" focusColor="#63bfde" layoutX="107.0" layoutY="13.0" prefHeight="26.0" prefWidth="187.0" unFocusColor="#505354" />
                            </children></Pane>
                         <Pane layoutX="972.0" layoutY="96.0" prefHeight="263.0" prefWidth="82.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
                            <children>
