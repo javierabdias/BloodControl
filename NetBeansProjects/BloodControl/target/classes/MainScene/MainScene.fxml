@@ -3,9 +3,11 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -144,7 +146,101 @@
             </Tab>
             <Tab fx:id="inicio_rec" text="Inicio">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1100.0">
+                     <children>
+                        <Pane layoutX="562.0" layoutY="36.0" prefHeight="246.0" prefWidth="496.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                           <children>
+                              <Label fx:id="iniRec_NomExam" layoutX="33.0" layoutY="-2.0" prefHeight="80.0" prefWidth="298.0" text="Nombre Examen" textAlignment="CENTER" textFill="#28aed7">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Pane layoutX="32.0" layoutY="65.0" opacity="0.28" prefHeight="6.0" prefWidth="430.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
+                              <JFXTextArea fx:id="iniRec_estudios" editable="false" focusColor="#63bfde" layoutX="31.0" layoutY="101.0" prefHeight="104.0" prefWidth="429.0" unFocusColor="#505354" />
+                              <Label fx:id="iniRec_costo" layoutX="372.0" layoutY="25.0" text="\$ 0.00">
+                                 <font>
+                                    <Font name="System Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="32.0" layoutY="78.0" text="Estudios:" textFill="#303436">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton fx:id="btnIniRec_agregar" alignment="CENTER" buttonType="RAISED" layoutX="453.0" layoutY="221.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505554; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Cita/anadir.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </Pane>
+                        <JFXTextField fx:id="iniRec_correo" focusColor="#63bfde" labelFloat="true" layoutX="178.0" layoutY="54.0" prefHeight="26.0" prefWidth="188.0" promptText="Correo electrónico" unFocusColor="#505354" />
+                        <JFXButton fx:id="iniRec_Buscar" alignment="CENTER" buttonType="RAISED" layoutX="395.0" layoutY="37.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Cita/lupa.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <Label layoutX="101.0" layoutY="59.0" text="Buscar:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Pane layoutX="69.0" layoutY="107.0" prefHeight="36.0" prefWidth="423.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                           <children>
+                              <Label fx:id="iniRec_Paciente" layoutX="11.0" layoutY="6.0" text="Nombre de paciente.">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <JFXDatePicker fx:id="iniRec_fecha" defaultColor="#63bfde" layoutX="101.0" layoutY="172.0" prefHeight="32.0" prefWidth="150.0" promptText="Fecha" />
+                        <JFXTimePicker fx:id="iniRec_Hora" defaultColor="#63bfde" layoutX="305.0" layoutY="172.0" prefHeight="32.0" prefWidth="150.0" promptText="Hora" />
+                        <JFXComboBox fx:id="iniRec_Examen" focusColor="#63bfde" layoutX="156.0" layoutY="241.0" prefHeight="26.0" prefWidth="223.0" promptText="Exámenes" unFocusColor="#505354" />
+                        <Pane layoutX="65.0" layoutY="300.0" prefHeight="177.0" prefWidth="423.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                           <children>
+                              <Label layoutX="18.0" layoutY="7.0" text="Cita preliminar:" textFill="#303436">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextArea fx:id="iniRec_Preliminar" editable="false" focusColor="#63bfde" layoutX="23.0" layoutY="39.0" prefHeight="111.0" prefWidth="380.0" unFocusColor="#505354" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="899.0" layoutY="365.0" prefHeight="98.0" prefWidth="140.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                           <children>
+                              <Label fx:id="iniRec_total" layoutX="9.0" layoutY="11.0" prefHeight="80.0" prefWidth="124.0" text="\$0.00" textAlignment="CENTER" textFill="#28aed7">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Label layoutX="942.0" layoutY="329.0" text="Total" textAlignment="CENTER" textFill="#303436">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <JFXButton fx:id="btnIniRec_aceptar" layoutX="557.0" layoutY="429.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+                        <JFXButton fx:id="btnIniRec_cancelar" layoutX="732.0" layoutY="429.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+                        <JFXButton fx:id="btnIniRec_pagar" alignment="CENTER" buttonType="RAISED" layoutX="1010.0" layoutY="433.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@dinero.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children></AnchorPane>
                </content>
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

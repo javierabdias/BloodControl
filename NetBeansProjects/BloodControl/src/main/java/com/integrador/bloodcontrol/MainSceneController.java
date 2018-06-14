@@ -16,9 +16,11 @@ import com.integrador.bloodcontrol.Funciones.Usuarios;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,7 +88,7 @@ public class MainSceneController extends Funciones implements Initializable {
     
     
     
-    //  ID's INICIO
+    //  ID's INICIO LABORATORISTA
     
     int id_Cita;
     
@@ -117,6 +119,41 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXComboBox<String> combo_cita_ini;
     @FXML
     private Label cita_nom_ini;
+    
+    
+    
+    //  ID'S INICIO RECEPCIONISTA
+    
+    @FXML
+    private Label iniRec_NomExam;
+    @FXML
+    private JFXTextArea iniRec_estudios;
+    @FXML
+    private Label iniRec_costo;
+    @FXML
+    private JFXTextField iniRec_correo;
+    @FXML
+    private JFXButton iniRec_Buscar;
+    @FXML
+    private Label iniRec_Paciente;
+    @FXML
+    private JFXDatePicker iniRec_fecha;
+    @FXML
+    private JFXTimePicker iniRec_Hora;
+    @FXML
+    private JFXComboBox<?> iniRec_Examen;
+    @FXML
+    private JFXTextArea iniRec_Preliminar;
+    @FXML
+    private Label iniRec_total;
+    @FXML
+    private JFXButton btnIniRec_aceptar;
+    @FXML
+    private JFXButton btnIniRec_cancelar;
+    @FXML
+    private JFXButton btnIniRec_pagar;
+    @FXML
+    private JFXButton btnIniRec_agregar;
     
    
     
@@ -231,37 +268,6 @@ public class MainSceneController extends Funciones implements Initializable {
     public static Pacientes getPaciente() {
         return paciente;
     }
-    
-    
-   
-    
-    
-    @FXML
-    private TableView<?> tabla_pac1;
-    @FXML
-    private TableColumn<?, ?> id_pac1;
-    @FXML
-    private TableColumn<?, ?> nom_pac1;
-    @FXML
-    private TableColumn<?, ?> ape_pat1;
-    @FXML
-    private TableColumn<?, ?> ape_mat1;
-    @FXML
-    private TableColumn<?, ?> status1;
-    @FXML
-    private JFXButton ini_actualizar1;
-    @FXML
-    private Label cita_nom_ini2;
-    @FXML
-    private Label hora_cita_ini2;
-    @FXML
-    private JFXTextArea area_cita_ini1;
-    @FXML
-    private JFXCheckBox cita_check_ini1;
-    @FXML
-    private JFXComboBox<?> combo_cita_ini1;
-    @FXML
-    private JFXButton ace_cita_ini1;
        
     
     @Override
