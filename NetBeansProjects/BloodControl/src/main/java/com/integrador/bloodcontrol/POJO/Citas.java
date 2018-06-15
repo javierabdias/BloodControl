@@ -74,11 +74,20 @@ public class Citas implements Serializable {
     @JoinColumn(name = "PAC_ID", referencedColumnName = "PAC_ID")
     @ManyToOne
     private Paciente pacId;
-    @JoinColumn(name = "REC_ID", referencedColumnName = "REC_ID")
-    @ManyToOne
-    private Recepcionista recId;
     @OneToMany(mappedBy = "citId")
     private Collection<Pagos> pagosCollection;
+    
+    @OneToMany (mappedBy = "primaryKey.citId")
+    private Collection <Resultados> resultados;
+
+    public Collection<Resultados> getResultados() {
+        return resultados;
+    }
+
+    public void setResultados(Collection<Resultados> resultados) {
+        this.resultados = resultados;
+    }
+    
 
     public Citas() {
     }
@@ -160,14 +169,6 @@ public class Citas implements Serializable {
         this.pacId = pacId;
     }
 
-    public Recepcionista getRecId() {
-        return recId;
-    }
-
-    public void setRecId(Recepcionista recId) {
-        this.recId = recId;
-    }
-
     @XmlTransient
     public Collection<Pagos> getPagosCollection() {
         return pagosCollection;
@@ -199,7 +200,7 @@ public class Citas implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Citas[ citId=" + citId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Citas[ citId=" + citId + " ]";
     }
     
 }

@@ -52,6 +52,17 @@ public class EstadoRegistro implements Serializable {
     private Collection<Paciente> pacienteCollection;
     @OneToMany(mappedBy = "erId")
     private Collection<Examen> examenCollection;
+    
+    @OneToMany (mappedBy = "primaryKey.erId")
+    private Collection <Resultados> resultados;
+
+    public Collection<Resultados> getResultados() {
+        return resultados;
+    }
+
+    public void setResultados(Collection<Resultados> resultados) {
+        this.resultados = resultados;
+    }
 
     public EstadoRegistro() {
     }
@@ -161,7 +172,7 @@ public class EstadoRegistro implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.EstadoRegistro[ erId=" + erId + " ]";
+        return "com.integrador.bloodcontrol.POJO.EstadoRegistro[ erId=" + erId + " ]";
     }
     
 }

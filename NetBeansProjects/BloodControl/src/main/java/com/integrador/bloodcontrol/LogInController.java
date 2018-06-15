@@ -2,6 +2,7 @@ package com.integrador.bloodcontrol;
 
 
 import com.integrador.bloodcontrol.Consultas.LogIn;
+import com.integrador.bloodcontrol.Consultas.Prueba;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
 import com.jfoenix.controls.JFXButton;
@@ -51,7 +52,7 @@ public class LogInController extends Funciones implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         TextFieldNumeros(txt_Usuario);
         setTextFieldLimit(txt_Usuario, 6);
         

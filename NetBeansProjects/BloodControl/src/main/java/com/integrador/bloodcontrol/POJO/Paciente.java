@@ -155,7 +155,7 @@ public class Paciente implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Paciente[ pacId=" + pacId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Paciente[ pacId=" + pacId + " ]";
     }
     
 }

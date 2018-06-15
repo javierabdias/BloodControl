@@ -153,7 +153,7 @@ public class DirUsu implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.DirUsu[ dirId=" + dirId + " ]";
+        return "com.integrador.bloodcontrol.POJO.DirUsu[ dirId=" + dirId + " ]";
     }
     
 }

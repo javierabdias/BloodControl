@@ -95,7 +95,7 @@ public class StatusExa implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.StatusExa[ staeId=" + staeId + " ]";
+        return "com.integrador.bloodcontrol.POJO.StatusExa[ staeId=" + staeId + " ]";
     }
     
 }

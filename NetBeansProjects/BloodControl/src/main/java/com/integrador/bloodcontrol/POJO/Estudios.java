@@ -6,6 +6,7 @@
 package com.integrador.bloodcontrol.POJO;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -53,6 +55,18 @@ public class Estudios implements Serializable {
     @JoinColumn(name = "EXA_ID", referencedColumnName = "EXA_ID")
     @ManyToOne
     private Examen exaId;
+    
+    @OneToMany (mappedBy = "primaryKey.estId")
+    private Collection <Resultados> resultados;
+
+    public Collection<Resultados> getResultados() {
+        return resultados;
+    }
+
+    public void setResultados(Collection<Resultados> resultados) {
+        this.resultados = resultados;
+    }
+
 
     public Estudios() {
     }
@@ -131,7 +145,7 @@ public class Estudios implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Estudios[ estId=" + estId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Estudios[ estId=" + estId + " ]";
     }
     
 }

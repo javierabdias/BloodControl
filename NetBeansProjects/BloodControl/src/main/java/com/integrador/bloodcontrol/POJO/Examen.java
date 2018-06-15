@@ -135,7 +135,7 @@ public class Examen implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Examen[ exaId=" + exaId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Examen[ exaId=" + exaId + " ]";
     }
     
 }

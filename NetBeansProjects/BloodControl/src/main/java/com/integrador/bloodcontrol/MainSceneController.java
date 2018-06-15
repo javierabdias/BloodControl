@@ -32,7 +32,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -339,7 +338,7 @@ public class MainSceneController extends Funciones implements Initializable {
     
     
     
-    //// -- *** Métodos de Inicio Laboratorista
+   //// -- *** Métodos de Inicio Laboratorista
   
     private void Inicio(){
         Thread thread= new Thread(new Reloj(reloj));
@@ -456,6 +455,8 @@ public class MainSceneController extends Funciones implements Initializable {
         }
         return "N";
     }
+    
+   //// -- *** Métodos de Inicio Recepcionista
     
    
     

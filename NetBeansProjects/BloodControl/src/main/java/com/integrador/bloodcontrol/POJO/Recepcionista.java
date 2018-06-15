@@ -62,8 +62,6 @@ public class Recepcionista implements Serializable {
     @ManyToOne
     private Persona perId;
     @OneToMany(mappedBy = "recId")
-    private Collection<Citas> citasCollection;
-    @OneToMany(mappedBy = "recId")
     private Collection<Pagos> pagosCollection;
 
     public Recepcionista() {
@@ -138,15 +136,6 @@ public class Recepcionista implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Citas> getCitasCollection() {
-        return citasCollection;
-    }
-
-    public void setCitasCollection(Collection<Citas> citasCollection) {
-        this.citasCollection = citasCollection;
-    }
-
-    @XmlTransient
     public Collection<Pagos> getPagosCollection() {
         return pagosCollection;
     }
@@ -177,7 +166,7 @@ public class Recepcionista implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Recepcionista[ recId=" + recId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Recepcionista[ recId=" + recId + " ]";
     }
     
 }

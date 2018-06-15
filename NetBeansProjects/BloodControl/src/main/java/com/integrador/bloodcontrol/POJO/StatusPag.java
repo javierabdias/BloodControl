@@ -95,7 +95,7 @@ public class StatusPag implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.StatusPag[ stapId=" + stapId + " ]";
+        return "com.integrador.bloodcontrol.POJO.StatusPag[ stapId=" + stapId + " ]";
     }
     
 }

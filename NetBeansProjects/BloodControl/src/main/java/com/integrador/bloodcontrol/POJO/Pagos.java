@@ -130,7 +130,7 @@ public class Pagos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Pagos[ pagId=" + pagId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Pagos[ pagId=" + pagId + " ]";
     }
     
 }

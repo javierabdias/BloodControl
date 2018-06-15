@@ -152,7 +152,7 @@ public class Administrador implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Administrador[ admId=" + admId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Administrador[ admId=" + admId + " ]";
     }
     
 }

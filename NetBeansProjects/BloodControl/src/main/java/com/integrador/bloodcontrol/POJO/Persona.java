@@ -168,7 +168,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "com.integrador.POJO.Persona[ perId=" + perId + " ]";
+        return "com.integrador.bloodcontrol.POJO.Persona[ perId=" + perId + " ]";
     }
     
 }
