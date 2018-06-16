@@ -36,6 +36,7 @@ public class AbrirVentana extends Task <Void>{
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.setTitle(nomVentana);
+                stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
                 stage.showAndWait();

@@ -37,7 +37,8 @@ public abstract class Funciones {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle(nomVentana);
-        stage.initModality(Modality.APPLICATION_MODAL);   
+        stage.initModality(Modality.APPLICATION_MODAL); 
+        stage.setResizable(false);
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/MainScene/logo8x8-255.png")));
         valCerrar(stage);
         stage.showAndWait();  

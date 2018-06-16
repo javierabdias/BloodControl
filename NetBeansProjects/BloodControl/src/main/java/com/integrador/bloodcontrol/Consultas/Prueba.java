@@ -27,6 +27,8 @@ public class Prueba extends Task <Void>{
         em.getTransaction().commit();
         em.close();
         
+        System.out.println(resul.get(0).getTimestamp());
+        
         return null;
     }
     

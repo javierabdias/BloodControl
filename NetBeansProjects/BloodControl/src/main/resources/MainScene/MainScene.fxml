@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.MainSceneController">
    <children>
       <Pane layoutX="-4.0" layoutY="-1.0" prefHeight="139.0" prefWidth="1100.0" style="-fx-background-color: #c0c0c0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -341,17 +341,18 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane layoutX="43.0" layoutY="96.0" prefHeight="372.0" prefWidth="915.0" style="-fx-background-color: #505354;">
+                        <Pane layoutX="26.0" layoutY="100.0" prefHeight="372.0" prefWidth="957.0" style="-fx-background-color: #505354;">
                            <children>
-                              <TableView fx:id="cit_tabla" layoutX="5.0" layoutY="5.0" prefHeight="363.0" prefWidth="906.0" stylesheets="@../styles/tabla.css">
+                              <TableView fx:id="cit_tabla" layoutX="5.0" layoutY="5.0" prefHeight="363.0" prefWidth="946.0" stylesheets="@../styles/tabla.css">
                                 <columns>
+                                    <TableColumn fx:id="cit_id" prefWidth="75.0" text="id" />
                                   <TableColumn fx:id="cit_Nom" prefWidth="130.0" text="Nombre" />
                                   <TableColumn fx:id="cit_ApePat" prefWidth="130.0" text="Ape_Paterno" />
                                     <TableColumn fx:id="cit_ApeMat" prefWidth="130.0" text="Ape_Materno" />
-                                    <TableColumn fx:id="cit_fecha" prefWidth="130.0" text="Fecha" />
-                                    <TableColumn fx:id="cit_hora" prefWidth="130.0" text="Hora" />
-                                    <TableColumn fx:id="cit_pago" prefWidth="130.0" text="Pago" />
-                                    <TableColumn fx:id="cit_extraccion" prefWidth="130.0" text="Extraccion" />
+                                    <TableColumn fx:id="cit_fecha" prefWidth="122.0" text="Fecha" />
+                                    <TableColumn fx:id="cit_hora" prefWidth="113.0" text="Hora" />
+                                    <TableColumn fx:id="cit_pago" minWidth="5.0" prefWidth="118.0" text="Pago" />
+                                    <TableColumn fx:id="cit_extraccion" prefWidth="127.0" text="Extraccion" />
                                 </columns>
                               </TableView>
                            </children>
@@ -376,7 +377,7 @@
                               </Label>
                               <JFXComboBox fx:id="tipo" focusColor="#63bfde" layoutX="107.0" layoutY="13.0" prefHeight="26.0" prefWidth="187.0" unFocusColor="#505354" />
                            </children></Pane>
-                        <Pane layoutX="972.0" layoutY="96.0" prefHeight="263.0" prefWidth="82.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+                        <Pane layoutX="998.0" layoutY="96.0" prefHeight="263.0" prefWidth="82.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
                            <children>
                               <JFXButton fx:id="cit_agregar" alignment="CENTER" buttonType="RAISED" layoutX="17.0" layoutY="8.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #505554; -fx-background-radius: 50;">
                                  <graphic>

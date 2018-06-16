@@ -103,16 +103,11 @@ public class LogInController extends Funciones implements Initializable {
     }
 
     //Método para abrir main frame
-    public void mainFrame() {
-        try {
-            Usuarios.setId(Integer.valueOf(txt_Usuario.getText()));
-            Usuarios.setTipo(tipo);
-            anchor.getScene().getWindow().hide();
-            crearVentanas("/MainScene/MainScene.fxml", "BloodControl");
-        } catch (IOException ex) {
-            Logger.getLogger(LogInController.class.getName()).log(Level.SEVERE, null, ex);
-            System.gc();
-        }
+    public void mainFrame() throws IOException {
+        Usuarios.setId(Integer.valueOf(txt_Usuario.getText()));
+        Usuarios.setTipo(tipo);
+        anchor.getScene().getWindow().hide();
+        crearVentanas("/MainScene/MainScene.fxml", "BloodControl");
     }
     
     
@@ -124,7 +119,11 @@ public class LogInController extends Funciones implements Initializable {
 
             boolean resultado = l.getValue();
             if (resultado) {
-                mainFrame();
+                try {
+                    mainFrame();
+                } catch (IOException ex) {
+                    Logger.getLogger(LogInController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 progress.setVisible(false);
                 btn_aceptar.setDisable(false);

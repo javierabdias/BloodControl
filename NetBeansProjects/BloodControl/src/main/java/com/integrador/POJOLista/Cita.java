@@ -6,6 +6,8 @@
 package com.integrador.POJOLista;
 
 import java.util.Date;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -14,6 +16,8 @@ import javafx.beans.property.StringProperty;
  * @author abdias
  */
 public class Cita {
+    
+    private IntegerProperty id; 
     private StringProperty nombre;
     private StringProperty apePat;
     private StringProperty apeMat;
@@ -22,6 +26,15 @@ public class Cita {
     private StringProperty pago;
     private StringProperty extraccion;
 
+    
+     public Integer getId() {
+        return id.get();
+    }
+
+    public void setId(Integer idUsuario) {
+        this.id = new SimpleIntegerProperty(idUsuario);
+    }
+    
    public String getNombre() {
         return nombre.get();
     }
@@ -78,7 +91,8 @@ public class Cita {
         this.extraccion= new SimpleStringProperty(extraccion);
     }
     
-     public Cita (String nombre, String apePat, String apeMat ,Date fecha, Date hora, String pago, String extraccion) {
+     public Cita (Integer id, String nombre, String apePat, String apeMat ,Date fecha, Date hora, String pago, String extraccion) {
+        this.id = new SimpleIntegerProperty(id); 
         this.nombre = new SimpleStringProperty(nombre);
         this.apePat= new SimpleStringProperty(apePat);
         this.apeMat= new SimpleStringProperty(apeMat);

@@ -138,7 +138,6 @@ public class ModificarPacienteController extends Funciones implements Initializa
             
             Paciente paciente = (Paciente) query.getSingleResult();
             
-            System.out.println(paciente.getPacTel());
             Persona persona = em.find(Persona.class, paciente.getPerId().getPerId());
             
             persona.setPerNombre(nom.getText());

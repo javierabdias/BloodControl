@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="706.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.Paciente.AgregarCitaController">
+   <children>
+      <Pane prefHeight="79.0" prefWidth="562.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="255.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../MainScene/calendario.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXButton fx:id="btn_aceptar" layoutX="328.0" layoutY="606.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="125.0" layoutY="606.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="244.0" layoutY="658.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="207.0" layoutY="655.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/logo16x16.png" />
+         </image>
+      </ImageView>
+      <ProgressIndicator fx:id="progress" layoutX="11.0" layoutY="359.0" prefHeight="32.0" prefWidth="31.0" stylesheets="@../styles/ProgressIndicator_1.css" visible="false" />
+      <JFXTextField fx:id="iniRec_correo" focusColor="#63bfde" labelFloat="true" layoutX="188.0" layoutY="109.0" prefHeight="26.0" prefWidth="188.0" promptText="Correo electrónico" unFocusColor="#505354" />
+      <JFXButton fx:id="iniRec_Buscar" alignment="CENTER" buttonType="RAISED" layoutX="388.0" layoutY="95.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+         <graphic>
+            <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@lupa.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <Label layoutX="116.0" layoutY="116.0" text="Buscar:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Pane layoutX="73.0" layoutY="160.0" prefHeight="26.0" prefWidth="423.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <Label fx:id="iniRec_Paciente" layoutX="11.0" layoutY="4.0" text="Nombre de paciente.">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXDatePicker fx:id="iniRec_fecha" defaultColor="#63bfde" layoutX="78.0" layoutY="206.0" prefHeight="32.0" prefWidth="170.0" promptText="Fecha" />
+      <JFXComboBox fx:id="iniRec_Examen" focusColor="#63bfde" layoutX="88.0" layoutY="272.0" prefHeight="26.0" prefWidth="176.0" promptText="Exámenes" unFocusColor="#505354" />
+      <Pane layoutX="427.0" layoutY="510.0" prefHeight="39.0" prefWidth="83.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <Label fx:id="iniRec_total" layoutX="11.0" layoutY="4.0" prefHeight="32.0" prefWidth="60.0" text="\$0.00" textAlignment="CENTER" textFill="#28aed7">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="451.0" layoutY="487.0" text="Total" textAlignment="CENTER" textFill="#303436">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnIniRec_agregar" alignment="CENTER" buttonType="RAISED" layoutX="322.0" layoutY="259.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@anadir.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <Pane layoutX="70.0" layoutY="323.0" prefHeight="117.0" prefWidth="423.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <JFXTextArea fx:id="iniRec_Estudios" editable="false" focusColor="#63bfde" layoutX="12.0" layoutY="37.0" prefHeight="62.0" prefWidth="397.0" unFocusColor="#505354" />
+            <Label layoutX="16.0" layoutY="13.0" text="Estudios:" textFill="#303436" />
+         </children>
+      </Pane>
+      <JFXComboBox fx:id="iniRec_Hora" focusColor="#63bfde" layoutX="322.0" layoutY="211.0" prefHeight="26.0" prefWidth="170.0" promptText="Hora" unFocusColor="#505354" />
+      <TableView fx:id="tabla_examen" layoutX="48.0" layoutY="461.0" prefHeight="124.0" prefWidth="347.0" stylesheets="@../styles/tabla.css">
+        <columns>
+            <TableColumn fx:id="id" prefWidth="84.0" text="id" />
+          <TableColumn fx:id="examen" prefWidth="183.0" text="Examen" />
+          <TableColumn fx:id="precio" prefWidth="79.0" text="Precio" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnIniRec_eliminar" alignment="CENTER" buttonType="RAISED" layoutX="426.0" layoutY="259.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@menos.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>

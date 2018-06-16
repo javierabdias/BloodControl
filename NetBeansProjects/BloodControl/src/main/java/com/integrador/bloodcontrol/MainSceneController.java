@@ -183,6 +183,8 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private TableColumn<Cita, String> cit_extraccion;
     @FXML
+    private TableColumn<Cita, Integer> cit_id;
+    @FXML
     private JFXButton btn_resultados;
     @FXML
     private JFXComboBox<?> tipo;
@@ -573,6 +575,7 @@ public class MainSceneController extends Funciones implements Initializable {
         pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             cit_tabla.setItems(pt.getValue());
             
+            cit_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             cit_Nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             cit_ApePat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
             cit_ApeMat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
@@ -580,6 +583,7 @@ public class MainSceneController extends Funciones implements Initializable {
             cit_hora.setCellValueFactory(new PropertyValueFactory<>("hora"));
             cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
             cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
+          
          
         });
         new Thread (pt).start();
@@ -589,6 +593,10 @@ public class MainSceneController extends Funciones implements Initializable {
         
         cit_actualizar.setOnAction(e -> {
             citaTabla();
+        });
+        
+        cit_agregar.setOnAction(e -> {
+            new Thread(new AbrirVentana("/Cita/AgregarCita.fxml", "Crear nueva cita")).start();
         });
     }
 
