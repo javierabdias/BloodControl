@@ -83,13 +83,12 @@ public class AgregarCitaController extends Funciones implements Initializable {
     @FXML
     private JFXButton btnIniRec_agregar;
 
-    
     /**
      * Initializes the controller class.
      */
     String paciente;
     Paciente pac;
-    
+
     @FXML
     private JFXTextArea iniRec_Estudios;
     @FXML
@@ -102,44 +101,45 @@ public class AgregarCitaController extends Funciones implements Initializable {
     private TableColumn<CitaExamen, Integer> id;
     @FXML
     private JFXButton btnIniRec_eliminar;
-    
+
     ObservableList<String> list = FXCollections.observableArrayList();
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+    SimpleDateFormat sd = new SimpleDateFormat("dd-MM-yyyy");
     ObservableList<CitaExamen> exam = FXCollections.observableArrayList();
     Double suma;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         Enable(true);
-        
+
         iniRec_Hora.setDisable(true);
-        accionBotones();        
+        accionBotones();
         examenes.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             iniRec_Examen.setItems(examenes.getValue());
         });
         new Thread(examenes).start();
-              
+
     }
 
-    private void accionBotones () {
+    private void accionBotones() {
 
         btn_cancelar.setOnAction(e -> {
             anchor.getScene().getWindow().hide();
         });
 
         iniRec_fecha.setOnAction(e -> {
-            if(verificarFecha(DatePickerParser(iniRec_fecha))){
-            list.clear();
-            iniRec_Hora.setDisable(false);
-            try {
-                Fechas();
-            } catch (ParseException ex) {
-                Logger.getLogger(AgregarCitaController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Fecha f = new Fecha(list, DatePickerParser(iniRec_fecha));
-            new Thread(f).start();
-            iniRec_Hora.setItems(list);
+            if (verificarFecha(DatePickerParser(iniRec_fecha))) {
+                list.clear();
+                iniRec_Hora.setDisable(false);
+                try {
+                    Fechas();
+                } catch (ParseException ex) {
+                    Logger.getLogger(AgregarCitaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Fecha f = new Fecha(list, DatePickerParser(iniRec_fecha));
+                new Thread(f).start();
+                iniRec_Hora.setItems(list);
             } else {
                 Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas a partir del día actual.");
             }
@@ -150,7 +150,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
             if (validarEmailFuerte(iniRec_correo.getText())) {
                 Consulta_Cita persona = new Consulta_Cita(iniRec_correo.getText());
                 persona.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                    paciente=persona.getValue();
+                    paciente = persona.getValue();
                     iniRec_Paciente.setText(persona.getValue());
                     if (!persona.getValue().equals("No se encuentra paciente.")) {
                         Enable(false);
@@ -158,18 +158,18 @@ public class AgregarCitaController extends Funciones implements Initializable {
                 });
                 new Thread(persona).start();
             } else {
-                Alertas.error("Error", "Correo Inválido", "Verificar correo electrónico de paciente");   
+                Alertas.error("Error", "Correo Inválido", "Verificar correo electrónico de paciente");
             }
         });
-        
+
         Examen();
-        
+
         btn_aceptar.setOnAction(e -> {
             new Thread(guardar).start();
             anchor.getScene().getWindow().hide();
         });
     }
-    
+
     private Boolean verificarFecha(Date date) {
 
         Date hoy = new Date();
@@ -181,66 +181,62 @@ public class AgregarCitaController extends Funciones implements Initializable {
         }
         return false;
     }
-    
-    private void Enable (Boolean status){
+
+    private void Enable(Boolean status) {
         btn_aceptar.setDisable(status);
         iniRec_fecha.setDisable(status);
         iniRec_Examen.setDisable(status);
         btnIniRec_agregar.setDisable(status);
         btnIniRec_eliminar.setDisable(status);
     }
-    
-    private void Fechas () throws ParseException{
+
+    private void Fechas() throws ParseException {
         Date date = sdf.parse("07:00:00");
         list.add(sdf.format(date));
-        
-        for (int i=0; i<12;i++){
+
+        for (int i = 0; i < 12; i++) {
             LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             local = local.plusMinutes(15);
-            date= Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
+            date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
             list.add(sdf.format(date));
         }
-        
+
     }
-    
-    private void Examen (){
-    
+
+    private void Examen() {
+
         iniRec_Examen.setOnAction(e -> {
-            
-            ExamenCitas ex= new ExamenCitas (iniRec_Examen.getValue());
-            
+
+            ExamenCitas ex = new ExamenCitas(iniRec_Examen.getValue());
+
             ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
                 iniRec_Estudios.setText("");
-                for (String st: ex.getValue()){
-                    iniRec_Estudios.appendText("*   "+st+"\n");
+                for (String st : ex.getValue()) {
+                    iniRec_Estudios.appendText("*   " + st + "\n");
                 }
             });
             new Thread(ex).start();
         });
-        
+
         btnIniRec_agregar.setOnAction(e -> {
             ExaCita ec = new ExaCita(iniRec_Examen.getValue());
             ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                
-                if(!exam.contains(ec.getValue())){
-                    suma = 0.0;
-                    exam.add(ec.getValue());
-                    tablaExamen();
-                    
-                    for (CitaExamen exam1 : exam) {
-                        suma= suma+ exam1.getPrecio();
-                    }
-                    
-                    iniRec_total.setText("$ " + suma);
-                    
-                } else {
-                    Alertas.warning("Error", "Examen añadido previamente.", "El examen seleccionado ha sido añadido\npreviamente.");
+
+                iniRec_Examen.getItems().remove(ec.getValue().getNombre());
+                suma = 0.0;
+                exam.add(ec.getValue());
+                tablaExamen();
+
+                for (CitaExamen exam1 : exam) {
+                    suma = suma + exam1.getPrecio();
                 }
-          
+
+                iniRec_total.setText("$ " + suma);
+
             });
             new Thread(ec).start();
         });
-        
+
         btnIniRec_eliminar.setOnAction(e -> {
 
             if (!tabla_examen.getSelectionModel().isEmpty()) {
@@ -253,6 +249,8 @@ public class AgregarCitaController extends Funciones implements Initializable {
                     suma = suma + exam1.getPrecio();
                 }
 
+                iniRec_Examen.getItems().add(ce.getNombre());
+
                 iniRec_total.setText("$ " + suma);
 
             } else {
@@ -262,41 +260,41 @@ public class AgregarCitaController extends Funciones implements Initializable {
         });
 
     }
-    
-    Task <ObservableList<String>> examenes = new Task <ObservableList<String>> () {
+
+    Task<ObservableList<String>> examenes = new Task<ObservableList<String>>() {
         @Override
         protected ObservableList<String> call() throws Exception {
             ObservableList<String> list = FXCollections.observableArrayList();
-            
+
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT p.exaNom FROM Examen p WHERE p.erId='A'");
             list = FXCollections.observableArrayList(query.getResultList());
             em.getTransaction().commit();
             em.close();
-            
+
             return list;
         }
-    
+
     };
-    
-    private void tablaExamen (){
+
+    private void tablaExamen() {
         tabla_examen.setItems(exam);
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         examen.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         precio.setCellValueFactory(new PropertyValueFactory<>("precio"));
     }
-    
-    Task <Void> guardar = new Task <Void> (){
+
+    Task<Void> guardar = new Task<Void>() {
         @Override
         protected Void call() throws Exception {
-            
+
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
             query.setParameter("pacCe", iniRec_correo.getText());
             Paciente pac = (Paciente) query.getSingleResult();
-            Citas cita= new Citas();
+            Citas cita = new Citas();
             cita.setPacId(pac);
             cita.setCitFecha(DatePickerParser(iniRec_fecha));
             cita.setCitTotal(Double.valueOf(suma));
@@ -310,31 +308,30 @@ public class AgregarCitaController extends Funciones implements Initializable {
             cita.setStapId(sp);
             em.persist(cita);
             em.getTransaction().commit();
-            
+
             em.getTransaction().begin();
-            for(int i=0; i<exam.size(); i++){
+            for (int i = 0; i < exam.size(); i++) {
                 Cita_Examen ce = new Cita_Examen();
-                Examen e= em.find(Examen.class, exam.get(i).getId());
+                Examen e = em.find(Examen.class, exam.get(i).getId());
                 ce.setExamen(e);
                 ce.setCitas(cita);
                 em.persist(ce);
             }
             em.getTransaction().commit();
             em.close();
-         
-            
+
             CorreoTexto correo = new CorreoTexto();
             correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
-            correo.setNombre("Buen día, "+ paciente);
-            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + cita.getCitFecha().toString() + "\n" + "*   FECHA: " + cita.getCitHora().toString() + ""
-                    + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."+
-                    "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
-            
+            correo.setNombre("Buen día, " + paciente);
+            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + sd.format(cita.getCitFecha()) + "\n" + "*   FECHA: " + sdf.format(cita.getCitHora()) + ""
+                    + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."
+                    + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
+
             correo.setCorreo(iniRec_correo.getText());
-            new Thread (correo).start();
+            new Thread(correo).start();
             return null;
         }
-    
+
     };
-    
+
 }

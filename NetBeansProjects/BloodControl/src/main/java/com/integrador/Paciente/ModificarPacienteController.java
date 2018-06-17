@@ -6,10 +6,8 @@
 package com.integrador.Paciente;
 
 import com.integrador.bloodcontrol.Alertas;
-import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.MainSceneController;
-import com.integrador.bloodcontrol.POJO.EstadoRegistro;
 import com.integrador.bloodcontrol.POJO.Paciente;
 import com.integrador.bloodcontrol.POJO.Persona;
 import com.integrador.bloodcontrol.persistence.EManagerFactory;

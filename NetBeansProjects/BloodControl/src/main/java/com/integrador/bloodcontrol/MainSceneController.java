@@ -9,12 +9,25 @@ import com.integrador.bloodcontrol.Consultas.Paciente_Tabla;
 import com.integrador.bloodcontrol.Consultas.Usuario;
 import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
+import com.integrador.Paciente.AgregarCitaController;
+import com.integrador.Paciente.CitaExamen;
 import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
+import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
+import com.integrador.bloodcontrol.Consultas.ExamenCitas;
+import com.integrador.bloodcontrol.Consultas.Fecha;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarCita;
+import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
+import com.integrador.bloodcontrol.POJO.Cita_Examen;
 import com.integrador.bloodcontrol.POJO.Citas;
+import com.integrador.bloodcontrol.POJO.EstadoRegistro;
+import com.integrador.bloodcontrol.POJO.Examen;
+import com.integrador.bloodcontrol.POJO.Paciente;
+import com.integrador.bloodcontrol.POJO.StatusExa;
+import com.integrador.bloodcontrol.POJO.StatusPag;
+import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,15 +37,23 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,6 +63,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -125,6 +148,12 @@ public class MainSceneController extends Funciones implements Initializable {
     
     //  ID'S INICIO RECEPCIONISTA
     
+    ObservableList<String> list = FXCollections.observableArrayList();
+    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+    ObservableList<CitaExamen> exam = FXCollections.observableArrayList();
+    Double suma;
+    String paci;
+    
     @FXML
     private Label iniRec_NomExam;
     @FXML
@@ -140,21 +169,29 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXDatePicker iniRec_fecha;
     @FXML
-    private JFXTimePicker iniRec_Hora;
+    private JFXComboBox<String> iniRec_Hora;
     @FXML
-    private JFXComboBox<?> iniRec_Examen;
-    @FXML
-    private JFXTextArea iniRec_Preliminar;
+    private JFXComboBox<String> iniRec_Examen;
     @FXML
     private Label iniRec_total;
-    @FXML
-    private JFXButton btnIniRec_aceptar;
-    @FXML
-    private JFXButton btnIniRec_cancelar;
     @FXML
     private JFXButton btnIniRec_pagar;
     @FXML
     private JFXButton btnIniRec_agregar;
+    @FXML
+    private JFXButton btnIniRec_Aceptar;
+    @FXML
+    private JFXButton btnIniRec_eliminar;
+    
+    @FXML
+    private TableView<?> tabla_examen;
+    @FXML
+    private TableColumn<?, ?> id1;
+    @FXML
+    private TableColumn<?, ?> examen;
+    @FXML
+    private TableColumn<?, ?> precio;
+       
     
    
     
@@ -281,7 +318,7 @@ public class MainSceneController extends Funciones implements Initializable {
     public static Pacientes getPaciente() {
         return paciente;
     }
-       
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -352,6 +389,10 @@ public class MainSceneController extends Funciones implements Initializable {
         // CITAS
         citaTabla();
         accionBotonesCit();
+        
+        // INICIO
+        InicioRecep();
+        
     }
     
     
@@ -479,7 +520,168 @@ public class MainSceneController extends Funciones implements Initializable {
     
    //// -- *** Métodos de Inicio Recepcionista
     
+    private void InicioRecep(){
    
+        Enable(true);
+        accionBotonesIR();
+        exame.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            iniRec_Examen.setItems(exame.getValue());
+        });
+        new Thread(exame).start();
+        
+        
+        
+    }
+    
+    private void Enable (Boolean status){
+        btnIniRec_Aceptar.setDisable(status);
+        iniRec_fecha.setDisable(status);
+        iniRec_Examen.setDisable(status);
+        btnIniRec_agregar.setDisable(status);
+        btnIniRec_eliminar.setDisable(status);
+        btnIniRec_pagar.setDisable(status);
+        iniRec_Hora.setDisable(status);
+    }
+    
+    private Boolean verificarFecha(Date date) {
+
+        Date hoy = new Date();
+        LocalDate local = LocalDate.now();
+        Instant instant = Instant.from(local.atStartOfDay(ZoneId.systemDefault()));
+        Date antes = Date.from(instant);
+        if (!date.before(antes)) {
+            return true;
+        }
+        return false;
+    }
+    
+     private void Fechas() throws ParseException {
+        Date date = sdf.parse("07:00:00");
+        list.add(sdf.format(date));
+
+        for (int i = 0; i < 12; i++) {
+            LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            local = local.plusMinutes(15);
+            date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
+            list.add(sdf.format(date));
+        }
+
+    }
+    
+    Task<ObservableList<String>> exame = new Task<ObservableList<String>>() {
+        @Override
+        protected ObservableList<String> call() throws Exception {
+            ObservableList<String> list = FXCollections.observableArrayList();
+
+            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p.exaNom FROM Examen p WHERE p.erId='A'");
+            list = FXCollections.observableArrayList(query.getResultList());
+            em.getTransaction().commit();
+            em.close();
+
+            return list;
+        }
+
+    };
+
+    private void accionBotonesIR(){
+    
+        iniRec_fecha.setOnAction(e -> {
+            if (verificarFecha(DatePickerParser(iniRec_fecha))) {
+                list.clear();
+                iniRec_Hora.setDisable(false);
+                try {
+                    Fechas();
+                } catch (ParseException ex) {
+                    Logger.getLogger(AgregarCitaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Fecha f = new Fecha(list, DatePickerParser(iniRec_fecha));
+                new Thread(f).start();
+                iniRec_Hora.setItems(list);
+            } else {
+                Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas a partir del día actual.");
+            }
+        });
+        
+        iniRec_Buscar.setOnAction(e -> {
+
+            if (validarEmailFuerte(iniRec_correo.getText())) {
+                Consulta_Cita persona = new Consulta_Cita(iniRec_correo.getText());
+                persona.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    paci = persona.getValue();
+                    iniRec_Paciente.setText(persona.getValue());
+                    if (!persona.getValue().equals("No se encuentra paciente.")) {
+                        Enable(false);
+                    }
+                });
+                new Thread(persona).start();
+            } else {
+                Alertas.error("Error", "Correo Inválido", "Verificar correo electrónico de paciente");
+            }
+        });
+        
+        btnIniRec_Aceptar.setOnAction(e -> {
+            new Thread(guardar).start();
+            anchor.getScene().getWindow().hide();
+        });
+        
+    }
+    
+    private void Examen(){
+        
+    }
+    
+    Task<Void> guardar = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+
+            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
+            query.setParameter("pacCe", iniRec_correo.getText());
+            Paciente pac = (Paciente) query.getSingleResult();
+            Citas cita = new Citas();
+            cita.setPacId(pac);
+            cita.setCitFecha(DatePickerParser(iniRec_fecha));
+            cita.setCitTotal(Double.valueOf(suma));
+            Date ho = sdf.parse(iniRec_Hora.getValue());
+            cita.setCitHora(ho);
+            EstadoRegistro er = em.find(EstadoRegistro.class, "A");
+            cita.setErId(er);
+            StatusExa se = em.find(StatusExa.class, "N");
+            cita.setStaeId(se);
+            StatusPag sp = em.find(StatusPag.class, 0);
+            cita.setStapId(sp);
+            em.persist(cita);
+            em.getTransaction().commit();
+
+            em.getTransaction().begin();
+            for (int i = 0; i < exam.size(); i++) {
+                Cita_Examen ce = new Cita_Examen();
+                Examen e = em.find(Examen.class, exam.get(i).getId());
+                ce.setExamen(e);
+                ce.setCitas(cita);
+                em.persist(ce);
+            }
+            em.getTransaction().commit();
+            em.close();
+
+            CorreoTexto correo = new CorreoTexto();
+            correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
+            correo.setNombre("Buen día, " + paciente);
+            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + cita.getCitFecha().toString() + "\n" + "*   FECHA: " + cita.getCitHora().toString() + ""
+                    + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."
+                    + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
+
+            correo.setCorreo(iniRec_correo.getText());
+            new Thread(correo).start();
+            return null;
+        }
+
+    };
+    
+    
     
    //// -- *** Métodos de Paciente
     

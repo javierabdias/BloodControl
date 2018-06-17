@@ -33,7 +33,7 @@ public class Fecha extends Task<Void>{
     protected Void call() throws Exception {
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery("SELECT c.citHora FROM Citas c WHERE c.citFecha=:fecha");
+        Query query = em.createQuery("SELECT c.citHora FROM Citas c WHERE c.citFecha=:fecha AND c.erId='A'");
         query.setParameter("fecha", fecha);
         List<Date> fe = query.getResultList();
         em.getTransaction().commit();

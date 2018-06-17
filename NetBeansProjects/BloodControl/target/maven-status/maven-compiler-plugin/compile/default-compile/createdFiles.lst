@@ -16,6 +16,7 @@ com/integrador/bloodcontrol/persistence/LogIn.class
 com/integrador/bloodcontrol/POJO/Estudios.class
 com/integrador/bloodcontrol/POJO/Pagos.class
 com/integrador/bloodcontrol/POJO/Estudios_.class
+com/integrador/bloodcontrol/MainSceneController$1.class
 com/integrador/bloodcontrol/POJO/Cita_Examen.class
 com/integrador/bloodcontrol/Consultas/Consulta_Cita.class
 com/integrador/POJOLista/Laboratorista.class
@@ -29,6 +30,7 @@ com/integrador/bloodcontrol/Consultas/ResulCitas.class
 com/integrador/bloodcontrol/persistence/Conexion.class
 com/integrador/bloodcontrol/Consultas/LogIn.class
 com/integrador/bloodcontrol/Funciones/Reloj.class
+com/integrador/bloodcontrol/MainSceneController$2.class
 com/integrador/bloodcontrol/Funciones/Usuarios.class
 com/integrador/bloodcontrol/POJO/StatusPag.class
 com/integrador/bloodcontrol/Consultas/Paciente_Tabla.class
