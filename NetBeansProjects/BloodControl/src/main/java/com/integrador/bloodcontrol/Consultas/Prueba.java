@@ -5,7 +5,7 @@
  */
 package com.integrador.bloodcontrol.Consultas;
 
-import com.integrador.bloodcontrol.POJO.Resultados;
+import com.integrador.bloodcontrol.POJO.Cita_Examen;
 import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import java.util.List;
 import javafx.concurrent.Task;
@@ -22,12 +22,12 @@ public class Prueba extends Task <Void>{
     protected Void call() throws Exception {
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery("SELECT r FROM Resultados r");
-        List <Resultados> resul = query.getResultList();
+        Query query = em.createQuery("SELECT r FROM CitaExamen r");
+        List <Cita_Examen> resul = query.getResultList();
         em.getTransaction().commit();
         em.close();
         
-        System.out.println(resul.get(0).getTimestamp());
+        System.out.println(resul.get(0).getExamen().getExaNom());
         
         return null;
     }

@@ -55,7 +55,17 @@ public class Examen implements Serializable {
     @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
     @ManyToOne
     private EstadoRegistro erId;
+    @OneToMany (mappedBy = "primaryKey.examen")
+    private Collection <Cita_Examen> citaExamen;
 
+    public Collection<Cita_Examen> getCitaExamen() {
+        return citaExamen;
+    }
+
+    public void setCitaExamen(Collection<Cita_Examen> citaExamen) {
+        this.citaExamen = citaExamen;
+    }
+    
     public Examen() {
     }
 

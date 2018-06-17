@@ -65,9 +65,9 @@
       </Pane>
       <JFXDatePicker fx:id="iniRec_fecha" defaultColor="#63bfde" layoutX="78.0" layoutY="206.0" prefHeight="32.0" prefWidth="170.0" promptText="Fecha" />
       <JFXComboBox fx:id="iniRec_Examen" focusColor="#63bfde" layoutX="88.0" layoutY="272.0" prefHeight="26.0" prefWidth="176.0" promptText="Exámenes" unFocusColor="#505354" />
-      <Pane layoutX="427.0" layoutY="510.0" prefHeight="39.0" prefWidth="83.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+      <Pane layoutX="415.0" layoutY="514.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
          <children>
-            <Label fx:id="iniRec_total" layoutX="11.0" layoutY="4.0" prefHeight="32.0" prefWidth="60.0" text="\$0.00" textAlignment="CENTER" textFill="#28aed7">
+            <Label fx:id="iniRec_total" layoutX="16.0" layoutY="4.0" prefHeight="32.0" prefWidth="78.0" text="\$0.00" textFill="#28aed7">
                <font>
                   <Font size="20.0" />
                </font>

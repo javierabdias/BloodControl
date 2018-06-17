@@ -76,9 +76,10 @@ public class Citas implements Serializable {
     private Paciente pacId;
     @OneToMany(mappedBy = "citId")
     private Collection<Pagos> pagosCollection;
-    
     @OneToMany (mappedBy = "primaryKey.citId")
     private Collection <Resultados> resultados;
+    @OneToMany (mappedBy = "primaryKey.cita")
+    private Collection <Cita_Examen> citaExamen;
 
     public Collection<Resultados> getResultados() {
         return resultados;
@@ -87,7 +88,14 @@ public class Citas implements Serializable {
     public void setResultados(Collection<Resultados> resultados) {
         this.resultados = resultados;
     }
-    
+
+    public void setCitaExamen(Collection<Cita_Examen> citaExamen) {
+        this.citaExamen = citaExamen;
+    }
+
+    public Collection<Cita_Examen> getCitaExamen() {
+        return citaExamen;
+    }
 
     public Citas() {
     }

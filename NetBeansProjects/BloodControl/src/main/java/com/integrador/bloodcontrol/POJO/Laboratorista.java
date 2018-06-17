@@ -63,7 +63,6 @@ public class Laboratorista implements Serializable {
     @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID")
     @ManyToOne
     private Persona perId;
-
     @OneToMany (mappedBy = "primaryKey.labId")
     private Collection <Resultados> resultados;
 
@@ -74,7 +73,8 @@ public class Laboratorista implements Serializable {
     public void setResultados(Collection<Resultados> resultados) {
         this.resultados = resultados;
     }
-    
+
+
     public Laboratorista() {
     }
 

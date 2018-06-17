@@ -10,9 +10,11 @@ import com.integrador.bloodcontrol.Consultas.Usuario;
 import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
+import com.integrador.bloodcontrol.Eliminaciones.EliminarCita;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
+import com.integrador.bloodcontrol.POJO.Citas;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -185,11 +187,10 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private TableColumn<Cita, Integer> cit_id;
     @FXML
-    private JFXButton btn_resultados;
-    @FXML
-    private JFXComboBox<?> tipo;
-
+    private JFXComboBox<String> tipo;
     
+    ObservableList <String> cita_status = FXCollections.observableArrayList("MOSTRAR TODO","REALIZADO","NO REALIZADO","PAGADO","SIN PAGAR");
+
     
     
     //  PACIENTES
@@ -224,6 +225,17 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXTextField pac_buscar;
     
+    
+    //  RESULTADOS
+    
+    private static Cita Citas;
+    
+    public static Cita getCitas() {
+        return Citas;
+    }
+    
+    @FXML
+    private JFXButton btn_resultados;
     
     
     @FXML
@@ -318,6 +330,9 @@ public class MainSceneController extends Funciones implements Initializable {
         // CITAS
         citaTabla();
         accionBotonesCit();
+        
+        //RESULTADOS
+        resultados();
     
     }
     
@@ -336,6 +351,7 @@ public class MainSceneController extends Funciones implements Initializable {
         
         // CITAS
         citaTabla();
+        accionBotonesCit();
     }
     
     
@@ -348,6 +364,8 @@ public class MainSceneController extends Funciones implements Initializable {
         thread.start();
         fecha(fecha);
         usuario();
+        
+        tipo.setItems(cita_status);
         
         logout.setOnAction(e ->{
             anchor.getScene().getWindow().hide();
@@ -457,6 +475,7 @@ public class MainSceneController extends Funciones implements Initializable {
         }
         return "N";
     }
+    
     
    //// -- *** Métodos de Inicio Recepcionista
     
@@ -584,7 +603,32 @@ public class MainSceneController extends Funciones implements Initializable {
             cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
             cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
           
-         
+            FilteredList<Cita> datos = new FilteredList<>(pt.getValue(), a -> true);
+            tipo.setOnAction(e -> { 
+                datos.setPredicate((Predicate<? super Cita>) citas -> {
+                
+                    if(tipo.getSelectionModel().isEmpty()){
+                        return true;
+                    }
+                    
+                    if(tipo.getValue().equals("MOSTRAR TODO")){
+                        return true;
+                    }
+                    
+                    if(tipo.getValue().equals(citas.getExtraccion())){
+                        return true;
+                    }
+                    
+                    if(tipo.getValue().equals(citas.getPago())){
+                        return true;
+                    }
+                    
+                    return false;
+                });
+            });
+            SortedList<Cita> datosCambio = new SortedList<>(datos);
+            datosCambio.comparatorProperty().bind(cit_tabla.comparatorProperty());
+            cit_tabla.setItems(datosCambio);
         });
         new Thread (pt).start();
     }
@@ -598,8 +642,69 @@ public class MainSceneController extends Funciones implements Initializable {
         cit_agregar.setOnAction(e -> {
             new Thread(new AbrirVentana("/Cita/AgregarCita.fxml", "Crear nueva cita")).start();
         });
-    }
-
-    }
         
+        cit_eliminar.setOnAction(e -> {
 
+            tipo.setValue(null);
+            Cita_Tabla pt = new Cita_Tabla();
+            pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                cit_tabla.setItems(pt.getValue());
+
+                cit_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                cit_Nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+                cit_ApePat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+                cit_ApeMat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+                cit_fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+                cit_hora.setCellValueFactory(new PropertyValueFactory<>("hora"));
+                cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
+                cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
+
+                FilteredList<Cita> datos = new FilteredList<>(pt.getValue(), a -> true);
+                tipo.setOnAction(t -> {
+                    datos.setPredicate((Predicate<? super Cita>) citas -> {
+
+                        if (tipo.getSelectionModel().isEmpty()) {
+                            return true;
+                        }
+
+                        if (tipo.getValue().equals("MOSTRAR TODO")) {
+                            return true;
+                        }
+
+                        if (tipo.getValue().equals(citas.getExtraccion())) {
+                            return true;
+                        }
+
+                        if (tipo.getValue().equals(citas.getPago())) {
+                            return true;
+                        }
+
+                        return false;
+                    });
+                });
+                SortedList<Cita> datosCambio = new SortedList<>(datos);
+                datosCambio.comparatorProperty().bind(cit_tabla.comparatorProperty());
+                cit_tabla.setItems(datosCambio);
+            });
+
+            if (!cit_tabla.getSelectionModel().isEmpty()) {
+                Integer id = cit_tabla.getSelectionModel().getSelectedItem().getId();
+                new Thread(new EliminarCita(id, new Thread(pt))).start();
+            } else {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            }
+        });
+
+    }
+    
+    
+    /// -- *** Resultados
+    private void resultados(){
+        btn_resultados.setOnAction(e -> {
+            Citas = cit_tabla.getSelectionModel().getSelectedItem();
+            new Thread(new AbrirVentana("/Resultados/Resultados.fxml", "Resultados")).start();
+        });
+       
+    }
+
+}

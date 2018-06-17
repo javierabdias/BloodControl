@@ -33,7 +33,6 @@ public class ExaCita extends Task <CitaExamen>{
         em.getTransaction().commit();
         em.close();
         
-        System.out.println(cita.getPrecio());
         return cita;
     }
     

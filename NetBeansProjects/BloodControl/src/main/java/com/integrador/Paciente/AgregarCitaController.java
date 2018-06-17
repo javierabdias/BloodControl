@@ -10,8 +10,10 @@ import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
 import com.integrador.bloodcontrol.Consultas.ExaCita;
 import com.integrador.bloodcontrol.Consultas.ExamenCitas;
 import com.integrador.bloodcontrol.Consultas.Fecha;
+import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.POJO.Citas;
+import com.integrador.bloodcontrol.POJO.Cita_Examen;
 import com.integrador.bloodcontrol.POJO.EstadoRegistro;
 import com.integrador.bloodcontrol.POJO.Examen;
 import com.integrador.bloodcontrol.POJO.Paciente;
@@ -85,7 +87,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
+    String paciente;
     Paciente pac;
     
     @FXML
@@ -108,6 +110,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         Enable(true);
         
         iniRec_Hora.setDisable(true);
@@ -119,14 +122,14 @@ public class AgregarCitaController extends Funciones implements Initializable {
               
     }
 
-    private void accionBotones() {
+    private void accionBotones () {
 
         btn_cancelar.setOnAction(e -> {
             anchor.getScene().getWindow().hide();
         });
 
         iniRec_fecha.setOnAction(e -> {
-            if( verificarFecha(DatePickerParser(iniRec_fecha))){
+            if(verificarFecha(DatePickerParser(iniRec_fecha))){
             list.clear();
             iniRec_Hora.setDisable(false);
             try {
@@ -147,6 +150,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
             if (validarEmailFuerte(iniRec_correo.getText())) {
                 Consulta_Cita persona = new Consulta_Cita(iniRec_correo.getText());
                 persona.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    paciente=persona.getValue();
                     iniRec_Paciente.setText(persona.getValue());
                     if (!persona.getValue().equals("No se encuentra paciente.")) {
                         Enable(false);
@@ -169,7 +173,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
     private Boolean verificarFecha(Date date) {
 
         Date hoy = new Date();
-        LocalDate local = LocalDate.now().minusDays(1);
+        LocalDate local = LocalDate.now();
         Instant instant = Instant.from(local.atStartOfDay(ZoneId.systemDefault()));
         Date antes = Date.from(instant);
         if (!date.before(antes)) {
@@ -186,7 +190,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
         btnIniRec_eliminar.setDisable(status);
     }
     
-    private void Fechas() throws ParseException{
+    private void Fechas () throws ParseException{
         Date date = sdf.parse("07:00:00");
         list.add(sdf.format(date));
         
@@ -227,7 +231,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
                         suma= suma+ exam1.getPrecio();
                     }
                     
-                    iniRec_total.setText(String.valueOf(suma));
+                    iniRec_total.setText("$ " + suma);
                     
                 } else {
                     Alertas.warning("Error", "Examen añadido previamente.", "El examen seleccionado ha sido añadido\npreviamente.");
@@ -249,7 +253,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
                     suma = suma + exam1.getPrecio();
                 }
 
-                iniRec_total.setText(String.valueOf(suma));
+                iniRec_total.setText("$ " + suma);
 
             } else {
 
@@ -276,7 +280,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
     
     };
     
-    private void tablaExamen(){
+    private void tablaExamen (){
         tabla_examen.setItems(exam);
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         examen.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -286,45 +290,48 @@ public class AgregarCitaController extends Funciones implements Initializable {
     Task <Void> guardar = new Task <Void> (){
         @Override
         protected Void call() throws Exception {
+            
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
-            
             Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
             query.setParameter("pacCe", iniRec_correo.getText());
-            
             Paciente pac = (Paciente) query.getSingleResult();
-            
-            System.out.println(pac.getPacId());
-            
             Citas cita= new Citas();
             cita.setPacId(pac);
             cita.setCitFecha(DatePickerParser(iniRec_fecha));
             cita.setCitTotal(Double.valueOf(suma));
-            
             Date ho = sdf.parse(iniRec_Hora.getValue());
             cita.setCitHora(ho);
-            
             EstadoRegistro er = em.find(EstadoRegistro.class, "A");
             cita.setErId(er);
-            
             StatusExa se = em.find(StatusExa.class, "N");
             cita.setStaeId(se);
-            
             StatusPag sp = em.find(StatusPag.class, 0);
             cita.setStapId(sp);
-            
-            for(int i=0; i<exam.size(); i++){
-                Examen e= em.find(Examen.class, exam.get(i).getId());
-                cita.getExamenCollection().add(e);
-                
-            }
-           
             em.persist(cita);
-            
             em.getTransaction().commit();
             
+            em.getTransaction().begin();
+            for(int i=0; i<exam.size(); i++){
+                Cita_Examen ce = new Cita_Examen();
+                Examen e= em.find(Examen.class, exam.get(i).getId());
+                ce.setExamen(e);
+                ce.setCitas(cita);
+                em.persist(ce);
+            }
+            em.getTransaction().commit();
             em.close();
+         
             
+            CorreoTexto correo = new CorreoTexto();
+            correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
+            correo.setNombre("Buen día, "+ paciente);
+            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + cita.getCitFecha().toString() + "\n" + "*   FECHA: " + cita.getCitHora().toString() + ""
+                    + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."+
+                    "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
+            
+            correo.setCorreo(iniRec_correo.getText());
+            new Thread (correo).start();
             return null;
         }
     

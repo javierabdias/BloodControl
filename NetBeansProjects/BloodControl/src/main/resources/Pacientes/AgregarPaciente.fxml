@@ -27,8 +27,8 @@
       <JFXDatePicker fx:id="fnac" defaultColor="#63bfde" layoutX="20.0" layoutY="201.0" prefHeight="32.0" prefWidth="175.0" promptText="Fecha Nacimiento" />
       <JFXTextField fx:id="tel" focusColor="#63bfde" labelFloat="true" layoutX="208.0" layoutY="201.0" prefHeight="32.0" prefWidth="175.0" promptText="Telefono" unFocusColor="#505453" />
       <JFXTextField fx:id="cel" focusColor="#63bfde" labelFloat="true" layoutX="112.0" layoutY="252.0" prefHeight="32.0" prefWidth="175.0" promptText="Celular" unFocusColor="#505453" />
-      <JFXButton fx:id="btn_aceptar" layoutX="57.0" layoutY="310.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
-      <JFXButton fx:id="btn_cancelar" layoutX="241.0" layoutY="310.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <JFXButton fx:id="btn_aceptar" layoutX="230.0" layoutY="309.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="63.0" layoutY="309.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
       <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="269.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@txtBloodControl-Negro.png" />

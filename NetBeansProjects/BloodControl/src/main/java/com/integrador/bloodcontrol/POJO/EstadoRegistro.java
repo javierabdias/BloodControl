@@ -64,6 +64,7 @@ public class EstadoRegistro implements Serializable {
         this.resultados = resultados;
     }
 
+
     public EstadoRegistro() {
     }
 

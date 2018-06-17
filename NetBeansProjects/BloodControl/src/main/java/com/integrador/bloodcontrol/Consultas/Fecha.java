@@ -46,9 +46,7 @@ public class Fecha extends Task<Void>{
                     list.remove(fec.toString());
                 }
             }
-        } else {
-            System.out.println("Vacío");
-        }
+        } 
         return null;
     }
     

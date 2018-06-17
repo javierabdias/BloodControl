@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Estudios.findByEstId", query = "SELECT e FROM Estudios e WHERE e.estId = :estId")
     , @NamedQuery(name = "Estudios.findByEstNombre", query = "SELECT e FROM Estudios e WHERE e.estNombre = :estNombre")
     , @NamedQuery(name = "Estudios.findByEstMin", query = "SELECT e FROM Estudios e WHERE e.estMin = :estMin")
-    , @NamedQuery(name = "Estudios.findByEstMax", query = "SELECT e FROM Estudios e WHERE e.estMax = :estMax")})
+    , @NamedQuery(name = "Estudios.findByEstMax", query = "SELECT e FROM Estudios e WHERE e.estMax = :estMax")
+    , @NamedQuery(name = "Estudios.findByEstMagnit", query = "SELECT e FROM Estudios e WHERE e.estMagnit = :estMagnit")})
 public class Estudios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,13 +50,14 @@ public class Estudios implements Serializable {
     private Double estMin;
     @Column(name = "EST_MAX")
     private Double estMax;
+    @Column(name = "EST_MAGNIT")
+    private String estMagnit;
     @JoinColumn(name = "ER_ID", referencedColumnName = "ER_ID")
     @ManyToOne
     private EstadoRegistro erId;
     @JoinColumn(name = "EXA_ID", referencedColumnName = "EXA_ID")
     @ManyToOne
     private Examen exaId;
-    
     @OneToMany (mappedBy = "primaryKey.estId")
     private Collection <Resultados> resultados;
 
@@ -66,7 +68,7 @@ public class Estudios implements Serializable {
     public void setResultados(Collection<Resultados> resultados) {
         this.resultados = resultados;
     }
-
+    
 
     public Estudios() {
     }
@@ -105,6 +107,14 @@ public class Estudios implements Serializable {
 
     public void setEstMax(Double estMax) {
         this.estMax = estMax;
+    }
+
+    public String getEstMagnit() {
+        return estMagnit;
+    }
+
+    public void setEstMagnit(String estMagnit) {
+        this.estMagnit = estMagnit;
     }
 
     public EstadoRegistro getErId() {

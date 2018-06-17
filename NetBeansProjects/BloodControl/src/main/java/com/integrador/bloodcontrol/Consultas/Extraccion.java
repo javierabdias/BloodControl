@@ -29,7 +29,7 @@ public class Extraccion extends Task <ObservableList<Pacientes>>{
         em.getTransaction().begin();
         Date date = new Date();
         Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Pacientes (D.citId,B.perNombre,B.perAp,B.perAm,C.status) FROM Paciente A, Persona B, StatusExa C, Citas D"
-                + " WHERE A.perId=B.perId AND A.pacId=D.pacId AND C.staeId=D.staeId AND A.erId='A' AND D.citFecha=:fecha");
+                + " WHERE A.perId=B.perId AND A.pacId=D.pacId AND C.staeId=D.staeId AND A.erId='A' AND D.citFecha=:fecha AND D.erId='A'");
         query.setParameter("fecha", date);
         tabla= FXCollections.observableArrayList(query.getResultList());
         em.getTransaction().commit();
