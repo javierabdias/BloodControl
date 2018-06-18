@@ -13,6 +13,7 @@ import com.integrador.Paciente.AgregarCitaController;
 import com.integrador.POJOLista.CitaExamen;
 import com.integrador.POJOLista.CitaPago;
 import com.integrador.POJOLista.SigleCita;
+import com.integrador.bloodcontrol.Consultas.CitaStatus;
 import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
 import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
 import com.integrador.bloodcontrol.Consultas.ExaCita;
@@ -206,6 +207,13 @@ public class MainSceneController extends Funciones implements Initializable {
    
     
     //  CITAS
+    
+    private static Cita ci;
+
+    public static Cita getCi() {
+        return ci;
+    }
+    
     @FXML
     private JFXButton cit_agregar;
     @FXML
@@ -376,6 +384,7 @@ public class MainSceneController extends Funciones implements Initializable {
         accionBotonesPac();
 
         // CITAS
+        cit_pagar.setVisible(false);
         citaTabla();
         accionBotonesCit();
 
@@ -966,14 +975,33 @@ public class MainSceneController extends Funciones implements Initializable {
             cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
 
             FilteredList<Cita> datos = new FilteredList<>(pt.getValue(), a -> true);
+            
+            busque_cita.setOnKeyReleased(e -> {
+                
+                busque_cita.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                
+                    datos.setPredicate((Predicate<? super Cita>) citas -> {
+                        
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        
+                        if(citas.getId().toString().contains(newValue)){
+                            return true;
+                        }
+                        
+                        return false;
+                    
+                    });
+                
+                });
+            
+            });
+            
             tipo.setOnAction(e -> {
                 datos.setPredicate((Predicate<? super Cita>) citas -> {
 
                     if (tipo.getSelectionModel().isEmpty()) {
-                        return true;
-                    }
-
-                    if (tipo.getValue().equals(citas.getFecha().toString())) {
                         return true;
                     }
 
@@ -1017,28 +1045,76 @@ public class MainSceneController extends Funciones implements Initializable {
 
             tipo.setValue(null);
 
-            if (!cit_tabla.getSelectionModel().isEmpty()) {
-
+            if (cit_tabla.getSelectionModel().isEmpty()) {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else if (cit_tabla.getSelectionModel().getSelectedItems().get(0).getPago().equals("PAGADO")){
+                Alertas.warning("Cita pagada", "Cita no puede ser eliminada.", "La cita seleccionada ha sido pagada previamente, \nno puede ser eliminada,");
+            } else {
                 Integer id = cit_tabla.getSelectionModel().getSelectedItem().getId();
                 EliminarCita ec = new EliminarCita(id);
                 ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
                     citaTabla();
                 });
                 new Thread(ec).start();
-
-            } else {
-                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
             }
+        });
+        
+        cit_modificar.setOnAction(e -> {
+            
+            if(cit_tabla.getSelectionModel().isEmpty()){
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else{
+            
+                switch (cit_tabla.getSelectionModel().getSelectedItem().getPago()){
+                
+                    case "PAGADO":
+                        
+                        break;
+                        
+                    case "SIN PAGAR":
+                        ci = cit_tabla.getSelectionModel().getSelectedItem();
+                        new Thread (new AbrirVentana("/Cita/ModificarCita1.fxml","Modificar citas")).start();
+                        break;
+                
+                }
+            
+            }
+        
         });
 
     }
-    
-
+        
     /// -- *** Resultados
     private void resultados() {
-        btn_resultados.setOnAction(e -> {
-            Citas = cit_tabla.getSelectionModel().getSelectedItem();
-            new Thread(new AbrirVentana("/Resultados/Resultados.fxml", "Resultados")).start();
+        btn_resultados.setOnAction(e -> {          
+
+            if (cit_tabla.getSelectionModel().isEmpty()) {
+
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+
+            } else {
+
+                CitaStatus c = new CitaStatus(cit_tabla.getSelectionModel().getSelectedItems().get(0).getId());
+
+                c.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    if (c.getValue()) {
+                        if (cit_tabla.getSelectionModel().getSelectedItems().get(0).getPago().equals("SIN PAGAR")) {
+                            Alertas.warning("Pago", "Pago pendiente.", "El pago debe de ser cubierto en su totalidad \npara proceder.");
+                        } else if ((cit_tabla.getSelectionModel().getSelectedItems().get(0).getExtraccion().equals("NO REALIZADO"))) {
+                            Alertas.warning("Extracción", "No se ha realizado extracción de muestras.", "Las muestras deben de ser extraídas para poder proceder.");
+                        } else {
+                            Citas = cit_tabla.getSelectionModel().getSelectedItem();
+                            new Thread(new AbrirVentana("/Resultados/Resultados.fxml", "Resultados")).start();
+
+                        }
+                    } else {
+                        Alertas.warning("Resultados existentes.", "Resultados registrados previamente.", "Los resultados han sido registrados previamente.");
+                    }
+                });
+
+                new Thread(c).start();
+
+            }
         });
 
     }

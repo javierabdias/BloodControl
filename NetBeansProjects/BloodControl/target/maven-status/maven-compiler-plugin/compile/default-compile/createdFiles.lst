@@ -1,3 +1,4 @@
+com/integrador/bloodcontrol/Consultas/CitaStatus.class
 com/integrador/bloodcontrol/POJO/Citas.class
 com/integrador/bloodcontrol/Consultas/Cita_Tabla.class
 com/integrador/Paciente/SwitchController$1.class
@@ -8,6 +9,7 @@ com/integrador/bloodcontrol/POJO/EstadoRegistro_.class
 com/integrador/bloodcontrol/Modificaciones/ExtraccionStatus.class
 com/integrador/bloodcontrol/POJO/Cita_Examen_.class
 com/integrador/Paciente/AgregarCitaController$1.class
+com/integrador/Paciente/ModificarCita1Controller$1.class
 com/integrador/bloodcontrol/Consultas/Extraccion.class
 com/integrador/bloodcontrol/Alertas.class
 com/integrador/bloodcontrol/LogInController.class
@@ -21,6 +23,7 @@ com/integrador/bloodcontrol/MainSceneController$1.class
 com/integrador/bloodcontrol/POJO/Cita_Examen.class
 com/integrador/bloodcontrol/Consultas/Consulta_Cita.class
 com/integrador/POJOLista/Laboratorista.class
+com/integrador/Paciente/ModificarCita1Controller.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/bloodcontrol/POJO/Resultados.class
 com/integrador/bloodcontrol/Consultas/Usuario.class
@@ -38,6 +41,7 @@ com/integrador/bloodcontrol/POJO/StatusPag.class
 com/integrador/Paciente/PagoController.class
 com/integrador/bloodcontrol/Consultas/Paciente_Tabla.class
 com/integrador/bloodcontrol/Eliminaciones/EliminarCita.class
+com/integrador/Paciente/ModificarCita1Controller$2.class
 com/integrador/POJOLista/CitaPago.class
 com/integrador/bloodcontrol/POJO/StatusExa_.class
 com/integrador/bloodcontrol/POJO/DirUsu_.class
@@ -47,6 +51,7 @@ com/integrador/bloodcontrol/MainSceneController.class
 com/integrador/bloodcontrol/Consultas/Prueba.class
 com/integrador/Paciente/AgregarPacienteController$1.class
 com/integrador/bloodcontrol/POJO/Laboratorista.class
+com/integrador/Paciente/ResultadosController$1.class
 com/integrador/bloodcontrol/POJO/Persona.class
 com/integrador/Paciente/ResultadosController.class
 com/integrador/bloodcontrol/Funciones/CorreoTexto.class

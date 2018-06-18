@@ -12,11 +12,13 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/AgregarCitaController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/EstadoRegistro.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/CitaExamen.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/ModificarCita1Controller.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Persona.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Cita.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Pacientes.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Laboratorista.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/CitaExamenId.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/CitaStatus.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/persistence/EManagerFactory.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Eliminaciones/EliminarPaciente.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/AbrirVentana.java

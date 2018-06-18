@@ -24,7 +24,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -143,36 +145,46 @@ public class ResultadosController extends Funciones implements Initializable {
             
                 Alertas.error("Error", "Estudios pendientes de resultado.", "Complete el llenado de resultados para la cita.");
             } else {
-            
-                EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
-                em.getTransaction().begin();
-                
-                Citas cita = em.find(Citas.class, MainSceneController.getCitas().getId());
-                Laboratorista lab = em.find(Laboratorista.class, Usuarios.getId());
-                EstadoRegistro er = em.find(EstadoRegistro.class, "A");
-                Date date = new Date();    
-                
-                for(Resul resul: list2){
-                    
-                    Resultados res = new Resultados ();
-                    res.setCitas(cita);
-                    res.setLaboratorista(lab);
-                    res.setER(er);
-                    res.setTimestamp(date);
-                    Estudios est = em.find(Estudios.class, resul.getId());
-                    res.setEstudios(est);
-                    res.setResultado(resul.getResultado());
-                    em.persist(res);
-                }
-                
-                em.getTransaction().commit();
-                em.close();
-            
+                enviar.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    anchor.getScene().getWindow().hide();
+                });
+                new Thread (enviar).start();
             }
             
         });
 
     }
 
+    Task<Void> enviar = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+
+            Citas cita = em.find(Citas.class, MainSceneController.getCitas().getId());
+            Laboratorista lab = em.find(Laboratorista.class, Usuarios.getId());
+            EstadoRegistro er = em.find(EstadoRegistro.class, "A");
+            Date date = new Date();
+
+            for (Resul resul : list2) {
+
+                Resultados res = new Resultados();
+                res.setCitas(cita);
+                res.setLaboratorista(lab);
+                res.setER(er);
+                res.setTimestamp(date);
+                Estudios est = em.find(Estudios.class, resul.getId());
+                res.setEstudios(est);
+                res.setResultado(resul.getResultado());
+                em.persist(res);
+            }
+
+            em.getTransaction().commit();
+            em.close();
+            
+            return null;
+        }
+
+    };
         
 }
