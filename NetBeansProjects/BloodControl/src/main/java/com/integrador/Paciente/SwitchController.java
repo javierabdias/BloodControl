@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -62,8 +63,11 @@ public class SwitchController extends Funciones implements Initializable {
                 button.setDisable(false);
                 status.setText("Paciente encontrado,\nreactivar cuenta.");
                 button.setOnAction(e -> {
-                    new Thread(reactivar).start();
-                    anchor.getScene().getWindow().hide();
+                    
+                    reactivar.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent t) -> {
+                         anchor.getScene().getWindow().hide();                    
+                    });
+                    new Thread(reactivar).start();                   
                 });
             
             } else {
@@ -72,8 +76,12 @@ public class SwitchController extends Funciones implements Initializable {
                 button.setDisable(false);
                 status.setText("Paciente no encontrado,\ningresarlo al sistema.");
                 button.setOnAction(e -> {
-                   anchor.getScene().getWindow().hide(); 
-                   new Thread (new AbrirVentana("/Pacientes/AgregarPaciente.fxml", "Añadir Paciente")).start();
+                   
+                   AbrirVentana av = new AbrirVentana("/Pacientes/AgregarPaciente.fxml", "Añadir Paciente");
+                   av.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent t) -> {
+                       anchor.getScene().getWindow().hide();
+                   });
+                   new Thread (av).start();
                 });
             }
         });

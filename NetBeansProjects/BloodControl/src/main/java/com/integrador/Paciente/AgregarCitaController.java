@@ -5,6 +5,7 @@
  */
 package com.integrador.Paciente;
 
+import com.integrador.POJOLista.CitaExamen;
 import com.integrador.bloodcontrol.Alertas;
 import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
 import com.integrador.bloodcontrol.Consultas.ExaCita;
@@ -40,6 +41,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -165,8 +167,12 @@ public class AgregarCitaController extends Funciones implements Initializable {
         Examen();
 
         btn_aceptar.setOnAction(e -> {
+            
+            guardar.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                anchor.getScene().getWindow().hide();
+            });
             new Thread(guardar).start();
-            anchor.getScene().getWindow().hide();
+            
         });
     }
 
@@ -232,6 +238,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
                 }
 
                 iniRec_total.setText("$ " + suma);
+                iniRec_Examen.setValue(null);
 
             });
             new Thread(ec).start();
@@ -323,7 +330,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
             CorreoTexto correo = new CorreoTexto();
             correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
             correo.setNombre("Buen día, " + paciente);
-            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + sd.format(cita.getCitFecha()) + "\n" + "*   FECHA: " + sdf.format(cita.getCitHora()) + ""
+            correo.setMensaje(" \n\n Confirmación de cita: "+ cita.getCitId() +" \n*   FECHA: " + sd.format(cita.getCitFecha()) + "\n" + "*   HORA: " + sdf.format(cita.getCitHora()) + ""
                     + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."
                     + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
 

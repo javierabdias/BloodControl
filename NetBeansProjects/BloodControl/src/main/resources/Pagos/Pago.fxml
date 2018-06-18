@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="384.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.Paciente.PagoController">
+   <children>
+      <Pane layoutX="-3.0" prefHeight="79.0" prefWidth="579.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="264.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@dinero.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Label layoutX="57.0" layoutY="102.0" text="Correo:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="correo" editable="false" focusColor="#63bfde" layoutX="132.0" layoutY="95.0" prefHeight="26.0" prefWidth="154.0" unFocusColor="#505354" />
+      <Label layoutX="51.0" layoutY="150.0" text="Importe:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="197.0" text="PAGO:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Pane layoutX="133.0" layoutY="235.0" prefHeight="34.0" prefWidth="154.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <Label fx:id="resta" layoutX="11.0" layoutY="4.0" prefHeight="25.0" prefWidth="118.0" text="\$ 0.00">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="pago" focusColor="#63bfde" layoutX="131.0" layoutY="192.0" prefHeight="26.0" prefWidth="154.0" unFocusColor="#505354" />
+      <Label layoutX="68.0" layoutY="244.0" text="Resta:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Pane layoutX="135.0" layoutY="141.0" prefHeight="34.0" prefWidth="154.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <Label fx:id="importe" layoutX="12.0" layoutY="1.0" prefHeight="32.0" prefWidth="110.0" text="\$0.00" textFill="#28aed7">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton fx:id="btn_aceptar" layoutX="194.0" layoutY="287.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="29.0" layoutY="287.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="418.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="378.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/logo16x16.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="337.0" layoutY="102.0" prefHeight="217.0" prefWidth="208.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
+         <children>
+            <Label layoutX="11.0" layoutY="10.0" text="CITA PRELIMINAR:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <JFXTextArea fx:id="preliminar" editable="false" focusColor="#63bfde" layoutX="12.0" layoutY="34.0" prefHeight="166.0" prefWidth="185.0" unFocusColor="#505354" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

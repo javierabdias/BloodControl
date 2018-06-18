@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
@@ -87,8 +89,10 @@ public class AgregarPacienteController extends Funciones implements Initializabl
             
             else{
                 progress.setVisible(true);
+                task.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    anchor.getScene().getWindow().hide();
+                });
                 new Thread(task).start();
-                anchor.getScene().getWindow().hide();
             }
         });     
         

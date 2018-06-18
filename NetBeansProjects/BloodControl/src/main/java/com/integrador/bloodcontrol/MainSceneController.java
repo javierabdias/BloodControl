@@ -10,9 +10,12 @@ import com.integrador.bloodcontrol.Consultas.Usuario;
 import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.Paciente.AgregarCitaController;
-import com.integrador.Paciente.CitaExamen;
+import com.integrador.POJOLista.CitaExamen;
+import com.integrador.POJOLista.CitaPago;
+import com.integrador.POJOLista.SigleCita;
 import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
 import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
+import com.integrador.bloodcontrol.Consultas.ExaCita;
 import com.integrador.bloodcontrol.Consultas.ExamenCitas;
 import com.integrador.bloodcontrol.Consultas.Fecha;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarCita;
@@ -45,6 +48,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -55,8 +59,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -150,9 +157,12 @@ public class MainSceneController extends Funciones implements Initializable {
     
     ObservableList<String> list = FXCollections.observableArrayList();
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+    SimpleDateFormat ttt = new SimpleDateFormat("yyyy-MM-dd");
+    
     ObservableList<CitaExamen> exam = FXCollections.observableArrayList();
-    Double suma;
+    
     String paci;
+    Double suma;
     
     @FXML
     private Label iniRec_NomExam;
@@ -184,13 +194,13 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton btnIniRec_eliminar;
     
     @FXML
-    private TableView<?> tabla_examen;
+    private TableView<CitaExamen> tabla_examen;
     @FXML
-    private TableColumn<?, ?> id1;
+    private TableColumn<CitaExamen, Integer> id_examen;
     @FXML
-    private TableColumn<?, ?> examen;
+    private TableColumn<CitaExamen, String> examen;
     @FXML
-    private TableColumn<?, ?> precio;
+    private TableColumn<CitaExamen, Double> precio;
        
     
    
@@ -228,7 +238,11 @@ public class MainSceneController extends Funciones implements Initializable {
     
     ObservableList <String> cita_status = FXCollections.observableArrayList("MOSTRAR TODO","REALIZADO","NO REALIZADO","PAGADO","SIN PAGAR");
 
-    
+    Date d= new Date();
+    @FXML
+    private JFXTextField busque_cita;
+    @FXML
+    private JFXButton cit_pagar;
     
     //  PACIENTES
     
@@ -318,116 +332,111 @@ public class MainSceneController extends Funciones implements Initializable {
     public static Pacientes getPaciente() {
         return paciente;
     }
+    
    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Inicio();
-        
-        switch (Usuarios.getTipo()){
+
+        switch (Usuarios.getTipo()) {
             case "Administrador":
                 Administrador();
                 break;
-            
+
             case "Recepcionista":
                 Recepcionista();
                 break;
-                
+
             case "Laboratorista":
                 Laboratorista();
                 break;
         }
-    }    
-    
-    
-    //// -- *** Métodos de tipo de usuario 
-        
-    private void Administrador(){
-    
     }
-    
-    private void Laboratorista(){
-        
+
+    //// -- *** Métodos de tipo de usuario 
+    private void Administrador() {
+
+    }
+
+    private void Laboratorista() {
+
         /// PERMISOS
-        
         tabPane.getTabs().remove(usuarios);
         tabPane.getTabs().remove(inicio_rec);
-        
+
         /// INICIO
-        
-        ObservableList <String> status = FXCollections.observableArrayList("REALIZADO","NO REALIZADO");
+        ObservableList<String> status = FXCollections.observableArrayList("REALIZADO", "NO REALIZADO");
         combo_cita_ini.setItems(status);
         iniTablaCitas();
         accionBotonesIni();
-        
+
         /// PACIENTES
         pacienteTabla();
         accionBotonesPac();
-        
+
         // CITAS
         citaTabla();
         accionBotonesCit();
-        
+
         //RESULTADOS
         resultados();
-    
+
     }
-    
-    private void Recepcionista(){
-        
+
+    private void Recepcionista() {
+
         /// PERMISOS
-        
         tabPane.getTabs().remove(inicio_lab);
         tabPane.getTabs().remove(estudios);
         tabPane.getTabs().remove(examenes);
         tabPane.getTabs().remove(usuarios);
-        
+        btn_resultados.setVisible(false);
+
         /// PACIENTES
         pacienteTabla();
         accionBotonesPac();
-        
+
         // CITAS
         citaTabla();
         accionBotonesCit();
-        
+
         // INICIO
         InicioRecep();
-        
+
     }
     
-    
-    
-   //// -- *** Métodos de Inicio Laboratorista
-  
-    private void Inicio(){
-        Thread thread= new Thread(new Reloj(reloj));
+
+    //// -- *** Métodos de Inicio Laboratorista
+    private void Inicio() {
+        Thread thread = new Thread(new Reloj(reloj));
         thread.setDaemon(true);
         thread.start();
         fecha(fecha);
         usuario();
-        
+
         tipo.setItems(cita_status);
-        
-        logout.setOnAction(e ->{
+
+        logout.setOnAction(e -> {
             anchor.getScene().getWindow().hide();
-            AbrirVentana2 av= new AbrirVentana2("/LogIn/LogIn.fxml","LogIn");
+            AbrirVentana2 av = new AbrirVentana2("/LogIn/LogIn.fxml", "LogIn");
             new Thread(av).start();
         });
-        
+
     }
-    
-    private void usuario(){
-        Usuario usuario = new Usuario(Usuarios.getTipo(),Usuarios.getId());
+
+    private void usuario() {
+        Usuario usuario = new Usuario(Usuarios.getTipo(), Usuarios.getId());
         usuario.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-            id.setText(usuario.getValue().get(0).getNombre()+" "+usuario.getValue().get(0).getApePat()+" "+usuario.getValue().get(0).getApeMat());
+            id.setText(usuario.getValue().get(0).getNombre() + " " + usuario.getValue().get(0).getApePat() + " " + usuario.getValue().get(0).getApeMat());
             correo.setText(usuario.getValue().get(0).getCorreo());
         });
         new Thread(usuario).start();
     }
-    
-    private void iniTablaCitas(){
-        Extraccion e= new Extraccion();
-        e.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent  event)->{
+
+    private void iniTablaCitas() {
+        Extraccion e = new Extraccion();
+        e.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             tabla_pac.setItems(e.getValue());
             id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
             nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -437,22 +446,23 @@ public class MainSceneController extends Funciones implements Initializable {
         });
         new Thread(e).start();
     }
-    
-    private void accionBotonesIni(){        
-        ini_actualizar.setOnAction(e->{
-           iniTablaCitas();
-           backtoBeginning();
+
+    private void accionBotonesIni() {
+        ini_actualizar.setOnAction(e -> {
+            iniTablaCitas();
+            backtoBeginning();
         });
-        
-        tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->{
-            if (!tabla_pac.getSelectionModel().isEmpty()){ 
-            area_cita_ini.setText("");
-            id_Cita=tabla_pac.getSelectionModel().getSelectedItem().getId();
-            citaInformacion();}
+
+        tabla_pac.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (!tabla_pac.getSelectionModel().isEmpty()) {
+                area_cita_ini.setText("");
+                id_Cita = tabla_pac.getSelectionModel().getSelectedItem().getId();
+                citaInformacion();
+            }
         });
-        
-        cita_check_ini.setOnAction(e->{
-            if(cita_check_ini.isSelected()){
+
+        cita_check_ini.setOnAction(e -> {
+            if (cita_check_ini.isSelected()) {
                 ace_cita_ini.setDisable(false);
                 combo_cita_ini.setDisable(false);
             } else {
@@ -460,80 +470,77 @@ public class MainSceneController extends Funciones implements Initializable {
                 combo_cita_ini.setDisable(true);
             }
         });
-        
-        ace_cita_ini.setOnAction(e-> {
-            Extraccion ex= new Extraccion();
-            ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent  event)->{
-            tabla_pac.setItems(ex.getValue());
-            id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-            ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-            ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-            status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        });
-            ExtraccionStatus ES= new ExtraccionStatus(id_Cita,Status(combo_cita_ini.getValue()),new Thread(ex));
+
+        ace_cita_ini.setOnAction(e -> {
+            Extraccion ex = new Extraccion();
+            ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                tabla_pac.setItems(ex.getValue());
+                id_pac.setCellValueFactory(new PropertyValueFactory<>("id"));
+                nom_pac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+                ape_pat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+                ape_mat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+                status.setCellValueFactory(new PropertyValueFactory<>("status"));
+            });
+            ExtraccionStatus ES = new ExtraccionStatus(id_Cita, Status(combo_cita_ini.getValue()), new Thread(ex));
             new Thread(ES).start();
             backtoBeginning();
         });
     }
-       
-    private void citaInformacion(){
-        Informacion_Cita ic= new Informacion_Cita(id_Cita);
-        
-        ic.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) ->{ 
-            List <Object> lista= (List) ic.getValue().get(0);
+
+    private void citaInformacion() {
+        Informacion_Cita ic = new Informacion_Cita(id_Cita);
+
+        ic.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            List<Object> lista = (List) ic.getValue().get(0);
             Pacientes pac = (Pacientes) ic.getValue().get(1);
-  
-            for (int i=0; i<lista.size();i++){
-                area_cita_ini.appendText("*     "+lista.get(i)+"\n");
+
+            for (int i = 0; i < lista.size(); i++) {
+                area_cita_ini.appendText("*     " + lista.get(i) + "\n");
             }
-        
+
             hora_cita_ini.setText(pac.getHora().toString());
-            cita_nom_ini.setText(pac.getNombre()+" "+pac.getApePat()+" "+pac.getApeMat());
-            combo_cita_ini.setValue(pac.getStatus());            
+            cita_nom_ini.setText(pac.getNombre() + " " + pac.getApePat() + " " + pac.getApeMat());
+            combo_cita_ini.setValue(pac.getStatus());
         });
         new Thread(ic).start();
-        }
-    
-    private void backtoBeginning(){
-       
+    }
+
+    private void backtoBeginning() {
+
         ace_cita_ini.setDisable(true);
         combo_cita_ini.setDisable(true);
         cita_check_ini.setSelected(false);
         hora_cita_ini.setText("00:00:00");
         cita_nom_ini.setText("Nombre del paciente");
-        area_cita_ini.setText(""); 
+        area_cita_ini.setText("");
     }
-    
-    private void fecha(Label l1){
+
+    private void fecha(Label l1) {
         Date myDate = new Date();
         l1.setText(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
     }
-     
-    private String Status(String status){
-        if(status.equals("REALIZADO")){
+
+    private String Status(String status) {
+        if (status.equals("REALIZADO")) {
             return "R";
         }
         return "N";
     }
     
-    
-   //// -- *** Métodos de Inicio Recepcionista
-    
-    private void InicioRecep(){
-   
+
+    //// -- *** Métodos de Inicio Recepcionista
+    private void InicioRecep() {
+
         Enable(true);
         accionBotonesIR();
         exame.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             iniRec_Examen.setItems(exame.getValue());
         });
         new Thread(exame).start();
-        
-        
-        
+
     }
-    
-    private void Enable (Boolean status){
+
+    private void Enable(Boolean status) {
         btnIniRec_Aceptar.setDisable(status);
         iniRec_fecha.setDisable(status);
         iniRec_Examen.setDisable(status);
@@ -542,7 +549,7 @@ public class MainSceneController extends Funciones implements Initializable {
         btnIniRec_pagar.setDisable(status);
         iniRec_Hora.setDisable(status);
     }
-    
+
     private Boolean verificarFecha(Date date) {
 
         Date hoy = new Date();
@@ -554,8 +561,8 @@ public class MainSceneController extends Funciones implements Initializable {
         }
         return false;
     }
-    
-     private void Fechas() throws ParseException {
+
+    private void Fechas() throws ParseException {
         Date date = sdf.parse("07:00:00");
         list.add(sdf.format(date));
 
@@ -567,7 +574,7 @@ public class MainSceneController extends Funciones implements Initializable {
         }
 
     }
-    
+
     Task<ObservableList<String>> exame = new Task<ObservableList<String>>() {
         @Override
         protected ObservableList<String> call() throws Exception {
@@ -585,12 +592,11 @@ public class MainSceneController extends Funciones implements Initializable {
 
     };
 
-    private void accionBotonesIR(){
-    
+    private void accionBotonesIR() {
+
         iniRec_fecha.setOnAction(e -> {
             if (verificarFecha(DatePickerParser(iniRec_fecha))) {
                 list.clear();
-                iniRec_Hora.setDisable(false);
                 try {
                     Fechas();
                 } catch (ParseException ex) {
@@ -603,7 +609,7 @@ public class MainSceneController extends Funciones implements Initializable {
                 Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas a partir del día actual.");
             }
         });
-        
+
         iniRec_Buscar.setOnAction(e -> {
 
             if (validarEmailFuerte(iniRec_correo.getText())) {
@@ -620,18 +626,96 @@ public class MainSceneController extends Funciones implements Initializable {
                 Alertas.error("Error", "Correo Inválido", "Verificar correo electrónico de paciente");
             }
         });
-        
+
         btnIniRec_Aceptar.setOnAction(e -> {
-            new Thread(guardar).start();
-            anchor.getScene().getWindow().hide();
+            if (!exam.isEmpty()) {
+                confirmacion();
+            } else {
+                Alertas.warning("Sin selección.", "Exámenes no seleccionados.", "Seleccionar exaámenes para proceder.");
+            }
         });
-        
+
+        Examen();
+        pagar();
     }
-    
-    private void Examen(){
-        
+
+    private void Examen() {
+
+        iniRec_Examen.setOnAction(e -> {
+            ExaCita ec = new ExaCita(iniRec_Examen.getValue());
+            ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                iniRec_NomExam.setText(ec.getValue().getNombre());
+                iniRec_costo.setText(String.valueOf("$ " + ec.getValue().getPrecio()) + "0");
+            });
+            new Thread(ec).start();
+
+            ExamenCitas ex = new ExamenCitas(iniRec_Examen.getValue());
+
+            ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                iniRec_estudios.setText("");
+                for (String st : ex.getValue()) {
+                    iniRec_estudios.appendText("*   " + st + "\n");
+                }
+            });
+            new Thread(ex).start();
+        });
+
+        btnIniRec_agregar.setOnAction(e -> {
+
+            ExaCita ec = new ExaCita(iniRec_Examen.getValue());
+            ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                exam.clear();
+                iniRec_NomExam.setText("Nombre Examen");
+                iniRec_costo.setText("$ 0.00");
+                iniRec_Examen.getItems().remove(ec.getValue().getNombre());
+                suma = 0.0;
+                exam.add(ec.getValue());
+                tablaExamen();
+
+                for (CitaExamen exam1 : exam) {
+                    suma = suma + exam1.getPrecio();
+                }
+
+                iniRec_total.setText("$ " + suma + "0");
+                iniRec_Examen.setValue(null);
+
+            });
+            new Thread(ec).start();
+
+        });
+
+        btnIniRec_eliminar.setOnAction(e -> {
+
+            if (!tabla_examen.getSelectionModel().isEmpty()) {
+                CitaExamen ce = tabla_examen.getSelectionModel().getSelectedItem();
+                exam.remove(ce);
+                tabla_examen.getItems().remove(ce);
+
+                suma = 0.0;
+                for (CitaExamen exam1 : exam) {
+                    suma = suma + exam1.getPrecio();
+                }
+
+                iniRec_Examen.getItems().add(ce.getNombre());
+
+                iniRec_total.setText("$ " + suma + "0");
+                iniRec_Examen.setValue(null);
+
+            } else {
+
+                Alertas.warning("Datos no seleccionados", "No se seleccionaron datos.", "Seleccione un registro de la tabla de exámenes para proceder.");
+            }
+        });
+
     }
-    
+
+    private void tablaExamen() {
+        tabla_examen.setItems(exam);
+        id_examen.setCellValueFactory(new PropertyValueFactory<>("id"));
+        examen.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        precio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+    }
+
     Task<Void> guardar = new Task<Void>() {
         @Override
         protected Void call() throws Exception {
@@ -669,10 +753,11 @@ public class MainSceneController extends Funciones implements Initializable {
 
             CorreoTexto correo = new CorreoTexto();
             correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
-            correo.setNombre("Buen día, " + paciente);
-            correo.setMensaje(" \n\n Confirmación de cita:\n*   FECHA: " + cita.getCitFecha().toString() + "\n" + "*   FECHA: " + cita.getCitHora().toString() + ""
-                    + "\n\n\n Se le invita a acudir con una antinipación de cinco minutos. Gracias."
-                    + "\n\n\nEste es un correo de verificación de cuenta; en caso de desconocer la procedencia, hacer caso omiso.");
+            correo.setNombre("Buen día, " + pac.getPerId().getPerNombre() + " " + pac.getPerId().getPerAp() + " " + pac.getPerId().getPerAm());
+            correo.setMensaje(" \n\n Confirmación de cita no. " + cita.getCitId() + ":"
+                    + "\n*  FECHA: " + ttt.format(cita.getCitFecha()) + "\n" + "*  HORA: " + sdf.format(cita.getCitHora()) + ""
+                    + "\n\n\n Se le invita a acudir con una anticipación de cinco minutos. Gracias."
+                    + "\n\n\nEste es un correo automático; en caso de desconocer la procedencia, hacer caso omiso.");
 
             correo.setCorreo(iniRec_correo.getText());
             new Thread(correo).start();
@@ -680,11 +765,88 @@ public class MainSceneController extends Funciones implements Initializable {
         }
 
     };
+
+    private void confirmacion() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().setPrefSize(400, 250);
+        alert.setTitle("Confirmación de cita.");
+        alert.setHeaderText("CITA PRELIMINAR:");
+        String impresion = "Exámenes a realizar:";
+
+        for (CitaExamen e : exam) {
+            impresion = impresion + "\n     *   " + e.getNombre();
+        }
+        alert.setContentText(impresion);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+
+            guardar.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                backToBeginning();
+            });
+            new Thread(guardar).start();
+
+        } else {
+            alert.close();
+        }
+    }
+
+    private void backToBeginning() {
+        iniRec_NomExam.setText("Nombre Examen");
+        iniRec_estudios.setText("");
+        iniRec_correo.setText("");
+        iniRec_Paciente.setText("");
+        iniRec_fecha.setValue(LocalDate.now());
+        iniRec_Hora.setValue(null);
+        iniRec_Examen.setValue(null);
+        iniRec_total.setText("$ 0.00");
+        iniRec_costo.setText("$ 0.00");
+        Enable(true);
+        tabla_examen.getItems().clear();
+    }
+
+    public void confirmacionPago() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Pago");
+        alert.setHeaderText("Transacción de Pago.");
+        alert.setContentText("¿Desea proceder al pago de la cita?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            AbrirVentana av = new AbrirVentana("/Pagos/Pago.fxml", "Pago");
+            av.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                backToBeginning();
+            });
+
+            new Thread(av).start();
+        } else {
+            alert.close();
+        }
+    }
+
+    private void pagar() {
+
+        btnIniRec_pagar.setOnAction(e -> {
+            if (!exam.isEmpty()) {
+
+                SigleCita.setCorreo(iniRec_correo.getText());
+                try {
+                    Date ho = sdf.parse(iniRec_Hora.getValue());
+                    SigleCita.setHora(ho);
+                } catch (ParseException ex) {
+                    Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                SigleCita.setFecha(DatePickerParser(iniRec_fecha));
+                SigleCita.setExamenes(exam);
+                System.out.println(SigleCita.getExamenes().size());
+                confirmacionPago();
+
+            }
+        });
+    }
     
-    
-    
-   //// -- *** Métodos de Paciente
-    
+
+    //// -- *** Métodos de Paciente
     private void pacienteTabla() {
         Paciente_Tabla pt = new Paciente_Tabla();
         pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
@@ -721,81 +883,79 @@ public class MainSceneController extends Funciones implements Initializable {
             datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
             pac_tabla.setItems(datosCambio);
         });
-        new Thread (pt).start();
+        new Thread(pt).start();
     }
-    
+
     private void accionBotonesPac() {
         pac_anadir.setOnAction(e -> {
             new Thread(new AbrirVentana("/Pacientes/Switch.fxml", "Añadir Paciente")).start();
         });
-        
-        pac_actualizar.setOnAction(e-> { 
+
+        pac_actualizar.setOnAction(e -> {
             pacienteTabla();
         });
-        
+
         pac_eliminar.setOnAction(e -> {
             Paciente_Tabla pt = new Paciente_Tabla();
             pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-            pac_tabla.setItems(pt.getValue());
-            pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-            pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-            pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-            pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
-            pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-            pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
-            pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
+                pac_tabla.setItems(pt.getValue());
+                pac_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+                pac_ap.setCellValueFactory(new PropertyValueFactory<>("apePat"));
+                pac_am.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
+                pac_correo.setCellValueFactory(new PropertyValueFactory<>("correo"));
+                pac_fn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+                pac_tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+                pac_cel.setCellValueFactory(new PropertyValueFactory<>("cel"));
 
-            FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
+                FilteredList<Pacientes> datos = new FilteredList<>(pt.getValue(), a -> true);
 
-            pac_buscar.setOnKeyReleased(d -> {
-                pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                    datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
+                pac_buscar.setOnKeyReleased(d -> {
+                    pac_buscar.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                        datos.setPredicate((Predicate<? super Pacientes>) paciente -> {
 
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        String lower = newValue.toLowerCase();
+                            if (newValue == null || newValue.isEmpty()) {
+                                return true;
+                            }
+                            String lower = newValue.toLowerCase();
 
-                        if (paciente.getApePat().toLowerCase().contains(lower)) {
-                            return true;
-                        } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
-                            return true;
-                        }
-                        return false;
+                            if (paciente.getApePat().toLowerCase().contains(lower)) {
+                                return true;
+                            } else if (paciente.getCorreo().toLowerCase().contains(lower)) {
+                                return true;
+                            }
+                            return false;
+                        });
                     });
                 });
+                SortedList<Pacientes> datosCambio = new SortedList<>(datos);
+                datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
+                pac_tabla.setItems(datosCambio);
             });
-            SortedList<Pacientes> datosCambio = new SortedList<>(datos);
-            datosCambio.comparatorProperty().bind(pac_tabla.comparatorProperty());
-            pac_tabla.setItems(datosCambio);
-        });
-            if(!pac_tabla.getSelectionModel().isEmpty()){
-            String correo= pac_tabla.getSelectionModel().getSelectedItem().getCorreo();
-            new Thread (new EliminarPaciente(correo,new Thread(pt))).start();
+            if (!pac_tabla.getSelectionModel().isEmpty()) {
+                String correo = pac_tabla.getSelectionModel().getSelectedItem().getCorreo();
+                new Thread(new EliminarPaciente(correo, new Thread(pt))).start();
             } else {
                 Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
             }
         });
-        
-        pac_editar.setOnAction( e -> {
-            if(!pac_tabla.getSelectionModel().isEmpty()){
-            paciente=pac_tabla.getSelectionModel().getSelectedItem();
-            new Thread(new AbrirVentana("/Pacientes/ModificarPaciente.fxml", "Modificar Paciente")).start();
+
+        pac_editar.setOnAction(e -> {
+            if (!pac_tabla.getSelectionModel().isEmpty()) {
+                paciente = pac_tabla.getSelectionModel().getSelectedItem();
+                new Thread(new AbrirVentana("/Pacientes/ModificarPaciente.fxml", "Modificar Paciente")).start();
             } else {
                 Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
             }
         });
     }
     
-    
-    
-   //// -- *** Métodos de Citas
-    
-    private void citaTabla(){
-        Cita_Tabla pt = new Cita_Tabla ();
+
+    //// -- *** Métodos de Citas
+    private void citaTabla() {
+        Cita_Tabla pt = new Cita_Tabla();
         pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             cit_tabla.setItems(pt.getValue());
-            
+
             cit_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             cit_Nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             cit_ApePat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
@@ -804,27 +964,31 @@ public class MainSceneController extends Funciones implements Initializable {
             cit_hora.setCellValueFactory(new PropertyValueFactory<>("hora"));
             cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
             cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
-          
+
             FilteredList<Cita> datos = new FilteredList<>(pt.getValue(), a -> true);
-            tipo.setOnAction(e -> { 
+            tipo.setOnAction(e -> {
                 datos.setPredicate((Predicate<? super Cita>) citas -> {
-                
-                    if(tipo.getSelectionModel().isEmpty()){
+
+                    if (tipo.getSelectionModel().isEmpty()) {
                         return true;
                     }
-                    
-                    if(tipo.getValue().equals("MOSTRAR TODO")){
+
+                    if (tipo.getValue().equals(citas.getFecha().toString())) {
                         return true;
                     }
-                    
-                    if(tipo.getValue().equals(citas.getExtraccion())){
+
+                    if (tipo.getValue().equals("MOSTRAR TODO")) {
                         return true;
                     }
-                    
-                    if(tipo.getValue().equals(citas.getPago())){
+
+                    if (tipo.getValue().equals(citas.getExtraccion())) {
                         return true;
                     }
-                    
+
+                    if (tipo.getValue().equals(citas.getPago())) {
+                        return true;
+                    }
+
                     return false;
                 });
             });
@@ -832,66 +996,36 @@ public class MainSceneController extends Funciones implements Initializable {
             datosCambio.comparatorProperty().bind(cit_tabla.comparatorProperty());
             cit_tabla.setItems(datosCambio);
         });
-        new Thread (pt).start();
+        new Thread(pt).start();
     }
-    
-    private void accionBotonesCit(){
-        
+
+    private void accionBotonesCit() {
+
         cit_actualizar.setOnAction(e -> {
             citaTabla();
         });
-        
+
         cit_agregar.setOnAction(e -> {
-            new Thread(new AbrirVentana("/Cita/AgregarCita.fxml", "Crear nueva cita")).start();
+            AbrirVentana av = new AbrirVentana("/Cita/AgregarCita.fxml", "Crear nueva cita");
+            av.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                citaTabla();
+            });
+            new Thread(av).start();
         });
-        
+
         cit_eliminar.setOnAction(e -> {
 
             tipo.setValue(null);
-            Cita_Tabla pt = new Cita_Tabla();
-            pt.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                cit_tabla.setItems(pt.getValue());
-
-                cit_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                cit_Nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-                cit_ApePat.setCellValueFactory(new PropertyValueFactory<>("apePat"));
-                cit_ApeMat.setCellValueFactory(new PropertyValueFactory<>("apeMat"));
-                cit_fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-                cit_hora.setCellValueFactory(new PropertyValueFactory<>("hora"));
-                cit_pago.setCellValueFactory(new PropertyValueFactory<>("pago"));
-                cit_extraccion.setCellValueFactory(new PropertyValueFactory<>("extraccion"));
-
-                FilteredList<Cita> datos = new FilteredList<>(pt.getValue(), a -> true);
-                tipo.setOnAction(t -> {
-                    datos.setPredicate((Predicate<? super Cita>) citas -> {
-
-                        if (tipo.getSelectionModel().isEmpty()) {
-                            return true;
-                        }
-
-                        if (tipo.getValue().equals("MOSTRAR TODO")) {
-                            return true;
-                        }
-
-                        if (tipo.getValue().equals(citas.getExtraccion())) {
-                            return true;
-                        }
-
-                        if (tipo.getValue().equals(citas.getPago())) {
-                            return true;
-                        }
-
-                        return false;
-                    });
-                });
-                SortedList<Cita> datosCambio = new SortedList<>(datos);
-                datosCambio.comparatorProperty().bind(cit_tabla.comparatorProperty());
-                cit_tabla.setItems(datosCambio);
-            });
 
             if (!cit_tabla.getSelectionModel().isEmpty()) {
+
                 Integer id = cit_tabla.getSelectionModel().getSelectedItem().getId();
-                new Thread(new EliminarCita(id, new Thread(pt))).start();
+                EliminarCita ec = new EliminarCita(id);
+                ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    citaTabla();
+                });
+                new Thread(ec).start();
+
             } else {
                 Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
             }
@@ -899,14 +1033,14 @@ public class MainSceneController extends Funciones implements Initializable {
 
     }
     
-    
+
     /// -- *** Resultados
-    private void resultados(){
+    private void resultados() {
         btn_resultados.setOnAction(e -> {
             Citas = cit_tabla.getSelectionModel().getSelectedItem();
             new Thread(new AbrirVentana("/Resultados/Resultados.fxml", "Resultados")).start();
         });
-       
+
     }
 
 }

@@ -15,6 +15,7 @@ com/integrador/bloodcontrol/POJO/Examen.class
 com/integrador/bloodcontrol/persistence/LogIn.class
 com/integrador/bloodcontrol/POJO/Estudios.class
 com/integrador/bloodcontrol/POJO/Pagos.class
+com/integrador/POJOLista/CitaExamen.class
 com/integrador/bloodcontrol/POJO/Estudios_.class
 com/integrador/bloodcontrol/MainSceneController$1.class
 com/integrador/bloodcontrol/POJO/Cita_Examen.class
@@ -27,14 +28,17 @@ com/integrador/bloodcontrol/POJO/Paciente.class
 com/integrador/bloodcontrol/Funciones/Funciones.class
 com/integrador/bloodcontrol/POJO/Paciente_.class
 com/integrador/bloodcontrol/Consultas/ResulCitas.class
+com/integrador/POJOLista/SigleCita.class
 com/integrador/bloodcontrol/persistence/Conexion.class
 com/integrador/bloodcontrol/Consultas/LogIn.class
 com/integrador/bloodcontrol/Funciones/Reloj.class
 com/integrador/bloodcontrol/MainSceneController$2.class
 com/integrador/bloodcontrol/Funciones/Usuarios.class
 com/integrador/bloodcontrol/POJO/StatusPag.class
+com/integrador/Paciente/PagoController.class
 com/integrador/bloodcontrol/Consultas/Paciente_Tabla.class
 com/integrador/bloodcontrol/Eliminaciones/EliminarCita.class
+com/integrador/POJOLista/CitaPago.class
 com/integrador/bloodcontrol/POJO/StatusExa_.class
 com/integrador/bloodcontrol/POJO/DirUsu_.class
 com/integrador/bloodcontrol/Funciones/CorreoTexto$1.class
@@ -45,7 +49,6 @@ com/integrador/Paciente/AgregarPacienteController$1.class
 com/integrador/bloodcontrol/POJO/Laboratorista.class
 com/integrador/bloodcontrol/POJO/Persona.class
 com/integrador/Paciente/ResultadosController.class
-com/integrador/Paciente/CitaExamen.class
 com/integrador/bloodcontrol/Funciones/CorreoTexto.class
 com/integrador/bloodcontrol/POJO/Citas_.class
 com/integrador/bloodcontrol/POJO/Recepcionista_.class
@@ -69,6 +72,7 @@ com/integrador/POJOLista/Pacientes.class
 com/integrador/bloodcontrol/Consultas/ExaCita.class
 com/integrador/Paciente/AgregarCitaController.class
 com/integrador/bloodcontrol/POJO/Recepcionista.class
+com/integrador/Paciente/PagoController$1.class
 com/integrador/bloodcontrol/AbrirVentana2.class
 com/integrador/bloodcontrol/POJO/Administrador_.class
 com/integrador/POJOLista/Resul.class

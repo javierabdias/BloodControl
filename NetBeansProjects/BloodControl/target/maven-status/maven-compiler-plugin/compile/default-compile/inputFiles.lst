@@ -3,13 +3,15 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/LogInController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Resul.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Administrador.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/CitaPago.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/PagoController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Cita_Tabla.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/ResultadosController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/AbrirVentana2.java
-/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/CitaExamen.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/SplashController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/AgregarCitaController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/EstadoRegistro.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/CitaExamen.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Persona.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Cita.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Pacientes.java
@@ -37,6 +39,7 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Paciente.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/SwitchController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Fecha.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/SigleCita.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/ResulCitas.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Laboratorista.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Paciente_Tabla.java

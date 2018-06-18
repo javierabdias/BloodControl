@@ -19,11 +19,9 @@ public class EliminarCita extends Task <Void>{
 
     Integer id;
     
-    Thread hilo;
 
-    public EliminarCita(Integer id, Thread hilo) {
+    public EliminarCita(Integer id) {
         this.id = id;
-        this.hilo = hilo;
     }
     
     @Override
@@ -36,7 +34,6 @@ public class EliminarCita extends Task <Void>{
         citas.setErId(status);
         em.getTransaction().commit();
         em.close();
-        hilo.start();
         return null;
     }
     
