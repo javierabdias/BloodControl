@@ -774,6 +774,61 @@ public class MainSceneController extends Funciones implements Initializable {
         }
 
     };
+    
+    Task<Void> guardarPago = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+
+            EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe");
+            query.setParameter("pacCe", iniRec_correo.getText());
+            Paciente pac = (Paciente) query.getSingleResult();
+            Citas cita = new Citas();
+            cita.setPacId(pac);
+            cita.setCitFecha(DatePickerParser(iniRec_fecha));
+            cita.setCitTotal(Double.valueOf(suma));
+            Date ho = sdf.parse(iniRec_Hora.getValue());
+            cita.setCitHora(ho);
+            EstadoRegistro er = em.find(EstadoRegistro.class, "A");
+            cita.setErId(er);
+            StatusExa se = em.find(StatusExa.class, "N");
+            cita.setStaeId(se);
+            StatusPag sp = em.find(StatusPag.class, 0);
+            cita.setStapId(sp);
+            em.persist(cita);
+            em.getTransaction().commit();
+
+            em.getTransaction().begin();
+            for (int i = 0; i < exam.size(); i++) {
+                Cita_Examen ce = new Cita_Examen();
+                Examen e = em.find(Examen.class, exam.get(i).getId());
+                ce.setExamen(e);
+                ce.setCitas(cita);
+                em.persist(ce);
+            }
+            em.getTransaction().commit();
+            em.close();
+
+            CorreoTexto correo = new CorreoTexto();
+            correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
+            correo.setNombre("Buen día, " + pac.getPerId().getPerNombre() + " " + pac.getPerId().getPerAp() + " " + pac.getPerId().getPerAm());
+            correo.setMensaje(" \n\n Confirmación de cita no. " + cita.getCitId() + ":"
+                    + "\n*  FECHA: " + ttt.format(cita.getCitFecha()) + "\n" + "*  HORA: " + sdf.format(cita.getCitHora()) + ""
+                    + "\n\n\n Se le invita a acudir con una anticipación de cinco minutos. Gracias."
+                    + "\n\n\nEste es un correo automático; en caso de desconocer la procedencia, hacer caso omiso.");
+
+            correo.setCorreo(iniRec_correo.getText());
+            new Thread(correo).start();
+            
+            SigleCita.setCita(cita);
+            SigleCita.setTotal(suma);
+            
+            new Thread (new AbrirVentana("/Pagos/Pago.fxml","Pagos")).start();
+            return null;
+        }
+
+    };
 
     private void confirmacion() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -794,6 +849,31 @@ public class MainSceneController extends Funciones implements Initializable {
                 backToBeginning();
             });
             new Thread(guardar).start();
+
+        } else {
+            alert.close();
+        }
+    }
+    
+    private void confirmacion2() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().setPrefSize(400, 250);
+        alert.setTitle("Confirmación de cita a pagar.");
+        alert.setHeaderText("CITA PRELIMINAR:");
+        String impresion = "Exámenes a realizar:";
+
+        for (CitaExamen e : exam) {
+            impresion = impresion + "\n     *   " + e.getNombre();
+        }
+        alert.setContentText(impresion);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+
+            guardarPago.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                backToBeginning();
+            });
+            new Thread(guardarPago).start();
 
         } else {
             alert.close();
@@ -837,19 +917,7 @@ public class MainSceneController extends Funciones implements Initializable {
 
         btnIniRec_pagar.setOnAction(e -> {
             if (!exam.isEmpty()) {
-
-                SigleCita.setCorreo(iniRec_correo.getText());
-                try {
-                    Date ho = sdf.parse(iniRec_Hora.getValue());
-                    SigleCita.setHora(ho);
-                } catch (ParseException ex) {
-                    Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                SigleCita.setFecha(DatePickerParser(iniRec_fecha));
-                SigleCita.setExamenes(exam);
-                System.out.println(SigleCita.getExamenes().size());
-                confirmacionPago();
-
+                confirmacion2();
             }
         });
     }

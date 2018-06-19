@@ -71,17 +71,7 @@ public class PagoController extends Funciones implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        correo.setText(SigleCita.getCorreo());
-        System.out.println(SigleCita.getExamenes().size());
-        for(CitaExamen ce : SigleCita.getExamenes()){
-            suma= suma + ce.getPrecio();
-        }
-        TextFieldDouble(pago);
-        setTextFieldLimit(pago,6);
-        importe.setText("$ "+suma+"0");
-        confirmacion();
         acciones();
-        
     }    
     
     
@@ -122,43 +112,11 @@ public class PagoController extends Funciones implements Initializable {
 
             EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
-
-            Query query = em.createQuery("SELECT p FROM Paciente p WHERE p.pacCe = :pacCe AND p.erId='A'");
-            query.setParameter("pacCe", correo.getText());
-
-            Paciente pac = (Paciente) query.getSingleResult();
-            StatusPag sp = em.find(StatusPag.class, 1);
-            StatusExa se = em.find(StatusExa.class, "N");
-            EstadoRegistro ere= em.find(EstadoRegistro.class, "A");
-
-            Citas cita = new Citas();
-            cita.setPacId(pac);
-            cita.setCitFecha(SigleCita.getFecha());
-            cita.setCitHora(SigleCita.getHora());
-            cita.setStapId(sp);
-            cita.setStaeId(se);
-            cita.setCitTotal(suma);
-            cita.setErId(ere);
-
-            em.persist(cita);
-            em.getTransaction().commit();
-            em.getTransaction().begin();
-
-            for (CitaExamen c : SigleCita.getExamenes()) {
-                Examen ex = em.find(Examen.class, c.getId());
-                Cita_Examen ce = new Cita_Examen();
-                ce.setCitas(cita);
-                ce.setExamen(ex);
-                em.persist(ce);
-            }
-            em.getTransaction().commit();
-            
-            em.getTransaction().begin();
             Date date = new Date();
             
             Pagos pagos = new Pagos();
-            pagos.setCitId(cita);
-            pagos.setPagMonto(suma);
+            pagos.setCitId(SigleCita.getCita());
+            pagos.setPagMonto(SigleCita.getTotal());
             pagos.setPagTiempo(date);
             
             Recepcionista rec = em.find(Recepcionista.class, Usuarios.getId());
@@ -168,28 +126,10 @@ public class PagoController extends Funciones implements Initializable {
             em.getTransaction().commit();
             em.close();
             
-            CorreoTexto cor = new CorreoTexto();
-            cor.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
-            cor.setNombre("Buen día, " + pac.getPerId().getPerNombre() + " " + pac.getPerId().getPerAp() + " " + pac.getPerId().getPerAm());
-            cor.setMensaje(" \n\n Confirmación de Pago de Cita no. " + cita.getCitId() + ":"
-                    + "\n*  FECHA: " + ttt.format(cita.getCitFecha()) + "\n" + "*  HORA: " + sdf.format(cita.getCitHora()) + ""
-                    + "\n\n\n Se le invita a acudir con una anticipación de cinco minutos. Gracias."
-                    + "\n\n\nEste es un correo automático; en caso de desconocer la procedencia, hacer caso omiso.");
-
-            cor.setCorreo(correo.getText());
-            new Thread(cor).start();
-
+           
             return null;
         }
 
     };
 
-    private void confirmacion() {
-        
-        String impresion="";
-        for (CitaExamen e : SigleCita.getExamenes()) {
-            impresion = impresion + "\n     *   " + e.getNombre();
-        }
-        preliminar.setText(impresion);
-    }
 }

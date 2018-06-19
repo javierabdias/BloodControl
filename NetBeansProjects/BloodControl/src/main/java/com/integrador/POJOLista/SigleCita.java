@@ -5,8 +5,7 @@
  */
 package com.integrador.POJOLista;
 
-import java.util.Date;
-import javafx.collections.ObservableList;
+import com.integrador.bloodcontrol.POJO.Citas;
 
 /**
  *
@@ -14,47 +13,26 @@ import javafx.collections.ObservableList;
  */
 public class SigleCita {
     
-    private static String correo;
-    private static Date fecha;
-    private static Date hora;
+    private static Citas cita;
+    private static Double total;
     
-    private static ObservableList<CitaExamen> examenes;
     
     private SigleCita(){}
 
-    public static String getCorreo() {
-        return correo;
+    public static Citas getCita() {
+        return cita;
     }
 
-    public static Date getFecha() {
-        return fecha;
+    public static void setCita(Citas cita) {
+        SigleCita.cita = cita;
     }
 
-    public static Date getHora() {
-        return hora;
+    public static Double getTotal() {
+        return total;
     }
 
-    public static ObservableList<CitaExamen> getExamenes() {
-        return examenes;
+    public static void setTotal(Double total) {
+        SigleCita.total = total;
     }
 
-    public static void setCorreo(String correo) {
-        SigleCita.correo = correo;
-    }
-
-    public static void setFecha(Date fecha) {
-        SigleCita.fecha = fecha;
-    }
-
-    public static void setHora(Date hora) {
-        SigleCita.hora = hora;
-    }
-
-    public static void setExamenes(ObservableList<CitaExamen> examenes) {
-        SigleCita.examenes = examenes;
-    }
-    
-    
-    
-    
 }
