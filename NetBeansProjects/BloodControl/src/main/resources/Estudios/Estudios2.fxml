@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="400.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.EstudiosExamen.Estudios2Controller">
+   <children>
+      <Pane layoutX="-1.0" prefHeight="79.0" prefWidth="319.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="134.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@sangre.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="nom_estudio" focusColor="#63bfde" labelFloat="true" layoutX="73.0" layoutY="147.0" prefHeight="32.0" prefWidth="175.0" promptText="Nombre de estudio" unFocusColor="#505453" />
+      <JFXTextField fx:id="min" focusColor="#63bfde" labelFloat="true" layoutX="41.0" layoutY="199.0" prefHeight="32.0" prefWidth="88.0" promptText="Mínimo" unFocusColor="#505453" />
+      <JFXTextField fx:id="max" focusColor="#63bfde" labelFloat="true" layoutX="193.0" layoutY="199.0" prefHeight="32.0" prefWidth="88.0" promptText="Máximo" unFocusColor="#505453" />
+      <JFXButton fx:id="btn_aceptar" layoutX="171.0" layoutY="308.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="41.0" layoutY="308.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="180.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="141.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/logo16x16.png" />
+         </image>
+      </ImageView>
+      <JFXComboBox fx:id="magnitud" focusColor="#63bfde" labelFloat="true" layoutX="106.0" layoutY="257.0" prefHeight="26.0" prefWidth="110.0" promptText="Magnitud" unFocusColor="#505354" />
+      <JFXComboBox fx:id="Examen" focusColor="#63bfde" labelFloat="true" layoutX="73.0" layoutY="101.0" prefHeight="32.0" prefWidth="175.0" promptText="Exámenes" unFocusColor="#505354" />
+   </children>
+</AnchorPane>

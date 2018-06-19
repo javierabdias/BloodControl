@@ -55,6 +55,8 @@ public class EstadoRegistro implements Serializable {
     
     @OneToMany (mappedBy = "primaryKey.erId")
     private Collection <Resultados> resultados;
+    
+    
 
     public Collection<Resultados> getResultados() {
         return resultados;

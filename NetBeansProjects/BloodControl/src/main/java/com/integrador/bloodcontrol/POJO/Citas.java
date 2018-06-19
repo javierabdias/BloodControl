@@ -77,25 +77,25 @@ public class Citas implements Serializable {
     @OneToMany(mappedBy = "citId")
     private Collection<Pagos> pagosCollection;
     @OneToMany (mappedBy = "primaryKey.citId")
-    private Collection <Resultados> resultados;
-    @OneToMany (mappedBy = "primaryKey.cita")
-    private Collection <Cita_Examen> citaExamen;
+   private Collection <Resultados> resultados;
+   @OneToMany (mappedBy = "primaryKey.cita")
+   private Collection <Cita_Examen> citaExamen;
 
-    public Collection<Resultados> getResultados() {
-        return resultados;
-    }
+   public Collection<Resultados> getResultados() {
+       return resultados;
+   }
 
-    public void setResultados(Collection<Resultados> resultados) {
-        this.resultados = resultados;
-    }
+   public void setResultados(Collection<Resultados> resultados) {
+       this.resultados = resultados;
+   }
 
-    public void setCitaExamen(Collection<Cita_Examen> citaExamen) {
-        this.citaExamen = citaExamen;
-    }
+   public void setCitaExamen(Collection<Cita_Examen> citaExamen) {
+       this.citaExamen = citaExamen;
+   }
 
-    public Collection<Cita_Examen> getCitaExamen() {
-        return citaExamen;
-    }
+   public Collection<Cita_Examen> getCitaExamen() {
+       return citaExamen;
+   }
 
     public Citas() {
     }

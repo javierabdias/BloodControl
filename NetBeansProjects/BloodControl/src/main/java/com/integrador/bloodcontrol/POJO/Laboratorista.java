@@ -69,6 +69,8 @@ public class Laboratorista implements Serializable {
     public Collection<Resultados> getResultados() {
         return resultados;
     }
+    
+    
 
     public void setResultados(Collection<Resultados> resultados) {
         this.resultados = resultados;

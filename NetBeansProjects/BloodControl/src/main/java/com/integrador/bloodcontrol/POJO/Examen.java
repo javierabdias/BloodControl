@@ -65,7 +65,7 @@ public class Examen implements Serializable {
     public void setCitaExamen(Collection<Cita_Examen> citaExamen) {
         this.citaExamen = citaExamen;
     }
-    
+
     public Examen() {
     }
 

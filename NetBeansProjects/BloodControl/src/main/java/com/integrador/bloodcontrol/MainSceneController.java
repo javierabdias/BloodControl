@@ -1,6 +1,7 @@
 package com.integrador.bloodcontrol;
 
 
+import com.integrador.EstudiosExamen.EstuSingle;
 import com.integrador.POJOLista.Cita;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarPaciente;
 import com.integrador.bloodcontrol.Consultas.Extraccion;
@@ -1260,6 +1261,15 @@ public class MainSceneController extends Funciones implements Initializable {
                 InformacionExamen();
             }
         });
+        
+        exa_est_ana.setOnAction(e -> {
+            if(tabla_exame.getSelectionModel().isEmpty()){
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else {
+                EstuSingle.setNombre(tabla_exame.getSelectionModel().getSelectedItem().getNombre());
+                new Thread (new AbrirVentana("/Estudios/Estudios.fxml","Añadir estudio")).start();
+            }
+        });
     }
     
     private void InformacionExamen (){
@@ -1324,4 +1334,6 @@ public class MainSceneController extends Funciones implements Initializable {
         
         
     }
+    
+    
 }

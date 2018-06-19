@@ -58,17 +58,18 @@ public class Estudios implements Serializable {
     @JoinColumn(name = "EXA_ID", referencedColumnName = "EXA_ID")
     @ManyToOne
     private Examen exaId;
-    @OneToMany (mappedBy = "primaryKey.estId")
-    private Collection <Resultados> resultados;
-
-    public Collection<Resultados> getResultados() {
-        return resultados;
-    }
-
-    public void setResultados(Collection<Resultados> resultados) {
-        this.resultados = resultados;
-    }
     
+    @OneToMany (mappedBy = "primaryKey.estId")
+   private Collection <Resultados> resultados;
+
+   public Collection<Resultados> getResultados() {
+       return resultados;
+   }
+
+   public void setResultados(Collection<Resultados> resultados) {
+       this.resultados = resultados;
+   }
+
 
     public Estudios() {
     }
