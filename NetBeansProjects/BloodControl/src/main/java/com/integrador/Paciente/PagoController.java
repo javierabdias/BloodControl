@@ -11,14 +11,9 @@ import com.integrador.bloodcontrol.Alertas;
 import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Usuarios;
-import com.integrador.bloodcontrol.POJO.Cita_Examen;
 import com.integrador.bloodcontrol.POJO.Citas;
-import com.integrador.bloodcontrol.POJO.EstadoRegistro;
-import com.integrador.bloodcontrol.POJO.Examen;
-import com.integrador.bloodcontrol.POJO.Paciente;
 import com.integrador.bloodcontrol.POJO.Pagos;
 import com.integrador.bloodcontrol.POJO.Recepcionista;
-import com.integrador.bloodcontrol.POJO.StatusExa;
 import com.integrador.bloodcontrol.POJO.StatusPag;
 import com.integrador.bloodcontrol.persistence.EManagerFactory;
 import com.jfoenix.controls.JFXButton;
@@ -35,7 +30,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -57,7 +51,7 @@ public class PagoController extends Funciones implements Initializable {
     @FXML
     private JFXTextField correo;
     
-    Double suma=0.0;
+    Double suma=SigleCita.getTotal();
     Double res=0.0;
     @FXML
     private AnchorPane anchor;
@@ -71,6 +65,8 @@ public class PagoController extends Funciones implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        importe.setText("$ " + SigleCita.getTotal());
+        correo.setText(SigleCita.getCorreo());
         acciones();
     }    
     
@@ -85,7 +81,7 @@ public class PagoController extends Funciones implements Initializable {
             
             res = 0.0;    
             res= suma - Double.valueOf(pago.getText());
-            resta.setText("$ " + res+"0");
+            resta.setText("$ " + res +"0");
             }});
         
         btn_cancelar.setOnAction(e -> {
@@ -119,6 +115,12 @@ public class PagoController extends Funciones implements Initializable {
             pagos.setPagMonto(SigleCita.getTotal());
             pagos.setPagTiempo(date);
             
+            StatusPag sp = em.find(StatusPag.class, 1);
+            
+            Citas cita = em.find(Citas.class, SigleCita.getCita().getCitId());
+            cita.setStapId(sp);
+            em.persist(cita);
+            
             Recepcionista rec = em.find(Recepcionista.class, Usuarios.getId());
             pagos.setRecId(rec);
             
@@ -126,6 +128,16 @@ public class PagoController extends Funciones implements Initializable {
             em.getTransaction().commit();
             em.close();
             
+            CorreoTexto correo = new CorreoTexto();
+            correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
+            correo.setNombre("Buen día, " + SigleCita.getNombre());
+            correo.setMensaje(" \n\n Confirmación de cita no. " + SigleCita.getCita().getCitId() + ":"
+                    + "\n*  FECHA: " + ttt.format(SigleCita.getFecha()) + "\n" + "*  HORA: " + sdf.format(SigleCita.getHora()) + " STATUS: PAGADO"
+                    + "\n\n\n Se le invita a acudir con una anticipación de cinco minutos. Gracias."
+                    + "\n\n\nEste es un correo automático; en caso de desconocer la procedencia, hacer caso omiso.");
+
+            correo.setCorreo(SigleCita.getCorreo());
+            new Thread(correo).start();
            
             return null;
         }

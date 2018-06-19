@@ -34,7 +34,7 @@
                </image>
             </ImageView>
             <JFXRadioButton fx:id="Admin" layoutX="6.0" layoutY="120.0" stylesheets="@../styles/radiobutton.css" text="Administrador" />
-            <JFXRadioButton fx:id="Recep" layoutX="149.0" layoutY="121.0" stylesheets="@../styles/radiobutton.css" text="Recepcionista" />
+            <JFXRadioButton fx:id="Recep" layoutX="142.0" layoutY="121.0" stylesheets="@../styles/radiobutton.css" text="Recepcionista" />
             <JFXRadioButton fx:id="Lab" layoutX="78.0" layoutY="146.0" stylesheets="@../styles/radiobutton.css" text="Laboratorista" />
          </children>
       </Pane>

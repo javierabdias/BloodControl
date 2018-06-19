@@ -11,14 +11,19 @@ import com.integrador.bloodcontrol.Modificaciones.ExtraccionStatus;
 import com.integrador.POJOLista.Pacientes;
 import com.integrador.Paciente.AgregarCitaController;
 import com.integrador.POJOLista.CitaExamen;
-import com.integrador.POJOLista.CitaPago;
+import com.integrador.POJOLista.Estudio;
+import com.integrador.POJOLista.Examenes;
 import com.integrador.POJOLista.SigleCita;
+import com.integrador.bloodcontrol.Consultas.CitaRes;
 import com.integrador.bloodcontrol.Consultas.CitaStatus;
 import com.integrador.bloodcontrol.Consultas.Cita_Tabla;
 import com.integrador.bloodcontrol.Consultas.Consulta_Cita;
+import com.integrador.bloodcontrol.Consultas.EstudioTabla;
 import com.integrador.bloodcontrol.Consultas.ExaCita;
+import com.integrador.bloodcontrol.Consultas.ExaTabla;
 import com.integrador.bloodcontrol.Consultas.ExamenCitas;
 import com.integrador.bloodcontrol.Consultas.Fecha;
+import com.integrador.bloodcontrol.Consultas.Informacion_Examen;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarCita;
 import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
@@ -39,7 +44,6 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -252,10 +256,10 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXButton cit_pagar;
     
+    
     //  PACIENTES
     
     private static Pacientes paciente;
-    
     @FXML
     private JFXButton pac_anadir;
     @FXML
@@ -264,7 +268,6 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton pac_eliminar;
     @FXML
     private JFXButton pac_actualizar;
-   
     @FXML
     private TableView<Pacientes> pac_tabla;
     @FXML
@@ -284,23 +287,23 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXTextField pac_buscar;
     
+    public static Pacientes getPaciente() {
+        return paciente;
+    }
     
     //  RESULTADOS
     
     private static Cita Citas;
-    
     public static Cita getCitas() {
         return Citas;
     }
-    
     @FXML
     private JFXButton btn_resultados;
     
     
-    @FXML
-    private Label hora_cita_ini1;
-    @FXML
-    private Label cita_nom_ini1;
+    // EXAMENES
+    
+    int idExamen;
     @FXML
     private JFXButton exa_agregar;
     @FXML
@@ -309,42 +312,52 @@ public class MainSceneController extends Funciones implements Initializable {
     private JFXButton exa_modificar;
     @FXML
     private JFXButton exa_actualizar;
+    @FXML
+    private Label nom_examen;
+    @FXML
+    private JFXTextArea examen_estudios;
+    @FXML
+    private JFXButton exa_est_ana;
+     @FXML
+    private TableView<Examenes> tabla_exame;
+    @FXML
+    private TableColumn<Examenes, String> exa_nom;
+    @FXML
+    private TableColumn<Examenes, Double> exa_prec;
+    @FXML
+    private TableColumn<Examenes, Integer> exa_id;
+    
+    
+    
+    //ESTUDIOS
     
     @FXML
-    private JFXButton pac_anadir2;
+    private Label cita_nom_ini1;
     @FXML
-    private JFXButton pac_editar1;
+    private TableView<Estudio> tabla_estudio;
     @FXML
-    private JFXButton pac_anadir21;
+    private TableColumn<Estudio, String> nom_estudio;
     @FXML
-    private Label hora_cita_ini11;
-    
+    private TableColumn<Estudio, Double> min_estudio;
     @FXML
-    private JFXButton pac_anadir1;
-    
+    private TableColumn<Estudio, Double> max_estudio;
     @FXML
-    private Label hora_cita_ini12;
+    private TableColumn<Estudio, String> exa_estudio;
     @FXML
-    private Label cita_nom_ini11;
+    private JFXComboBox<String> filExamen;
     @FXML
-    private JFXButton pac_anadir11;
+    private JFXButton est_añadir;
     @FXML
-    private JFXButton exa_agregar1;
+    private JFXButton est_modificar;
     @FXML
-    private JFXButton exa_eliminar1;
+    private JFXButton est_eliminar;
     @FXML
-    private JFXButton exa_modificar1;
-    @FXML
-    private JFXButton exa_actualizar1;
-
-    public static Pacientes getPaciente() {
-        return paciente;
-    }
-    
+    private Label nombreEstudio;
    
     
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) { 
         Inicio();
 
         switch (Usuarios.getTipo()) {
@@ -390,6 +403,15 @@ public class MainSceneController extends Funciones implements Initializable {
 
         //RESULTADOS
         resultados();
+        
+        //EXAMEN
+        examenTabla();
+        accionesBotonesExa();
+        
+        //ESTUDIOS
+        accionBotonesEst();
+        estudioTabla();
+        
 
     }
 
@@ -651,13 +673,16 @@ public class MainSceneController extends Funciones implements Initializable {
     private void Examen() {
 
         iniRec_Examen.setOnAction(e -> {
-            ExaCita ec = new ExaCita(iniRec_Examen.getValue());
-            ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                iniRec_NomExam.setText(ec.getValue().getNombre());
-                iniRec_costo.setText(String.valueOf("$ " + ec.getValue().getPrecio()) + "0");
-            });
-            new Thread(ec).start();
+            if(iniRec_Examen.getValue()!=null){
+                ExaCita ec = new ExaCita(iniRec_Examen.getValue());
+                ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    iniRec_NomExam.setText(ec.getValue().getNombre());
+                    iniRec_costo.setText(String.valueOf("$ " + ec.getValue().getPrecio()) + "0");
+                });
+                new Thread(ec).start();
 
+            } 
+            
             ExamenCitas ex = new ExamenCitas(iniRec_Examen.getValue());
 
             ex.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
@@ -673,9 +698,7 @@ public class MainSceneController extends Funciones implements Initializable {
 
             ExaCita ec = new ExaCita(iniRec_Examen.getValue());
             ec.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                exam.clear();
-                iniRec_NomExam.setText("Nombre Examen");
-                iniRec_costo.setText("$ 0.00");
+                
                 iniRec_Examen.getItems().remove(ec.getValue().getNombre());
                 suma = 0.0;
                 exam.add(ec.getValue());
@@ -687,9 +710,11 @@ public class MainSceneController extends Funciones implements Initializable {
 
                 iniRec_total.setText("$ " + suma + "0");
                 iniRec_Examen.setValue(null);
-
+                
             });
             new Thread(ec).start();
+            iniRec_NomExam.setText("Nombre Examen");
+            iniRec_costo.setText("$ 0.00");
 
         });
 
@@ -794,7 +819,7 @@ public class MainSceneController extends Funciones implements Initializable {
             cita.setErId(er);
             StatusExa se = em.find(StatusExa.class, "N");
             cita.setStaeId(se);
-            StatusPag sp = em.find(StatusPag.class, 0);
+            StatusPag sp = em.find(StatusPag.class, 1);
             cita.setStapId(sp);
             em.persist(cita);
             em.getTransaction().commit();
@@ -810,19 +835,13 @@ public class MainSceneController extends Funciones implements Initializable {
             em.getTransaction().commit();
             em.close();
 
-            CorreoTexto correo = new CorreoTexto();
-            correo.setBienvenida("Bienvenido a BloodControl.\nLa salud es siempre lo más importante.");
-            correo.setNombre("Buen día, " + pac.getPerId().getPerNombre() + " " + pac.getPerId().getPerAp() + " " + pac.getPerId().getPerAm());
-            correo.setMensaje(" \n\n Confirmación de cita no. " + cita.getCitId() + ":"
-                    + "\n*  FECHA: " + ttt.format(cita.getCitFecha()) + "\n" + "*  HORA: " + sdf.format(cita.getCitHora()) + ""
-                    + "\n\n\n Se le invita a acudir con una anticipación de cinco minutos. Gracias."
-                    + "\n\n\nEste es un correo automático; en caso de desconocer la procedencia, hacer caso omiso.");
-
-            correo.setCorreo(iniRec_correo.getText());
-            new Thread(correo).start();
             
             SigleCita.setCita(cita);
             SigleCita.setTotal(suma);
+            SigleCita.setCorreo(iniRec_correo.getText());
+            SigleCita.setNombre(pac.getPerId().getPerNombre() + " " + pac.getPerId().getPerAp() + " " + pac.getPerId().getPerAm());
+            SigleCita.setFecha(cita.getCitFecha());
+            SigleCita.setHora(cita.getCitHora());
             
             new Thread (new AbrirVentana("/Pagos/Pago.fxml","Pagos")).start();
             return null;
@@ -891,6 +910,7 @@ public class MainSceneController extends Funciones implements Initializable {
         iniRec_total.setText("$ 0.00");
         iniRec_costo.setText("$ 0.00");
         Enable(true);
+        exam.clear();
         tabla_examen.getItems().clear();
     }
 
@@ -1115,7 +1135,7 @@ public class MainSceneController extends Funciones implements Initializable {
 
             if (cit_tabla.getSelectionModel().isEmpty()) {
                 Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
-            } else if (cit_tabla.getSelectionModel().getSelectedItems().get(0).getPago().equals("PAGADO")){
+            } else if (cit_tabla.getSelectionModel().getSelectedItem().getPago().equals("PAGADO")){
                 Alertas.warning("Cita pagada", "Cita no puede ser eliminada.", "La cita seleccionada ha sido pagada previamente, \nno puede ser eliminada,");
             } else {
                 Integer id = cit_tabla.getSelectionModel().getSelectedItem().getId();
@@ -1148,6 +1168,36 @@ public class MainSceneController extends Funciones implements Initializable {
             
             }
         
+        });
+        
+        cit_pagar.setOnAction(e -> {
+
+            if (cit_tabla.getSelectionModel().isEmpty()) {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else if (cit_tabla.getSelectionModel().getSelectedItem().getPago().equals("PAGADO")) {
+                Alertas.informacion("Extracción pagada.", "El monto de la cita de extracción fue \ncubierta previamente.");
+
+            } else {
+                CitaRes cit_res = new CitaRes(cit_tabla.getSelectionModel().getSelectedItem().getId());
+
+                cit_res.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+
+                    Citas cit = (Citas) cit_res.getValue().get(0);
+                    String corr = (String) cit_res.getValue().get(1);
+                    Cita ci = cit_tabla.getSelectionModel().getSelectedItem();
+
+                    SigleCita.setCita(cit);
+                    SigleCita.setHora(cit.getCitHora());
+                    SigleCita.setFecha(cit.getCitFecha());
+                    SigleCita.setTotal(cit.getCitTotal());
+                    SigleCita.setCorreo(corr);
+                    SigleCita.setNombre(ci.getNombre() + " " + ci.getApePat() + " " + ci.getApeMat());
+
+                    new Thread(new AbrirVentana("/Pagos/Pago.fxml", "Pagos")).start();
+                });
+                new Thread(cit_res).start();
+            }
+
         });
 
     }
@@ -1186,5 +1236,92 @@ public class MainSceneController extends Funciones implements Initializable {
         });
 
     }
+    
+    /// -- *** Métodos de Exámenes
+    
+    private void examenTabla(){
+        ExaTabla et = new ExaTabla();
+        et.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            tabla_exame.setItems(et.getValue());
+            exa_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            exa_nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            exa_prec.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        });
+        new Thread(et).start();
+    }
+    
+    private void accionesBotonesExa(){
+        tabla_exame.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+        
+            if(!tabla_exame.getSelectionModel().isEmpty()){
+                examen_estudios.setText("");
+                nom_examen.setText(tabla_exame.getSelectionModel().getSelectedItem().getNombre());
+                idExamen=tabla_exame.getSelectionModel().getSelectedItem().getId();
+                InformacionExamen();
+            }
+        });
+    }
+    
+    private void InformacionExamen (){
+        Informacion_Examen ie = new Informacion_Examen(idExamen);
+        ie.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            for (Object value : ie.getValue()) {
+                examen_estudios.appendText("*     " + value + "\n");
+            }
+        });
+        new Thread (ie).start();
+    }
+    
+    /// -- *** Métodos de Estudios
+    
+    private void estudioTabla(){
+        EstudioTabla et = new EstudioTabla();
 
+        et.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            tabla_estudio.setItems(et.getValue());
+            nom_estudio.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            min_estudio.setCellValueFactory(new PropertyValueFactory<>("min"));
+            max_estudio.setCellValueFactory(new PropertyValueFactory<>("max"));
+            exa_estudio.setCellValueFactory(new PropertyValueFactory<>("examen"));
+
+            FilteredList<Estudio> estu = new FilteredList<>(et.getValue(), a -> true);
+
+            filExamen.setOnAction(e -> {
+
+                estu.setPredicate((Predicate<? super Estudio>) est -> {
+
+                    if (filExamen.getSelectionModel().isEmpty()) {
+                        return true;
+                    }
+
+                    if (filExamen.getValue().equals(est.getExamen())) {
+                        return true;
+                    }
+                    
+                    if (filExamen.getValue().equals("MOSTRAR TODO")) {
+                        return true;
+                    }
+
+                    return false;
+                });
+
+            });
+            
+            SortedList<Estudio> datosCambio = new SortedList<>(estu);
+            datosCambio.comparatorProperty().bind(tabla_estudio.comparatorProperty());
+            tabla_estudio.setItems(datosCambio);
+        });
+        new Thread(et).start();
+       
+    }
+    
+    private void accionBotonesEst() {
+        exame.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            filExamen.setItems(exame.getValue());
+            filExamen.getItems().add("MOSTRAR TODO");
+        });
+        new Thread(exame).start();
+        
+        
+    }
 }

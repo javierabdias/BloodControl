@@ -1,3 +1,5 @@
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/ExaTabla.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Informacion_Examen.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Alertas.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Informacion_Cita.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/LogInController.java
@@ -6,6 +8,7 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/CitaPago.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/PagoController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Cita_Tabla.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/CitaRes.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/Paciente/ResultadosController.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/AbrirVentana2.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/SplashController.java
@@ -20,6 +23,7 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/CitaExamenId.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/CitaStatus.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/persistence/EManagerFactory.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Examenes.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Eliminaciones/EliminarPaciente.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/AbrirVentana.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/Extraccion.java
@@ -29,11 +33,13 @@
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Citas.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Funciones/CorreoTexto.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Funciones/Usuarios.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/POJOLista/Estudio.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Modificaciones/ExtraccionStatus.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/DirUsu.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Resultados.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/Pagos.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/ExamenCitas.java
+/home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Consultas/EstudioTabla.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Eliminaciones/EliminarCita.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/Funciones/Funciones.java
 /home/abdias/NetBeansProjects/BloodControl/NetBeansProjects/BloodControl/src/main/java/com/integrador/bloodcontrol/POJO/StatusExa.java
