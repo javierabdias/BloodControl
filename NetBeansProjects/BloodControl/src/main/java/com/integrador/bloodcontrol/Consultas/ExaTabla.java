@@ -25,7 +25,7 @@ public class ExaTabla extends Task <ObservableList<Examenes>>{
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         
-        Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Examenes (e.exaId,e.exaNom,e.exaPrecio) FROM Examen e");
+        Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Examenes (e.exaId,e.exaNom,e.exaPrecio) FROM Examen e WHERE e.erId='A'");
         ObservableList <Examenes> exam = FXCollections.observableArrayList(query.getResultList());
         
         em.getTransaction().commit();

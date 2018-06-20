@@ -26,6 +26,8 @@ import com.integrador.bloodcontrol.Consultas.ExamenCitas;
 import com.integrador.bloodcontrol.Consultas.Fecha;
 import com.integrador.bloodcontrol.Consultas.Informacion_Examen;
 import com.integrador.bloodcontrol.Eliminaciones.EliminarCita;
+import com.integrador.bloodcontrol.Eliminaciones.EliminarEstudio;
+import com.integrador.bloodcontrol.Eliminaciones.EliminarExamen;
 import com.integrador.bloodcontrol.Funciones.CorreoTexto;
 import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.Funciones.Reloj;
@@ -329,11 +331,8 @@ public class MainSceneController extends Funciones implements Initializable {
     private TableColumn<Examenes, Integer> exa_id;
     
     
+    //ESTUDIO
     
-    //ESTUDIOS
-    
-    @FXML
-    private Label cita_nom_ini1;
     @FXML
     private TableView<Estudio> tabla_estudio;
     @FXML
@@ -345,6 +344,8 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private TableColumn<Estudio, String> exa_estudio;
     @FXML
+    private TableColumn<Estudio, Integer> estudio_id;
+    @FXML
     private JFXComboBox<String> filExamen;
     @FXML
     private JFXButton est_añadir;
@@ -353,9 +354,15 @@ public class MainSceneController extends Funciones implements Initializable {
     @FXML
     private JFXButton est_eliminar;
     @FXML
-    private Label nombreEstudio;
-   
+    private JFXButton estu_actualizar;
     
+    private static int estudio;
+
+    public static int getEstudio() {
+        return estudio;
+    }
+
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -584,11 +591,10 @@ public class MainSceneController extends Funciones implements Initializable {
 
     private Boolean verificarFecha(Date date) {
 
-        Date hoy = new Date();
         LocalDate local = LocalDate.now();
         Instant instant = Instant.from(local.atStartOfDay(ZoneId.systemDefault()));
         Date antes = Date.from(instant);
-        if (!date.before(antes)) {
+        if (!date.equals(antes)) {
             return true;
         }
         return false;
@@ -638,7 +644,7 @@ public class MainSceneController extends Funciones implements Initializable {
                 new Thread(f).start();
                 iniRec_Hora.setItems(list);
             } else {
-                Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas a partir del día actual.");
+                Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas después del día actual.");
             }
         });
 
@@ -1152,21 +1158,9 @@ public class MainSceneController extends Funciones implements Initializable {
             
             if(cit_tabla.getSelectionModel().isEmpty()){
                 Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
-            } else{
-            
-                switch (cit_tabla.getSelectionModel().getSelectedItem().getPago()){
-                
-                    case "PAGADO":
-                        
-                        break;
-                        
-                    case "SIN PAGAR":
-                        ci = cit_tabla.getSelectionModel().getSelectedItem();
-                        new Thread (new AbrirVentana("/Cita/ModificarCita1.fxml","Modificar citas")).start();
-                        break;
-                
-                }
-            
+            } else {
+                ci = cit_tabla.getSelectionModel().getSelectedItem();
+                new Thread(new AbrirVentana("/Cita/ModificarCita1.fxml", "Modificar citas")).start();
             }
         
         });
@@ -1247,6 +1241,8 @@ public class MainSceneController extends Funciones implements Initializable {
             exa_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             exa_nom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             exa_prec.setCellValueFactory(new PropertyValueFactory<>("precio"));
+            nom_examen.setText("Nombre de Examen");
+            examen_estudios.setText("");
         });
         new Thread(et).start();
     }
@@ -1270,6 +1266,38 @@ public class MainSceneController extends Funciones implements Initializable {
                 new Thread (new AbrirVentana("/Estudios/Estudios.fxml","Añadir estudio")).start();
             }
         });
+        
+        exa_agregar.setOnAction(e -> {
+            new Thread (new AbrirVentana("/Examen/AñadirExamen.fxml","Añadir examen")).start();
+        });
+        
+        exa_actualizar.setOnAction(e -> {
+            examenTabla();
+        });
+        
+        exa_eliminar.setOnAction(e -> {
+            if (tabla_exame.getSelectionModel().isEmpty()){
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else {
+                int i=tabla_exame.getSelectionModel().getSelectedItem().getId();
+                EliminarExamen ee = new EliminarExamen(i);
+                ee.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    examenTabla();
+                });
+                new Thread (ee).start();
+            }
+        });
+        
+        exa_modificar.setOnAction(e -> {
+        
+            if (tabla_exame.getSelectionModel().isEmpty()){
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else {
+                estudio = tabla_exame.getSelectionModel().getSelectedItem().getId();
+                new Thread ( new AbrirVentana("/Examen/ModificarExamen.fxml","Modificar examen")).start();
+            }
+        });
+        
     }
     
     private void InformacionExamen (){
@@ -1293,6 +1321,7 @@ public class MainSceneController extends Funciones implements Initializable {
             min_estudio.setCellValueFactory(new PropertyValueFactory<>("min"));
             max_estudio.setCellValueFactory(new PropertyValueFactory<>("max"));
             exa_estudio.setCellValueFactory(new PropertyValueFactory<>("examen"));
+            estudio_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
             FilteredList<Estudio> estu = new FilteredList<>(et.getValue(), a -> true);
 
@@ -1322,18 +1351,48 @@ public class MainSceneController extends Funciones implements Initializable {
             tabla_estudio.setItems(datosCambio);
         });
         new Thread(et).start();
-       
-    }
-    
-    private void accionBotonesEst() {
+        
         exame.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+            filExamen.getItems().clear();
             filExamen.setItems(exame.getValue());
             filExamen.getItems().add("MOSTRAR TODO");
         });
         new Thread(exame).start();
+    }
+    
+    private void accionBotonesEst() {
+               
+        estu_actualizar.setOnAction(e -> {
+            estudioTabla();
+        });
+        
+        est_añadir.setOnAction(e -> {
+            new Thread (new AbrirVentana ("/Estudios/Estudios2.fxml","Añadir estudio")).start();
+        });
+        
+        est_eliminar.setOnAction(e -> {
+            if(tabla_estudio.getSelectionModel().isEmpty()) {
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else {
+                EliminarEstudio ee = new EliminarEstudio (tabla_estudio.getSelectionModel().getSelectedItem().getId());
+                ee.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
+                    estudioTabla();
+                });
+                new Thread(ee).start();
+            }});
+        
+        est_modificar.setOnAction(e -> {
+            if(tabla_estudio.getSelectionModel().isEmpty()){
+                Alertas.warning("Sin selección.", "Datos no seleccionados.", "Seleccionar datos de la tabla para proceder.");
+            } else {
+                estudio = tabla_estudio.getSelectionModel().getSelectedItem().getId();
+                new Thread (new AbrirVentana("/Estudios/Modificar.fxml","Modificar estudio")).start();
+            }
+        });
         
         
     }
+    
     
     
 }

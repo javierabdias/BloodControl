@@ -24,7 +24,7 @@ public class EstudioTabla extends Task <ObservableList<Estudio>>{
         
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Estudio (A.estNombre,A.estMin,A.estMax,B.exaNom) FROM Estudios A, Examen B WHERE A.exaId=B.exaId");
+        Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Estudio (A.estId,A.estNombre,A.estMin,A.estMax,B.exaNom) FROM Estudios A, Examen B WHERE A.exaId=B.exaId AND A.erId='A'");
         ObservableList<Estudio> lista = FXCollections.observableArrayList(query.getResultList());
         em.getTransaction().commit();
         em.close();

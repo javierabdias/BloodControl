@@ -142,7 +142,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
                 new Thread(f).start();
                 iniRec_Hora.setItems(list);
             } else {
-                Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas a partir del día actual.");
+                Alertas.warning("Fecha inválida", "Verifique la fecha seleccionada.", "Sólo se pueden añadir citas después del día actual.");
             }
         });
 
@@ -175,7 +175,7 @@ public class AgregarCitaController extends Funciones implements Initializable {
         });
     }
 
-    private Boolean verificarFecha(Date date) {
+   private Boolean verificarFecha(Date date) {
 
         Date hoy = new Date();
         LocalDate local = LocalDate.now();

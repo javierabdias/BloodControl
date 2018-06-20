@@ -285,10 +285,10 @@
                               <TableView fx:id="pac_tabla" layoutX="5.0" layoutY="5.0" prefHeight="386.0" prefWidth="982.0" stylesheets="@../styles/tabla.css">
                                  <columns>
                                     <TableColumn fx:id="pac_nombre" prefWidth="140.0" text="Nombre" />
-                                    <TableColumn fx:id="pac_ap" prefWidth="140.0" text="Ape_Paterno" />
-                                    <TableColumn fx:id="pac_am" prefWidth="140.0" text="Ape_Materno" />
-                                    <TableColumn fx:id="pac_correo" prefWidth="202.0" text="Correo_Electronico" />
-                                    <TableColumn fx:id="pac_fn" prefWidth="142.0" text="Fecha_Nacimiento" />
+                                    <TableColumn fx:id="pac_ap" prefWidth="140.0" text="Apellido Paterno" />
+                                    <TableColumn fx:id="pac_am" prefWidth="140.0" text="Apellido Materno" />
+                                    <TableColumn fx:id="pac_correo" prefWidth="202.0" text="Correo Electronico" />
+                                    <TableColumn fx:id="pac_fn" prefWidth="142.0" text="Fecha Nacimiento" />
                                     <TableColumn fx:id="pac_tel" prefWidth="106.0" text="Telefono" />
                                     <TableColumn fx:id="pac_cel" prefWidth="111.0" text="Celular" />
                                  </columns>
@@ -373,9 +373,9 @@
                                 <columns>
                                     <TableColumn fx:id="cit_id" prefWidth="75.0" text="id" />
                                   <TableColumn fx:id="cit_Nom" prefWidth="130.0" text="Nombre" />
-                                  <TableColumn fx:id="cit_ApePat" prefWidth="130.0" text="Ape_Paterno" />
-                                    <TableColumn fx:id="cit_ApeMat" prefWidth="130.0" text="Ape_Materno" />
-                                    <TableColumn fx:id="cit_fecha" prefWidth="122.0" text="Fecha" />
+                                  <TableColumn fx:id="cit_ApePat" prefWidth="130.0" text="Apellido Paterno" />
+                                    <TableColumn fx:id="cit_ApeMat" prefWidth="136.0" text="Apellido Materno" />
+                                    <TableColumn fx:id="cit_fecha" prefWidth="116.0" text="Fecha" />
                                     <TableColumn fx:id="cit_hora" prefWidth="113.0" text="Hora" />
                                     <TableColumn fx:id="cit_pago" minWidth="5.0" prefWidth="118.0" text="Pago" />
                                     <TableColumn fx:id="cit_extraccion" prefWidth="127.0" text="Extraccion" />
@@ -480,7 +480,7 @@
                                  </font>
                               </Label>
                               <Pane layoutX="16.0" layoutY="61.0" opacity="0.28" prefHeight="8.0" prefWidth="386.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
-                              <Label fx:id="cita_nom_ini1" layoutX="23.0" layoutY="84.0" text="Estudios:">
+                              <Label layoutX="23.0" layoutY="84.0" text="Estudios:">
                                  <font>
                                     <Font name="System Bold" size="21.0" />
                                  </font>
@@ -563,14 +563,15 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane layoutX="68.0" layoutY="100.0" prefHeight="373.0" prefWidth="577.0" style="-fx-background-color: #505354;">
+                        <Pane layoutX="218.0" layoutY="104.0" prefHeight="373.0" prefWidth="662.0" style="-fx-background-color: #505354;">
                            <children>
-                              <TableView fx:id="tabla_estudio" layoutX="7.0" layoutY="7.0" prefHeight="361.0" prefWidth="563.0" stylesheets="@../styles/tabla.css">
+                              <TableView fx:id="tabla_estudio" layoutX="7.0" layoutY="7.0" prefHeight="361.0" prefWidth="647.0" stylesheets="@../styles/tabla.css">
                                  <columns>
+                                    <TableColumn fx:id="estudio_id" prefWidth="75.0" text="id" />
                                     <TableColumn fx:id="nom_estudio" prefWidth="140.0" text="Nombre" />
                                     <TableColumn fx:id="min_estudio" prefWidth="105.0" text="Minimo" />
                                     <TableColumn fx:id="max_estudio" prefWidth="105.0" text="Maximo" />
-                                    <TableColumn fx:id="exa_estudio" prefWidth="212.0" text="Examen" />
+                                    <TableColumn fx:id="exa_estudio" prefWidth="217.0" text="Examen" />
                                  </columns>
                               </TableView>
                            </children>
@@ -612,18 +613,15 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane layoutX="705.0" layoutY="139.0" prefHeight="160.0" prefWidth="321.0" style="-fx-background-color: rgb(155,155,155,0.2); -fx-background-radius: 15;">
-                           <children>
-                              <Pane layoutX="20.0" layoutY="74.0" opacity="0.28" prefHeight="5.0" prefWidth="279.0" style="-fx-background-color: #505354; -fx-background-radius: 10;" />
-                              <Label fx:id="nombreEstudio" layoutX="22.0" layoutY="28.0" prefHeight="36.0" prefWidth="234.0" text="Nombre de Estudio" textAlignment="CENTER" textFill="#28aed7">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField fx:id="min" focusColor="#63bfde" labelFloat="true" layoutX="25.0" layoutY="93.0" prefHeight="26.0" prefWidth="108.0" promptText="Minimo" unFocusColor="#505354" />
-                              <JFXTextField fx:id="max" focusColor="#63bfde" labelFloat="true" layoutX="190.0" layoutY="93.0" prefHeight="26.0" prefWidth="108.0" promptText="Maximo" unFocusColor="#505354" />
-                           </children>
-                        </Pane>
+                        <JFXButton fx:id="estu_actualizar" alignment="CENTER" buttonType="RAISED" layoutX="853.0" layoutY="446.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#438297" style="-fx-background-color: #63bfde; -fx-background-radius: 50;">
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@actualizar.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children></AnchorPane>
                </content>
                <graphic>

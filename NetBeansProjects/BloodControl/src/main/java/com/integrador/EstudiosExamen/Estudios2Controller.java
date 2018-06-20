@@ -6,6 +6,7 @@
 package com.integrador.EstudiosExamen;
 
 import com.integrador.bloodcontrol.Alertas;
+import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.POJO.EstadoRegistro;
 import com.integrador.bloodcontrol.POJO.Estudios;
 import com.integrador.bloodcontrol.POJO.Examen;
@@ -30,7 +31,7 @@ import javax.persistence.Query;
  *
  * @author abdias
  */
-public class Estudios2Controller implements Initializable {
+public class Estudios2Controller extends Funciones implements Initializable {
 
     @FXML
     private JFXTextField nom_estudio;
@@ -58,6 +59,7 @@ public class Estudios2Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         exame.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
             Examen.setItems(exame.getValue());
+            validacion();
             magnitud.setItems(elementos);
             acciones();
         });
@@ -75,7 +77,7 @@ public class Estudios2Controller implements Initializable {
                 Alertas.error("Error", "Examen no seleccionado", "Seleccione un examen para continuar.");
             }else {
                 guardar.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (WorkerStateEvent event) -> {
-                    anchor.getScene().getWindow().hide();
+                    BackToBeginnig();
                 });
                 new Thread(guardar).start();
             }
@@ -135,4 +137,21 @@ public class Estudios2Controller implements Initializable {
         }
 
     };
+    
+    private void BackToBeginnig(){
+        max.setText("");
+        min.setText("");
+        nom_estudio.setText("");
+        Examen.setValue(null);
+        magnitud.setValue(null);
+    }
+    
+    private void validacion(){
+        TextFieldDouble(max);
+        TextFieldDouble(min);
+        TextFieldLetras(nom_estudio);
+        setTextFieldLimit(max, 5);
+        setTextFieldLimit(min, 5);
+        setTextFieldLimit(nom_estudio, 20);
+    }
 }

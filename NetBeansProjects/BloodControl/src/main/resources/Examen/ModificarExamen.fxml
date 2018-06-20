@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="318.0" prefWidth="319.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.bloodcontrol.Modificaciones.ModificarExamenController">
+   <children>
+      <Pane prefHeight="79.0" prefWidth="319.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="119.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Examenes/tubos.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="28.0" fitWidth="22.0" layoutX="179.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Cita/modificar.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="nom_examen" focusColor="#63bfde" labelFloat="true" layoutX="72.0" layoutY="104.0" prefHeight="32.0" prefWidth="175.0" promptText="Nombre de examen" unFocusColor="#505453" />
+      <JFXTextField fx:id="precio" focusColor="#63bfde" labelFloat="true" layoutX="72.0" layoutY="158.0" prefHeight="32.0" prefWidth="100.0" promptText="Precio" unFocusColor="#505453" />
+      <JFXButton fx:id="btn_aceptar" layoutX="169.0" layoutY="224.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Aceptar" />
+      <JFXButton fx:id="btn_cancelar" layoutX="39.0" layoutY="224.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Cancelar" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="178.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="133.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/logo16x16.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

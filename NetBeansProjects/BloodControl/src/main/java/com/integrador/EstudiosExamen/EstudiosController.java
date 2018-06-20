@@ -6,6 +6,7 @@
 package com.integrador.EstudiosExamen;
 
 import com.integrador.bloodcontrol.Alertas;
+import com.integrador.bloodcontrol.Funciones.Funciones;
 import com.integrador.bloodcontrol.POJO.EstadoRegistro;
 import com.integrador.bloodcontrol.POJO.Estudios;
 import com.integrador.bloodcontrol.POJO.Examen;
@@ -31,7 +32,7 @@ import javax.persistence.Query;
  *
  * @author abdias
  */
-public class EstudiosController implements Initializable {
+public class EstudiosController extends Funciones implements Initializable {
 
     @FXML
     private JFXTextField nom_estudio;
@@ -57,6 +58,7 @@ public class EstudiosController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        validacion();
        magnitud.setItems(elementos);
        acciones();
     }  
@@ -113,5 +115,21 @@ public class EstudiosController implements Initializable {
         }
     
     };
+    
+     private void BackToBeginnig(){
+        max.setText("");
+        min.setText("");
+        nom_estudio.setText("");
+        magnitud.setValue(null);
+    }
+    
+    private void validacion(){
+        TextFieldDouble(max);
+        TextFieldDouble(min);
+        TextFieldLetras(nom_estudio);
+        setTextFieldLimit(max, 5);
+        setTextFieldLimit(min, 5);
+        setTextFieldLimit(nom_estudio, 20);
+    }
     
 }

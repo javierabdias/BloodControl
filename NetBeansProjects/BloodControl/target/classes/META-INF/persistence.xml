@@ -3,7 +3,7 @@
   <persistence-unit name="BloodControlPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://189.252.61.119:3306/BLOODCONTROL?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/BLOODCONTROL?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="RECEPCIONISTA"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="BloodRec."/>

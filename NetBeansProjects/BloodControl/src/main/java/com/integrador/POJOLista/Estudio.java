@@ -6,7 +6,9 @@
 package com.integrador.POJOLista;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -16,6 +18,7 @@ import javafx.beans.property.StringProperty;
  */
 public class Estudio {
     
+    private IntegerProperty id;
     private StringProperty nombre;
     private DoubleProperty min;
     private DoubleProperty max;
@@ -24,6 +27,15 @@ public class Estudio {
     public String getNombre() {
         return nombre.get();
     }
+    
+    public Integer getId() {
+        return id.get();
+    }
+
+    public void setId(Integer id) {
+        this.id = new SimpleIntegerProperty(id);
+    }
+    
     
     public void setNombre(String nombre) {
         this.nombre = new SimpleStringProperty(nombre);
@@ -53,7 +65,8 @@ public class Estudio {
         this.examen = new SimpleStringProperty(examen);
     }
     
-    public Estudio (String nombre, Double min, Double max,String examen ) {
+    public Estudio (Integer id, String nombre, Double min, Double max,String examen ) {
+        this.id = new SimpleIntegerProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.min = new SimpleDoubleProperty(min);
         this.max = new SimpleDoubleProperty(max);

@@ -39,6 +39,8 @@ public class Fecha extends Task<Void>{
         em.getTransaction().commit();
         em.close();
 
+        Date date = new Date ();
+        
         if (!fe.isEmpty()) {
             for (Date fec : fe) {
 
