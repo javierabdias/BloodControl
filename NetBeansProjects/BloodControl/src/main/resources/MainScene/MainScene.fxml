@@ -324,7 +324,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton layoutX="908.0" layoutY="6.0" prefHeight="48.0" prefWidth="142.0" style="-fx-background-color: #9b9b9b; -fx-background-radius: 10;" text="Historial" textFill="WHITE">
+                              <JFXButton fx:id="histo" layoutX="908.0" layoutY="6.0" prefHeight="48.0" prefWidth="142.0" style="-fx-background-color: #9b9b9b; -fx-background-radius: 10;" text="Historial" textFill="WHITE">
                                  <graphic>
                                     <ImageView fitHeight="37.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

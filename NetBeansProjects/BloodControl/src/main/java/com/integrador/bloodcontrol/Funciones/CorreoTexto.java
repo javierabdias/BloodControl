@@ -24,7 +24,7 @@ public class CorreoTexto extends Task <Void> {
     String Username = "bloodcontrol.no.reply@gmail.com";
     String PassWord = "Bloodcontrol.abdias";
     String To = "";
-    String Subject = "Comprobacion de registro";
+    String Subject = "NOTIFICACION BLOODCONTROL";
     String correo, nombre, Mensaje, Bienvenida;
 
     public void setCorreo(String correo) {

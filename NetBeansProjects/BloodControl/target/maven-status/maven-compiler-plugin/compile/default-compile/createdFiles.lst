@@ -20,6 +20,7 @@ com/integrador/POJOLista/Examenes.class
 com/integrador/bloodcontrol/LogInController.class
 com/integrador/bloodcontrol/POJO/Examen.class
 com/integrador/bloodcontrol/persistence/LogIn.class
+com/integrador/POJOLista/ResultadoFull.class
 com/integrador/bloodcontrol/POJO/Estudios.class
 com/integrador/bloodcontrol/POJO/Pagos.class
 com/integrador/POJOLista/CitaExamen.class
@@ -32,9 +33,13 @@ com/integrador/POJOLista/Laboratorista.class
 com/integrador/Paciente/ModificarCita1Controller.class
 com/integrador/bloodcontrol/MainApp.class
 com/integrador/bloodcontrol/POJO/Resultados.class
+com/integrador/bloodcontrol/Resultado.class
+com/integrador/Paciente/ResulEnvíoController$3.class
 com/integrador/bloodcontrol/Consultas/Usuario.class
+com/integrador/Paciente/ResulEnvíoController.class
 com/integrador/bloodcontrol/POJO/Paciente.class
 com/integrador/bloodcontrol/Funciones/Funciones.class
+com/integrador/POJOLista/Lab.class
 com/integrador/bloodcontrol/POJO/Paciente_.class
 com/integrador/bloodcontrol/Consultas/ResulCitas.class
 com/integrador/POJOLista/SigleCita.class
@@ -49,6 +54,7 @@ com/integrador/bloodcontrol/POJO/StatusPag.class
 com/integrador/Paciente/PagoController.class
 com/integrador/bloodcontrol/Consultas/Paciente_Tabla.class
 com/integrador/EstudiosExamen/EstuSingle.class
+com/integrador/bloodcontrol/Funciones/CorreoAdjunto$1.class
 com/integrador/bloodcontrol/Eliminaciones/EliminarCita.class
 com/integrador/POJOLista/CitaPago.class
 com/integrador/EstudiosExamen/AñadirExamenController$1.class
@@ -70,7 +76,10 @@ com/integrador/bloodcontrol/Modificaciones/ModificarExamenController$2.class
 com/integrador/bloodcontrol/Funciones/CorreoTexto.class
 com/integrador/bloodcontrol/POJO/Citas_.class
 com/integrador/EstudiosExamen/Estudios2Controller$2.class
+com/integrador/bloodcontrol/Funciones/CorreoAdjunto.class
+com/integrador/bloodcontrol/Funciones/Path.class
 com/integrador/bloodcontrol/POJO/Recepcionista_.class
+com/integrador/Paciente/ResulEnvíoController$2.class
 com/integrador/bloodcontrol/MainSceneController$3.class
 com/integrador/bloodcontrol/POJO/StatusPag_.class
 com/integrador/bloodcontrol/Consultas/Fecha.class
@@ -104,6 +113,7 @@ com/integrador/POJOLista/Resul.class
 com/integrador/bloodcontrol/POJO/Examen_.class
 com/integrador/bloodcontrol/POJO/EstadoRegistro.class
 com/integrador/bloodcontrol/Modificaciones/ModificarExamenController$1.class
+com/integrador/Paciente/ResulEnvíoController$1.class
 com/integrador/bloodcontrol/POJO/ResultadosId.class
 com/integrador/bloodcontrol/POJO/DirUsu.class
 com/integrador/bloodcontrol/Consultas/ExamenCitas.class

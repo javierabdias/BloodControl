@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="275.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.integrador.Paciente.ResulEnvíoController">
+   <children>
+      <Pane layoutX="-5.0" prefHeight="79.0" prefWidth="340.0" style="-fx-background-color: #505354;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="144.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resultados/carpetas-de-resultados-medicos.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Label layoutX="32.0" layoutY="109.0" text="Resultados generados satisfactoriamente." />
+      <Label layoutX="103.0" layoutY="134.0" text="¿Que desea hacer?" />
+      <ImageView fitHeight="32.0" fitWidth="127.0" layoutX="187.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/txtBloodControl-Negro.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="34.0" layoutX="142.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pacientes/logo16x16.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="enviar" layoutX="115.0" layoutY="170.0" prefHeight="32.0" prefWidth="110.0" stylesheets="@../styles/BotonGrisOscuro.css" text="Enviar" />
+   </children>
+</AnchorPane>

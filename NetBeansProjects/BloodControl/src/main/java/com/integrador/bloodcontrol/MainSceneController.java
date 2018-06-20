@@ -361,12 +361,15 @@ public class MainSceneController extends Funciones implements Initializable {
     public static int getEstudio() {
         return estudio;
     }
+    @FXML
+    private JFXButton histo;
 
    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
         Inicio();
+        histo.setVisible(false);
 
         switch (Usuarios.getTipo()) {
             case "Administrador":
@@ -1221,7 +1224,8 @@ public class MainSceneController extends Funciones implements Initializable {
 
                         }
                     } else {
-                        Alertas.warning("Resultados existentes.", "Resultados registrados previamente.", "Los resultados han sido registrados previamente.");
+                        Citas = cit_tabla.getSelectionModel().getSelectedItem();
+                        new Thread(new AbrirVentana("/Resultados/ResulEnvio.fxml","Generación de resultados")).start();
                     }
                 });
 

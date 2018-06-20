@@ -28,8 +28,7 @@ public class Cita_Tabla extends Task <ObservableList<Cita>> {
         EntityManager em = EManagerFactory.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         Query query = em.createQuery("SELECT NEW com.integrador.POJOLista.Cita (C.citId,B.perNombre,B.perAp,B.perAm,C.citFecha,C.citHora,E.status,D.status) FROM Paciente A, Persona B, Citas C, StatusExa D, StatusPag E "
-                + "WHERE A.perId=B.perId AND A.pacId=C.pacId AND E.stapId=C.stapId AND C.staeId=D.staeId AND A.erId='A' AND C.erId='A' AND C.citFecha>=:fecha");
-        query.setParameter("fecha", fecha);
+                + "WHERE A.perId=B.perId AND A.pacId=C.pacId AND E.stapId=C.stapId AND C.staeId=D.staeId AND A.erId='A' AND C.erId='A'");
         citas= FXCollections.observableArrayList(query.getResultList());
         em.getTransaction().commit();
         em.close();

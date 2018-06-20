@@ -34,6 +34,8 @@ public class MainApp extends Application {
         new Thread(con).start();
         stage=null;
         System.gc();
+        
+        new Thread (new Resultado()).start();
     }
 
     public static void main(String[] args) {
